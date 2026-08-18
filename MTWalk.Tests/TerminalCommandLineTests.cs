@@ -28,7 +28,7 @@ public class TerminalCommandLineTests
         InpTrailingStop=30||30||1||300||N
         InpMACDOpenLevel=3||3||1||30||N
         InpMACDCloseLevel=2||2||1||20||N
-        InpMATrend"Period=26||26||1||260||N
+        InpMATrendPeriod=26||26||1||260||N
         """;
         File.WriteAllText(setPath, setContent);
 
@@ -62,5 +62,7 @@ public class TerminalCommandLineTests
         {
             await Task.Run(() => process.WaitForExit());
         }
+
+        Assert.That(File.Exists(reportPath), Is.True, "Report file was not generated.");
     }
 }
