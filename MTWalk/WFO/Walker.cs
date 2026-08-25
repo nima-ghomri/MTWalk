@@ -1,4 +1,7 @@
-﻿namespace MTWalk.WFO;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
+namespace MTWalk.WFO;
 
 /// <summary>
 /// 
@@ -7,32 +10,79 @@
 /// <remarks>
 /// https://www.mql5.com/en/articles/3279
 /// </remarks>
-public class Walker(IStepsProvider stepsProvider, ITestExecuter testExecuter)
+
+class Walker(IWindowingStrategy windowingStrategy)
 {
     public async Task Run(CancellationToken token)
     {
-        foreach (var step in stepsProvider.GetSteps(DateTime.UtcNow, DateTime.UtcNow.AddDays(30)))
-        {
-            if (token.IsCancellationRequested)
-                break;
-            await testExecuter.Execute(step, token);
-        }
     }
 }
 
-public interface ITestExecuter
+[DebuggerDisplay("{Start} - {End}")]
+sealed record TimeRange
 {
-    Task Execute(Step step, CancellationToken token);
+    public TimeRange(DateTime Start, TimeSpan Duration)
+    {
+        this.Start = Start;
+        this.Duration = Duration;
+        this.End = Start + Duration;
+    }
+
+    public TimeRange(DateTime Start, DateTime End)
+    {
+        this.Start = Start;
+        this.Duration = End - Start;
+        this.End = End;
+    }
+
+    public TimeRange(TimeSpan Duration, DateTime End)
+    {
+        this.Start = End - Duration;
+        this.Duration = Duration;
+        this.End = End;
+    }
+
+    public DateTime Start { get; init; }
+    public TimeSpan Duration { get; init; }
+    public DateTime End { get; init; }
 }
 
-public sealed record TimeRange(DateTime Start, TimeSpan Duration)
+[DebuggerDisplay("{Optimization.Start} - {Forward.Start} - {Forward.End}")]
+record Window(TimeRange Optimization, TimeRange Forward);
+
+abstract record WindowingRequest(DateTime Start, DateTime End, TimeSpan ForwardSize);
+record RollingWindowingRequest(DateTime Start, DateTime End, TimeSpan OptimizationSize, TimeSpan ForwardSize)
+    : WindowingRequest(Start, End, ForwardSize);
+record AnchoredWindowingRequest(DateTime Start, DateTime End, DateTime AnchorDate, TimeSpan ForwardSize)
+    : WindowingRequest(Start, End, ForwardSize);
+interface IWindowingStrategy
 {
-    public DateTime End => Start + Duration;
+    Window[] GetWindows(WindowingRequest request);
 }
 
-public record Step(TimeRange Optimization, TimeRange Forward);
-
-public interface IStepsProvider
+enum WindowType
 {
-    Step[] GetSteps(DateTime start, DateTime end);
+    Rolling,
+    Anchored,
+}
+
+class RollingWindowingStrategy : IWindowingStrategy
+{
+    public Window[] GetWindows(WindowingRequest request)
+    {
+        if (request is not RollingWindowingRequest rolling)
+            throw new ArgumentException("Invalid request type for RollingWindowStrategy", nameof(request));
+
+        var result = new List<Window>();
+        var start = rolling.Start;
+        while (start < rolling.End)
+        {
+            var end = start + rolling.ForwardSize > rolling.End ? rolling.End : start + rolling.ForwardSize;
+            TimeRange optimization = new(rolling.OptimizationSize, start);
+            TimeRange forward = new(start, end);
+            result.Add(new Window(optimization, forward));
+            start += rolling.ForwardSize;
+        }
+        return result.ToArray();
+    }
 }
