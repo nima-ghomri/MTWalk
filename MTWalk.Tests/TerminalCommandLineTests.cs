@@ -2,7 +2,7 @@
 
 namespace MTWalk.Tests;
 
-public class TerminalCommandLineTests
+class TerminalCommandLineTests
 {
     const string Symbol = "EURUSD";
     const string EAName = @"Examples\MACD\MACD Sample.ex5";
@@ -60,7 +60,7 @@ public class TerminalCommandLineTests
         using var process = Process.Start(processInfo);
         if (process != null)
         {
-            await Task.Run(() => process.WaitForExit());
+            await Task.Run(process.WaitForExit);
         }
 
         Assert.That(File.Exists(reportPath), Is.True, "Report file was not generated.");
