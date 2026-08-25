@@ -1,8 +1,9 @@
 ﻿using MTWalk.WFO;
+using MTWalk.Windowing;
 
 namespace MTWalk.Tests;
 
-class WakerTests
+class WindowingTests
 {
     [Test]
     [TestCase("2025-02-01", "2025-02-05", 7, 2, 2)]
@@ -27,13 +28,5 @@ class WakerTests
                 Is.All.True);
             Assert.That(windows.Last().Forward.End, Is.EqualTo(end));
         }
-    }
-
-    [Test]
-    public async Task Walker_Optimization_CombinesReports()
-    {
-        var start = new DateTime(2025, 1, 1);
-        var end = new DateTime(2025, 2, 1);
-
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MTWalk.Execution;
+﻿using MTWalk.Windowing;
+
+namespace MTWalk.Execution;
 
 interface ITestExecuter
 {
