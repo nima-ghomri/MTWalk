@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MTWalk.WFO;
+namespace MTWalk.Windowing;
 
 /// <summary>
 /// Represents a range of time with a start and end.

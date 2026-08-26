@@ -1,5 +1,4 @@
-﻿using MTWalk.WFO;
-using MTWalk.Windowing;
+﻿using MTWalk.Windowing;
 
 namespace MTWalk.Tests;
 
