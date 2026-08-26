@@ -14,7 +14,7 @@ class WalkingTests
         DateTime end = new(2025, 2, 5);
         TimeSpan optimizationSize = TimeSpan.FromDays(7);
         TimeSpan forwardSize = TimeSpan.FromDays(2);
-        var testerParameters = new TesterParameters(
+        var testerRequest = new TesterRequest(
                 Expert: @"Examples\MACD\MACD Sample.ex5",
                 Symbol: "EURUSD",
                 TimeFrame: TimeFrame.H1,
@@ -39,7 +39,7 @@ class WalkingTests
         var terminalExecuter = new TerminalExecutor(new DummyTerminalProvider(), new TesterConfigurationBuilder());
         var walker = new Walker(new RollingWindowingStrategy(), terminalExecuter);
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerParameters));
+        Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest));
     }
 
     class DummyTerminalProvider : ITerminalProvider

@@ -1,4 +1,4 @@
-﻿global using MTWalk.Execution;
+﻿global using MTWalk.Configuration;
 global using MTWalk.Terminal;
 global using MTWalk.Walking;
 global using MTWalk.Windowing;
