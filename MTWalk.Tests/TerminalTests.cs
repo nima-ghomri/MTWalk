@@ -1,5 +1,5 @@
-﻿using MTWalk.Terminal;
-using System.Xml.Linq;
+﻿using MTWalk.Configuration;
+using MTWalk.Terminal;
 
 namespace MTWalk.Tests;
 
@@ -11,40 +11,33 @@ class TerminalTests
         // Arrange
         var terminalExecutor = new TerminalExecutor(new DummyTerminalProvider(), new DummyConfigurationBuilder());
         // Act
-        var test = new Test(
-               new TerminalParameters(@"Examples\MACD\MACD Sample.ex5",
-               "EURUSD",
-               "H1",
-               new(2025, 1, 1),
-               new(2025, 3, 1),
-               new(2025, 2, 1),
-               Delays.Zero,
-               Modelling.EveryTick,
-               0.0,
-               "USD",
-               100),
-               new WalkingParamters());
-        Assert.DoesNotThrowAsync(async () => await terminalExecutor.ExecuteTest(test));
-    }l
+        var configuration = new DummyConfigurationParameters(new(2025, 1, 1), new(2025, 3, 1));
+        Assert.DoesNotThrowAsync(async () => await terminalExecutor.Execute(configuration));
+    }
 
     class DummyTerminalProvider : ITerminalProvider
     {
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
     }
 
+    record DummyConfigurationParameters(DateTime FromDate, DateTime ToDate) : IConfigurationParameters;
+
     class DummyConfigurationBuilder : IConfigurationBuilder
     {
-        public string BuildConfiguration(Test parameters)
+        public string BuildConfiguration(IConfigurationParameters parameters)
         {
+            if(parameters is not DummyConfigurationParameters dummyParams)
+                throw new ArgumentException("Invalid configuration parameters type.");
             var configurationContent = $"""
             [Tester]
-            Expert={parameters.TerminalParameters.Expert}
-            Symbol={parameters.TerminalParameters.Symbol}
+            Expert=Examples\MACD\MACD Sample.ex5
+            Symbol=EURUSD
             Period=H1
             Model=1
             Optimization=0
-            FromDate={parameters.TerminalParameters.Start:yyyy.MM.dd}
-            ToDate={parameters.TerminalParameters.End:yyyy.MM.dd}
+            FromDate={dummyParams.FromDate:yyyy.MM.dd}
+            ToDate={dummyParams.ToDate:yyyy.MM.dd}
+            Forward=2025.02.01
             ReplaceReport=1
             ShutdownTerminal=1
             """;

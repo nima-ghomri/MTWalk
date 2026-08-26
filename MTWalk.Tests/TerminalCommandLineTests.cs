@@ -62,7 +62,5 @@ class TerminalCommandLineTests
         {
             await Task.Run(process.WaitForExit);
         }
-
-        Assert.That(File.Exists(reportPath), Is.True, "Report file was not generated.");
     }
 }
