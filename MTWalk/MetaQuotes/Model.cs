@@ -1,4 +1,4 @@
-﻿namespace MTWalk.Terminal;
+﻿namespace MTWalk.MetaQuotes;
 
 /// <summary>
 /// Represents the different modelling approaches that can be used in the test.

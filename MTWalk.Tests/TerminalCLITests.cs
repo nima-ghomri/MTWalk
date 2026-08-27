@@ -2,7 +2,7 @@
 
 namespace MTWalk.Tests;
 
-class TerminalCommandLineTests
+class TerminalCLITests
 {
     const string Symbol = "EURUSD";
     const string EAName = @"Examples\MACD\MACD Sample.ex5";

@@ -5,5 +5,6 @@
 /// </summary>
 interface ITerminalProvider
 {
-    public string GetTerminalPath();
+    string GetTerminalPath();
+    string GetDataFolder();
 }

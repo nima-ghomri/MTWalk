@@ -38,29 +38,6 @@ record TesterConfigurationParameters(
     DateTime ToDate,
     ForwardMode ForwardMode,
     DateTime? ForwardDate,
-    string Report,
+    string? Report,
     bool ReplaceReport,
-    bool ShutdownTerminal) : IConfigurationParameters
-{
-    public TesterConfigurationParameters(TimeRange range, TesterRequest terminal)
-        : this(terminal.Expert,
-               default,
-               terminal.Symbol,
-               terminal.TimeFrame,
-               default,
-               terminal.Deposit,
-               terminal.Leverage,
-               terminal.Model,
-               terminal.ExecutionMode,
-               terminal.Optimization,
-               terminal.OptimizationCriterion,
-               range.Start,
-               range.End,
-               terminal.ForwardMode,
-               terminal.ForwardDate,
-               "report.xml",
-               true,
-               true)
-    {
-    }
-}
+    bool ShutdownTerminal) : IConfigurationParameters;

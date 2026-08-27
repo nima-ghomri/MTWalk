@@ -1,4 +1,6 @@
 ﻿
+using MTWalk.Reporting;
+
 namespace MTWalk.Walking;
 
 /// <summary>
@@ -9,7 +11,9 @@ namespace MTWalk.Walking;
 /// https://www.mql5.com/en/articles/3279
 /// </remarks>
 
-class Walker(IWindowingStrategy windowingStrategy, ITerminalExecutor terminalExecutor)
+class Walker(IWindowingStrategy windowingStrategy,
+             ITerminalExecutor terminalExecutor,
+             ITesterConfigurationParametersProvider testerConfigurationParametersProvider)
 {
     public async Task Start(WindowingRequest windowingRequest, TesterRequest testerRequest, CancellationToken token = default)
     {
@@ -17,11 +21,13 @@ class Walker(IWindowingStrategy windowingStrategy, ITerminalExecutor terminalExe
         foreach (var window in windows)
         {
             // Optimiziation
-            var optimizationConfiguration = new TesterConfigurationParameters(window.Optimization, testerRequest);
+            var optimizationConfiguration = 
+                testerConfigurationParametersProvider.CreateOptimization(testerRequest, window.Optimization);
             await terminalExecutor.Execute(optimizationConfiguration, token);
 
             // Forward test
-            var forwardConfiguration = new TesterConfigurationParameters(window.Forward, testerRequest);
+            var forwardConfiguration =
+                testerConfigurationParametersProvider.CreateForward(testerRequest, window.Forward);
             await terminalExecutor.Execute(forwardConfiguration, token);
         }
     }

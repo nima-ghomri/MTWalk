@@ -5,6 +5,21 @@ namespace MTWalk.Tests;
 
 class TerminalTests
 {
+
+    [Test]
+    public void TerminalProvider_GetDataFolder_ReturnsCorrectPath()
+    {
+        // Arrange
+        var knownInstallPath = @"C:\Program Files\MetaTrader 5";
+        if (Directory.Exists(knownInstallPath) is false)
+            Assert.Ignore($"Known install path '{knownInstallPath}' does not exist. Test ignored.");
+        var terminalProvider = new TerminalProvider();
+        // Act
+        var actualDataFolder = terminalProvider.GetDataFolder();
+        // Assert
+        Assert.That(actualDataFolder, Is.Not.Null);
+    }
+
     [Test]
     public async Task TerminalExecutor_ExecuteTest_InitializesTerminal()
     {
@@ -17,6 +32,8 @@ class TerminalTests
 
     class DummyTerminalProvider : ITerminalProvider
     {
+        public string GetDataFolder() => throw new NotImplementedException();
+
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
     }
 

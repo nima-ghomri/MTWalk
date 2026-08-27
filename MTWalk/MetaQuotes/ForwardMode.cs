@@ -1,4 +1,4 @@
-﻿namespace MTWalk.Terminal;
+﻿namespace MTWalk.MetaQuotes;
 
 enum ForwardMode
 {

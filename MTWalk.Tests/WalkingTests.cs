@@ -1,4 +1,6 @@
 ﻿using MTWalk.Configuration;
+using MTWalk.MetaQuotes;
+using MTWalk.Reporting;
 using MTWalk.Terminal;
 using MTWalk.Walking;
 using MTWalk.Windowing;
@@ -10,8 +12,8 @@ class WalkingTests
     [Test]
     public async Task Walker_Start_ExecutesWithoutExceptions()
     {
-        DateTime start = new(2025, 2, 1);
-        DateTime end = new(2025, 2, 5);
+        DateTime start = new(2025, 2, 3);
+        DateTime end = new(2025, 2, 7);
         TimeSpan optimizationSize = TimeSpan.FromDays(7);
         TimeSpan forwardSize = TimeSpan.FromDays(2);
         var testerRequest = new TesterRequest(
@@ -36,14 +38,18 @@ class WalkingTests
                 optimizationSize,
                 forwardSize);
         // Arrange
-        var terminalExecuter = new TerminalExecutor(new DummyTerminalProvider(), new TesterConfigurationBuilder());
-        var walker = new Walker(new RollingWindowingStrategy(), terminalExecuter);
+        ReportProvider reportProvider = new();
+        TerminalExecutor terminalExecuter = new(new DummyTerminalProvider(), new TesterConfigurationBuilder());
+        RollingWindowingStrategy rollingWindowingStrategy = new();
+        TesterConfigurationParametersProvider configurationParametersProvider = new(reportProvider);
+        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, configurationParametersProvider);
         // Act & Assert
         Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest));
     }
 
     class DummyTerminalProvider : ITerminalProvider
     {
+        public string GetDataFolder() => throw new NotImplementedException();
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
     }
 }

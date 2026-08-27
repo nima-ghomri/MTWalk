@@ -1,4 +1,4 @@
-﻿namespace MTWalk.Terminal;
+﻿namespace MTWalk.MetaQuotes;
 
 /// <summary>
 /// Represents the types of delays that can be used in the test.
