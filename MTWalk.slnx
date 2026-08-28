@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="MTWalk.Tests/MTWalk.Tests.csproj" Id="2d5f83e8-8e5d-40ae-a6f4-a7626c5d3a06" />
+  <Project Path="MTWalk.WPF/MTWalk.WPF.csproj" Id="009fe985-d5c5-494e-9c17-0efea726ccd7" />
   <Project Path="MTWalk/MTWalk.csproj" Id="a2920a2a-5a06-4146-b823-089e50f39609" />
 </Solution>
