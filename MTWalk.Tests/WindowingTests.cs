@@ -14,10 +14,10 @@ class WindowingTests
         var end = DateTime.Parse(endStr);
         var optimizationSize = TimeSpan.FromDays(optimizationDays);
         var forwardSize = TimeSpan.FromDays(forwardDays);
-        var request = new RollingWindowingRequest(start, end, optimizationSize, forwardSize);
+        var request = new RollingWindowingRequest(optimizationSize, forwardSize);
 
         IWindowingStrategy provider = new RollingWindowingStrategy();
-        var windows = provider.GetWindows(request).ToList();
+        var windows = provider.GetWindows(start, end, request).ToList();
         Assert.That(windows, Has.Count.EqualTo(expectedCount));
         using (Assert.EnterMultipleScope())
         {

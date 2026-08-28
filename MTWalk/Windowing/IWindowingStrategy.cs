@@ -1,9 +1,11 @@
-﻿namespace MTWalk.Windowing;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace MTWalk.Windowing;
 
 /// <summary>
 /// Defines a strategy for generating windows.
 /// </summary>
 interface IWindowingStrategy
 {
-    Window[] GetWindows(WindowingRequest request);
+    Window[] GetWindows(DateTime start, DateTime end, WindowingRequest request);
 }

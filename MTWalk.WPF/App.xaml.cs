@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MTWalk.WPF.Main;
 
 namespace MTWalk.WPF;
 
@@ -31,6 +31,7 @@ public partial class App : Application
         var services = new ServiceCollection();
 
         services.AddWalker();
+        services.AddSingleton<MainWindowViewModel>();
 
         return services.BuildServiceProvider();
     }

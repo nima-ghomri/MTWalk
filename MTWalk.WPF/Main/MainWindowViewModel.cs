@@ -2,27 +2,26 @@
 
 partial class MainWindowViewModel(IWalker walker) : ObservableObject
 {
+    CancellationTokenSource? cancellationTokenSource;
+
     [ObservableProperty]
-    string toggleWalkerText = "Toggle Walker";
+    public partial WalkerState WalkerState { get; set; }
 
     [RelayCommand]
-    async Task ToggleWalker()
+    async Task StartWalker()
     {
-        var start = new DateTime(2025, 1, 1);
-        var end = new DateTime(2025, 12, 31);
+        cancellationTokenSource = new();
         var windowingRequest = new RollingWindowingRequest
             (
-            Start: DateTime.Now.AddDays(-90),
-            End: DateTime.Now,
-            OptimizationSize: TimeSpan.FromDays(30),
-            ForwardSize: TimeSpan.FromDays(2)
+                OptimizationSize: TimeSpan.FromDays(30),
+                ForwardSize: TimeSpan.FromDays(2)
             );
         var testerRequest = new TesterRequest(
                  Expert: @"Examples\MACD\MACD Sample.ex5",
                  Symbol: "EURUSD",
                  TimeFrame: TimeFrame.H1,
-                 Start: start,
-                 End: end,
+                 Start: new DateTime(2025, 1, 1),
+                 End: new DateTime(2025, 2, 1),
                  ForwardMode: ForwardMode.Custom,
                  ForwardDate: default,
                  ExecutionMode: ExecutionMode.ZeroDelay,
@@ -33,6 +32,25 @@ partial class MainWindowViewModel(IWalker walker) : ObservableObject
                  Optimization: Optimization.FastGeneticAlgorithm,
                  OptimizationCriterion: OptimizationCriterion.BalanceMax
              );
-        await walker.Start(windowingRequest, testerRequest);
+        try
+        {
+            await walker.Start(windowingRequest, testerRequest, cancellationTokenSource.Token);
+        }
+        catch (TaskCanceledException)
+        {
+            // Should close terminal
+        }
     }
+
+    [RelayCommand]
+    void StopWalker()
+    {
+        cancellationTokenSource?.Cancel();
+    }
+}
+
+enum WalkerState
+{
+    Completed,
+    Running,
 }

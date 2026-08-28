@@ -17,7 +17,7 @@ class Walker(IWindowingStrategy windowingStrategy,
 {
     public async Task Start(WindowingRequest windowingRequest, TesterRequest testerRequest, CancellationToken token = default)
     {
-        var windows = windowingStrategy.GetWindows(windowingRequest);
+        var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         foreach (var window in windows)
         {
             // Optimiziation

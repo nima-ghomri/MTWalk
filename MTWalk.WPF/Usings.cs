@@ -1,5 +1,6 @@
 ﻿global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
+global using Microsoft.Extensions.DependencyInjection;
 global using MTWalk.MetaQuotes;
 global using MTWalk.Terminal;
 global using MTWalk.Walking;

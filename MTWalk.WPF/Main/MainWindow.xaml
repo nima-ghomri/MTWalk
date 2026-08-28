@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MTWalk.WPF.Main" 
+        xmlns:l="clr-namespace:MTWalk.WPF.Localization" 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
-        <Button Command="{Binding ToggleWalkerCommand}" Content="{Binding ToggleWalkerText}"
-                Width="100" Height="30"/>
+        <Button Command="{Binding StartWalkerCommand}"
+                Content="{x:Static l:Words.Start}"/>
+        <Button Command="{Binding StopWalkerCommand}"
+                Content="{x:Static l:Words.Stop}"/>
     </StackPanel>
 </Window>

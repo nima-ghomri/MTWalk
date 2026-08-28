@@ -2,7 +2,7 @@
 
 class TerminalProvider : ITerminalProvider
 {
-    string terminalDirectory = @"C:\Program Files\MetaTrader 5";
+    string terminalPath = @"C:\Program Files\MetaTrader 5\terminal64.exe";
 
     /// <summary>
     /// Finds the dynamic AppData folder for a specific MT5 installation.
@@ -42,8 +42,8 @@ class TerminalProvider : ITerminalProvider
 
     public string GetTerminalPath()
     {
-        if (!File.Exists(Path.Combine(terminalDirectory, "terminal64.exe")))
-            throw new FileNotFoundException($"Terminal executable not found in '{terminalDirectory}'.");
-        return terminalDirectory;
+        if (!File.Exists(terminalPath))
+            throw new FileNotFoundException($"Terminal executable not found in '{terminalPath}'.");
+        return terminalPath;
     }
 }

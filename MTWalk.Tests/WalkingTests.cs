@@ -32,11 +32,7 @@ class WalkingTests
                 Optimization: Optimization.FastGeneticAlgorithm,
                 OptimizationCriterion: OptimizationCriterion.BalanceMax
             );
-        var windowingRequest = new RollingWindowingRequest(
-                start,
-                end,
-                optimizationSize,
-                forwardSize);
+        var windowingRequest = new RollingWindowingRequest(optimizationSize, forwardSize);
         // Arrange
         ReportProvider reportProvider = new(new TerminalProvider(), new DummyReportParser());
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider(), new TesterConfigurationBuilder());

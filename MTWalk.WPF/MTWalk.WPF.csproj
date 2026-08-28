@@ -21,4 +21,19 @@
     <Folder Include="Setting\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Localization\Words.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Words.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\Words.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Words.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
