@@ -19,7 +19,7 @@ class TerminalCLITests
         var setFileName = "test_params.set";
         var setPath = Path.Combine(directory, setFileName);
         var configurationPath = Path.Combine(directory, "test_configuration.ini");
-        var reportPath = Path.Combine("MQL5", "Profiles", "Tester", "test_report.xml");
+        var reportPath = Path.Combine("MQL5", "Profiles", "Tester", "test_report");
 
         // 2. Generate the .set file for optimization
         var setContent = $"""

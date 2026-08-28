@@ -38,7 +38,7 @@ class WalkingTests
                 optimizationSize,
                 forwardSize);
         // Arrange
-        ReportProvider reportProvider = new();
+        ReportProvider reportProvider = new(new TerminalProvider(), new DummyReportParser());
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider(), new TesterConfigurationBuilder());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         TesterConfigurationParametersProvider configurationParametersProvider = new(reportProvider);
@@ -51,5 +51,10 @@ class WalkingTests
     {
         public string GetDataFolder() => throw new NotImplementedException();
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
+    }
+
+    class DummyReportParser : IHtmReportParser
+    {
+        public SingleReport Parse(string content) => throw new NotImplementedException();
     }
 }
