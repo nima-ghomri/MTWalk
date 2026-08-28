@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the different modelling approaches that can be used in the test.
 /// </summary>
-enum Model
+public enum Model
 {
     EveryTick,
     EveryTickBasedOnRealTicks,

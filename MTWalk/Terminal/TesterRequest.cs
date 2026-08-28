@@ -14,18 +14,17 @@
 /// <param name="Deposit">The initial deposit for the test.</param>
 /// <param name="Currency">The currency for the test.</param>
 /// <param name="Leverage">The leverage for the test.</param>
-record TesterRequest(
-    string Expert,
-    string Symbol,
-    TimeFrame TimeFrame,
-    DateTime Start,
-    DateTime End,
-    ForwardMode ForwardMode,
-    DateTime? ForwardDate,
-    ExecutionMode ExecutionMode,
-    Model Model,
-    double Deposit,
-    string Currency,
-    int Leverage,
-    Optimization Optimization,
-    OptimizationCriterion OptimizationCriterion);
+public record TesterRequest(string Expert,
+                            string Symbol,
+                            TimeFrame TimeFrame,
+                            DateTime Start,
+                            DateTime End,
+                            ForwardMode ForwardMode,
+                            DateTime? ForwardDate,
+                            ExecutionMode ExecutionMode,
+                            Model Model,
+                            double Deposit,
+                            string Currency,
+                            int Leverage,
+                            Optimization Optimization,
+                            OptimizationCriterion OptimizationCriterion);

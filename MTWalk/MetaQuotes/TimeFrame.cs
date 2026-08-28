@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.MetaQuotes;
 
-enum TimeFrame
+public enum TimeFrame
 {
     M1,
     M5,

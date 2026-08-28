@@ -1,12 +1,14 @@
-﻿<Window x:Class="MTWalk.WPF.MainWindow"
+﻿<Window x:Class="MTWalk.WPF.Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MTWalk.WPF"
+        xmlns:local="clr-namespace:MTWalk.WPF.Main" 
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <Button Command="{Binding ToggleWalkerCommand}" Content="{Binding ToggleWalkerText}"
+                Width="100" Height="30"/>
+    </StackPanel>
 </Window>

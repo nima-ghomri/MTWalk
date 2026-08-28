@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.MetaQuotes;
 
-enum ForwardMode
+public enum ForwardMode
 {
     No,
     Half,

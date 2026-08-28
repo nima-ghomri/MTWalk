@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.MetaQuotes;
 
-enum OptimizationCriterion
+public enum OptimizationCriterion
 {
     BalanceMax,
 }

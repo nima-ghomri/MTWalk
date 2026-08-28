@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.MetaQuotes;
 
-enum Optimization
+public enum Optimization
 {
     Disabled,
     SlowCompleteAlgorithm,

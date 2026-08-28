@@ -13,7 +13,7 @@ namespace MTWalk.Walking;
 
 class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
-             ITesterConfigurationParametersProvider testerConfigurationParametersProvider)
+             ITesterConfigurationParametersProvider testerConfigurationParametersProvider) : IWalker
 {
     public async Task Start(WindowingRequest windowingRequest, TesterRequest testerRequest, CancellationToken token = default)
     {
@@ -21,7 +21,7 @@ class Walker(IWindowingStrategy windowingStrategy,
         foreach (var window in windows)
         {
             // Optimiziation
-            var optimizationConfiguration = 
+            var optimizationConfiguration =
                 testerConfigurationParametersProvider.CreateOptimization(testerRequest, window.Optimization);
             await terminalExecutor.Execute(optimizationConfiguration, token);
 
