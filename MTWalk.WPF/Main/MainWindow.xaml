@@ -5,13 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MTWalk.WPF.Main" 
         xmlns:l="clr-namespace:MTWalk.WPF.Localization" 
+        xmlns:viewers="clr-namespace:MTWalk.WPF.Viewers" 
+        xmlns:executionbar="clr-namespace:MTWalk.WPF.ExecutionBar" 
+        xmlns:settings="clr-namespace:MTWalk.WPF.Settings" 
+        xmlns:inputs="clr-namespace:MTWalk.WPF.Inputs"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
-        <Button Command="{Binding StartWalkerCommand}"
-                Content="{x:Static l:Words.Start}"/>
-        <Button Command="{Binding StopWalkerCommand}"
-                Content="{x:Static l:Words.Stop}"/>
-    </StackPanel>
+        d:Height="720"
+        d:Width="1024"
+        Title="{x:Static l:Names.MTWalk}"
+        WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <viewers:ResultGraphView/>
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>
+        <Grid  Grid.Row="2" >
+            <TabControl TabStripPlacement="Bottom">
+                <TabItem Header="{x:Static l:Words.Settings}">
+                    <settings:SettingsView/>
+                </TabItem>
+                <TabItem Header="{x:Static l:Words.Inputs}">
+                    <inputs:InputsView/>
+                </TabItem>
+            </TabControl>
+            <DockPanel VerticalAlignment="Bottom"
+                       Margin="110,0,0,0">
+                <executionbar:MainButton DockPanel.Dock="Right"/>
+                <TextBlock Text="Progress" />
+            </DockPanel>
+        </Grid>
+    </Grid>
 </Window>

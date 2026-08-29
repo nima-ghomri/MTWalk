@@ -6,3 +6,4 @@ global using MTWalk.Terminal;
 global using MTWalk.Walking;
 global using MTWalk.Windowing;
 global using System.Windows;
+global using MTWalk.WPF.ExecutionBar;

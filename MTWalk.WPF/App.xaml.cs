@@ -32,6 +32,7 @@ public partial class App : Application
 
         services.AddWalker();
         services.AddSingleton<MainWindowViewModel>();
+        services.AddSingleton<MainButtonViewModel>();
 
         return services.BuildServiceProvider();
     }

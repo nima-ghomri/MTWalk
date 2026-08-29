@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="MTWalk.WPF.ExecutionBar.MainButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MTWalk.WPF.ExecutionBar"
+             xmlns:l="clr-namespace:MTWalk.WPF.Localization"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Horizontal">
+        <Button Command="{Binding StartWalkerCommand}"
+                Content="{x:Static l:Words.Start}"/>
+        <Button Command="{Binding StopWalkerCommand}"
+                Content="{x:Static l:Words.Stop}"/>
+    </StackPanel>
+</UserControl>

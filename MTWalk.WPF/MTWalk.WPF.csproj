@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,10 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Setting\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Update="Localization\Names.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Names.resx</DependentUpon>
+    </Compile>
     <Compile Update="Localization\Words.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -30,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Localization\Names.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Names.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Words.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Words.Designer.cs</LastGenOutput>
