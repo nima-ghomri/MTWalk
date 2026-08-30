@@ -12,17 +12,24 @@ class TerminalExecutor(ITerminalProvider terminalProvider, IConfigurationBuilder
 {
     public async Task Execute(IConfigurationParameters parameters, CancellationToken cancellationToken = default)
     {
-
         var processInfo = new ProcessStartInfo
         {
             FileName = terminalProvider.GetTerminalPath(),
             Arguments = $"/config:\"{configurationBuilder.BuildConfiguration(parameters)}\"",
+            WindowStyle = ProcessWindowStyle.Minimized,
             UseShellExecute = false,
             CreateNoWindow = true
         };
-
         using var process = Process.Start(processInfo)
             ?? throw new InvalidOperationException("Failed to start the terminal process.");
-        await Task.Run(process.WaitForExit, cancellationToken);
+
+        try
+        {
+            await Task.Run(process.WaitForExit, cancellationToken);
+        }
+        finally
+        {
+            process.Kill();
+        }
     }
 }
