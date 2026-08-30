@@ -6,7 +6,7 @@ namespace MTWalk.Windowing;
 /// Represents a range of time with a start and end.
 /// </summary>
 [DebuggerDisplay("{Start} - {End}")]
-sealed record TimeRange
+public sealed record TimeRange
 {
     public TimeRange(DateTime Start, TimeSpan Duration)
     {

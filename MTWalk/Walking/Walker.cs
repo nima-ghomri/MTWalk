@@ -15,7 +15,10 @@ class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
              ITesterConfigurationParametersProvider testerConfigurationParametersProvider) : IWalker
 {
-    public async Task Start(WindowingRequest windowingRequest, TesterRequest testerRequest, CancellationToken token = default)
+    public async Task Start(WindowingRequest windowingRequest,
+                            TesterRequest testerRequest,
+                            IProgress<WalkProgressReport>? progress = default,
+                            CancellationToken token = default)
     {
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         foreach (var window in windows)
@@ -29,6 +32,7 @@ class Walker(IWindowingStrategy windowingStrategy,
             var forwardConfiguration =
                 testerConfigurationParametersProvider.CreateForward(testerRequest, window.Forward);
             await terminalExecutor.Execute(forwardConfiguration, token);
+            progress?.Report(new(window, ""));
         }
     }
 }

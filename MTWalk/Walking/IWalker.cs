@@ -5,8 +5,16 @@ namespace MTWalk.Walking;
 
 public interface IWalker
 {
-    Task Start(WindowingRequest windowingRequest, TesterRequest testerRequest, CancellationToken token = default);
+    Task Start(WindowingRequest windowingRequest,
+               TesterRequest testerRequest,
+               IProgress<WalkProgressReport>? progress = null,
+               CancellationToken token = default);
 }
+
+public record WalkProgressReport(
+    WalkWindow Window,
+    string Message
+);
 
 public static class ServiceCollectionExtensions
 {

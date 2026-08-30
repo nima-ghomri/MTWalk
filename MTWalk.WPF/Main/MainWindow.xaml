@@ -36,7 +36,7 @@
             </TabControl>
             <DockPanel VerticalAlignment="Bottom"
                        Margin="110,0,0,0">
-                <executionbar:MainButton DockPanel.Dock="Right"/>
+                <executionbar:ExecutorView DockPanel.Dock="Right"/>
                 <TextBlock Text="{Binding Text}" />
             </DockPanel>
         </Grid>

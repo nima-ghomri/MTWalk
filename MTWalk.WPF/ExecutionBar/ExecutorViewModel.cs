@@ -1,5 +1,6 @@
 ﻿namespace MTWalk.WPF.ExecutionBar;
-partial class MainButtonViewModel(IWalker walker) : ObservableObject
+
+partial class ExecutorViewModel(IWalker walker) : ObservableObject
 {
     CancellationTokenSource? cancellationTokenSource;
 
@@ -33,12 +34,20 @@ partial class MainButtonViewModel(IWalker walker) : ObservableObject
              );
         try
         {
-            await walker.Start(windowingRequest, testerRequest, cancellationTokenSource.Token);
+            await walker.Start(windowingRequest,
+                               testerRequest,
+                               new Progress<WalkProgressReport>(OnReport),
+                               cancellationTokenSource.Token);
         }
         catch (TaskCanceledException)
         {
             // Should close terminal
         }
+    }
+
+    void OnReport(WalkProgressReport report)
+    {
+        MessageBox.Show(report.Message);
     }
 
     [RelayCommand]

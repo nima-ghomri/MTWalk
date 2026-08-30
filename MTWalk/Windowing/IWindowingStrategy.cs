@@ -7,5 +7,5 @@ namespace MTWalk.Windowing;
 /// </summary>
 interface IWindowingStrategy
 {
-    Window[] GetWindows(DateTime start, DateTime end, WindowingRequest request);
+    WalkWindow[] GetWindows(DateTime start, DateTime end, WindowingRequest request);
 }

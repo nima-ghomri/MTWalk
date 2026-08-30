@@ -5,19 +5,19 @@
 /// </summary>
 class RollingWindowingStrategy : IWindowingStrategy
 {
-    public Window[] GetWindows(DateTime start, DateTime end, WindowingRequest request)
+    public WalkWindow[] GetWindows(DateTime start, DateTime end, WindowingRequest request)
     {
         if (request is not RollingWindowingRequest rolling)
             throw new ArgumentException("Invalid request type for RollingWindowStrategy", nameof(request));
 
-        var result = new List<Window>();
+        var result = new List<WalkWindow>();
         var current = start;
         while (current < end)
         {
             var currentEnd = current + rolling.ForwardSize > end ? end : current + rolling.ForwardSize;
             TimeRange optimization = new(rolling.OptimizationSize, current);
             TimeRange forward = new(current, currentEnd);
-            result.Add(new Window(optimization, forward));
+            result.Add(new WalkWindow(optimization, forward));
             current += rolling.ForwardSize;
         }
         return result.ToArray();

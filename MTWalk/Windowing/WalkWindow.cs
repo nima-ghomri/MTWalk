@@ -9,4 +9,4 @@ namespace MTWalk.Windowing;
 /// <param name="Forward">The forward time range.</param>
 
 [DebuggerDisplay("{Optimization.Start} - {Forward.Start} - {Forward.End}")]
-record Window(TimeRange Optimization, TimeRange Forward);
+public record WalkWindow(TimeRange Optimization, TimeRange Forward);

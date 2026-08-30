@@ -34,7 +34,7 @@ public partial class App : Application
         
         services.AddWalker();
         services.AddSingleton<MainWindowViewModel>();
-        services.AddSingleton<MainButtonViewModel>();
+        services.AddSingleton<ExecutorViewModel>();
         services.AddSingleton<ResultGraphViewModel>();
 
         return services.BuildServiceProvider();
