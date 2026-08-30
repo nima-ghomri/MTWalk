@@ -1,18 +1,20 @@
 ﻿<Window x:Class="MTWalk.WPF.Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MTWalk.WPF.Main" 
-        xmlns:l="clr-namespace:MTWalk.WPF.Localization" 
-        xmlns:viewers="clr-namespace:MTWalk.WPF.Viewers" 
-        xmlns:executionbar="clr-namespace:MTWalk.WPF.ExecutionBar" 
-        xmlns:settings="clr-namespace:MTWalk.WPF.Settings" 
+        xmlns:executionbar="clr-namespace:MTWalk.WPF.ExecutionBar"
+        xmlns:e="clr-namespace:MTWalk.WPF.Extensions"
         xmlns:inputs="clr-namespace:MTWalk.WPF.Inputs"
+        xmlns:l="clr-namespace:MTWalk.WPF.Localization"
+        xmlns:local="clr-namespace:MTWalk.WPF.Main"
+        xmlns:settings="clr-namespace:MTWalk.WPF.Settings"
+        xmlns:viewers="clr-namespace:MTWalk.WPF.Viewers"
         mc:Ignorable="d"
+        d:Height="400"
+        d:Width="500"
         d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
-        d:Height="720"
-        d:Width="1024"
+        DataContext="{e:Resolve Type=local:MainWindowViewModel}"
         Title="{x:Static l:Names.MTWalk}"
         WindowState="Maximized">
     <Grid>
@@ -35,7 +37,7 @@
             <DockPanel VerticalAlignment="Bottom"
                        Margin="110,0,0,0">
                 <executionbar:MainButton DockPanel.Dock="Right"/>
-                <TextBlock Text="Progress" />
+                <TextBlock Text="{Binding Text}" />
             </DockPanel>
         </Grid>
     </Grid>

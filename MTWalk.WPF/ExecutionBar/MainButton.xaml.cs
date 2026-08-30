@@ -7,9 +7,5 @@ namespace MTWalk.WPF.ExecutionBar;
 /// </summary>
 public partial class MainButton : UserControl
 {
-    public MainButton()
-    {
-        DataContext = App.Current.Services.GetRequiredService<MainButtonViewModel>();
-        InitializeComponent();
-    }
+    public MainButton() => InitializeComponent();
 }

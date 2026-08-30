@@ -5,9 +5,5 @@
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
-    {
-        DataContext = App.Current.Services.GetRequiredService<MainWindowViewModel>();
-        InitializeComponent();
-    }
+    public MainWindow() => InitializeComponent();
 }

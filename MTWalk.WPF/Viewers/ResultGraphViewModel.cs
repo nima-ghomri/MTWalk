@@ -1,6 +1,6 @@
 ﻿using OxyPlot;
 
-namespace MTWalk.WPF;
+namespace MTWalk.WPF.Viewers;
 
 partial class ResultGraphViewModel : ObservableObject
 {

@@ -1,4 +1,6 @@
 ﻿using MTWalk.WPF.Main;
+using MTWalk.WPF.Viewers;
+using System.Windows.Markup;
 
 namespace MTWalk.WPF;
 
@@ -29,10 +31,11 @@ public partial class App : Application
     static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
-
+        
         services.AddWalker();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainButtonViewModel>();
+        services.AddSingleton<ResultGraphViewModel>();
 
         return services.BuildServiceProvider();
     }
