@@ -7,6 +7,8 @@ class TesterConfigurationBuilder : IConfigurationBuilder
         if (parameters is not TesterConfigurationParameters tester)
             throw new NotImplementedException("TestConfigurationBuilder does not support the provided parameter type.");
         var configurationContent = $"""
+            [Events]
+            Enable=0
             [Tester]
             Expert={tester.Expert}
             Symbol={tester.Symbol}

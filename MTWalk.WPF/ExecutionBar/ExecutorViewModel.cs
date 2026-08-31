@@ -1,6 +1,7 @@
-﻿namespace MTWalk.WPF.ExecutionBar;
+﻿
+namespace MTWalk.WPF.ExecutionBar;
 
-partial class ExecutorViewModel(IWalker walker) : ObservableObject
+partial class ExecutorViewModel(IWalker walker) : ObservableRecipient
 {
     CancellationTokenSource? cancellationTokenSource;
 
@@ -14,18 +15,18 @@ partial class ExecutorViewModel(IWalker walker) : ObservableObject
         var windowingRequest = new RollingWindowingRequest
             (
                 OptimizationSize: TimeSpan.FromDays(30),
-                ForwardSize: TimeSpan.FromDays(2)
+                ForwardSize: TimeSpan.FromDays(14)
             );
         var testerRequest = new TesterRequest(
                  Expert: @"Examples\MACD\MACD Sample.ex5",
                  Symbol: "EURUSD",
                  TimeFrame: TimeFrame.H1,
                  Start: new DateTime(2025, 1, 1),
-                 End: new DateTime(2025, 2, 1),
+                 End: new DateTime(2025, 3, 1),
                  ForwardMode: ForwardMode.Custom,
                  ForwardDate: default,
                  ExecutionMode: ExecutionMode.ZeroDelay,
-                 Model: Model.OneMinuteOHLC,
+                 Model: Model.EveryTick,
                  Deposit: 1000.0,
                  Currency: "USD",
                  Leverage: 100,
@@ -34,20 +35,16 @@ partial class ExecutorViewModel(IWalker walker) : ObservableObject
              );
         try
         {
+            Progress<WalkProgressReport> progress = new(report => Messenger.Send(report));
             await walker.Start(windowingRequest,
                                testerRequest,
-                               new Progress<WalkProgressReport>(OnReport),
+                               progress,
                                cancellationTokenSource.Token);
         }
         catch (TaskCanceledException)
         {
             // Should close terminal
         }
-    }
-
-    void OnReport(WalkProgressReport report)
-    {
-        MessageBox.Show(report.Message);
     }
 
     [RelayCommand]

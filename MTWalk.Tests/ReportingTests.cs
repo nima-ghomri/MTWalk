@@ -17,7 +17,7 @@ class ReportingTests
     public void ReportProvider_TimeRange_GetBalanceData()
     {
         var reportProvider = new ReportProvider(new TerminalProvider(), new HtmReportParser());
-        var balanceData = reportProvider.GetBalanceData(new(new DateTime(2025, 2, 3), new DateTime(2025, 2, 5)));
+        var balanceData = reportProvider.GetForwardReport(new(new DateTime(2025, 2, 3), new DateTime(2025, 2, 5)));
         Assert.That(balanceData, Is.Not.Null);
         Assert.That(balanceData.Length, Is.GreaterThan(0));
     }

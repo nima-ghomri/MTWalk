@@ -1,29 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
+﻿using HtmlAgilityPack;
 using System.Globalization;
-using System.Text;
-using System.Xml;
-using HtmlAgilityPack;
 
 namespace MTWalk.Reporting;
-
-interface IReportProvider
-{
-    string GetReportFileName(TimeRange timeRange);
-    DealRecord[] GetBalanceData(TimeRange timeRange);
-}
 
 class ReportProvider(ITerminalProvider terminalProvider, IHtmReportParser reportParser) : IReportProvider
 {
     const string RelativeDirectory = @"MQL5\Profiles\Tester";
 
-    public DealRecord[] GetBalanceData(TimeRange timeRange)
+    public SingleReport GetForwardReport(TimeRange timeRange)
     {
         var directory = terminalProvider.GetDataFolder();
         var path = Path.Combine(directory, GetReportFileName(timeRange));
         var content = File.ReadAllText(path);
-        return reportParser.Parse(content).Deals;
+        return reportParser.Parse(content);
     }
 
     public string GetReportFileName(TimeRange timeRange)
@@ -35,8 +24,6 @@ interface IHtmReportParser
     SingleReport Parse(string content);
 }
 
-record SingleReport(DealRecord[] Deals);
-record DealRecord(DateTime Date, double Balance);
 class HtmReportParser : IHtmReportParser
 {
     public SingleReport Parse(string content)

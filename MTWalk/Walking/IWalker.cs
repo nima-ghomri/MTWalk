@@ -11,11 +11,6 @@ public interface IWalker
                CancellationToken token = default);
 }
 
-public record WalkProgressReport(
-    WalkWindow Window,
-    string Message
-);
-
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddWalker(this IServiceCollection services)

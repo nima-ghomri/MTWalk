@@ -13,6 +13,7 @@ namespace MTWalk.Walking;
 
 class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
+             IReportProvider reportProvider,
              ITesterConfigurationParametersProvider testerConfigurationParametersProvider) : IWalker
 {
     public async Task Start(WindowingRequest windowingRequest,
@@ -32,7 +33,8 @@ class Walker(IWindowingStrategy windowingStrategy,
             var forwardConfiguration =
                 testerConfigurationParametersProvider.CreateForward(testerRequest, window.Forward);
             await terminalExecutor.Execute(forwardConfiguration, token);
-            progress?.Report(new(window, ""));
+            var forwardReport = reportProvider.GetForwardReport(window.Forward);
+            progress?.Report(new(window, forwardReport));
         }
     }
 }

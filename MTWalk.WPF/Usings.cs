@@ -1,9 +1,10 @@
 ﻿global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
+global using CommunityToolkit.Mvvm.Messaging;
 global using Microsoft.Extensions.DependencyInjection;
 global using MTWalk.MetaQuotes;
 global using MTWalk.Terminal;
 global using MTWalk.Walking;
 global using MTWalk.Windowing;
-global using System.Windows;
 global using MTWalk.WPF.ExecutionBar;
+global using System.Windows;
