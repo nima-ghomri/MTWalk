@@ -5,5 +5,6 @@
 /// </summary>
 interface IConfigurationBuilder
 {
-    string BuildConfiguration(IConfigurationParameters parameters);
+    IConfigurationBuilder AddParameters(IConfigurationParameters parameters);
+    string Build();
 }

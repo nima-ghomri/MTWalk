@@ -17,8 +17,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IHtmReportParser, HtmReportParser>();
         services.AddSingleton<IReportProvider, ReportProvider>();
-        services.AddSingleton<ITesterConfigurationParametersProvider, TesterConfigurationParametersProvider>();
-        services.AddSingleton<IConfigurationBuilder, TesterConfigurationBuilder>();
+        services.AddSingleton<IConfigurationBuilder, ConfigurationBuilder>();
         services.AddSingleton<ITerminalExecutor, TerminalExecutor>();
         services.AddSingleton<ITerminalProvider, TerminalProvider>();
         services.AddSingleton<IWindowingStrategy, RollingWindowingStrategy>();

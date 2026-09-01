@@ -1,4 +1,6 @@
-﻿namespace MTWalk.Configuration;
+﻿using System.Diagnostics.Metrics;
+
+namespace MTWalk.Configuration;
 
 /// <summary>
 /// Represents the configuration parameters for the [Tester] section of a MetaTrader 5 .ini file.
@@ -22,7 +24,7 @@
 /// <param name="Report">The file name/path to save the testing (.htm) or optimization (.xml) report.</param>
 /// <param name="ReplaceReport">If true, overwrites the report file if it already exists; otherwise, adds a number suffix (e.g., report[1].xml).</param>
 /// <param name="ShutdownTerminal">If true, automatically closes the MetaTrader 5 terminal upon completion of the test or optimization.</param>
-record TesterConfigurationParameters(
+record TestConfigurationParameters(
     string Expert,
     string? ExpertParameters,
     string Symbol,
@@ -40,4 +42,19 @@ record TesterConfigurationParameters(
     DateTime? ForwardDate,
     string? Report,
     bool ReplaceReport,
-    bool ShutdownTerminal) : IConfigurationParameters;
+    bool ShutdownTerminal) : IConfigurationParameters
+{
+    string IConfigurationParameters.Parse() => $"""
+            [Tester]
+            Expert={Expert}
+            Symbol={Symbol}
+            Period={Period}
+            Model={(int)Model}
+            Optimization={(int)Optimization}
+            FromDate={FromDate:yyyy.MM.dd}
+            ToDate={ToDate:yyyy.MM.dd}
+            Report={Report}
+            ReplaceReport={(ReplaceReport ? 1 : 0)}
+            ShutdownTerminal={(ShutdownTerminal ? 1 : 0)}
+            """;
+}

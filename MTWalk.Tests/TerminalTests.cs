@@ -41,7 +41,7 @@ class TerminalTests
 
     class DummyConfigurationBuilder : IConfigurationBuilder
     {
-        public string BuildConfiguration(IConfigurationParameters parameters)
+        public string AddParameters(IConfigurationParameters parameters)
         {
             if(parameters is not DummyConfigurationParameters dummyParams)
                 throw new ArgumentException("Invalid configuration parameters type.");

@@ -10,12 +10,14 @@ namespace MTWalk.Terminal;
 /// <param name="configurationBuilder"></param>
 class TerminalExecutor(ITerminalProvider terminalProvider, IConfigurationBuilder configurationBuilder) : ITerminalExecutor
 {
-    public async Task Execute(IConfigurationParameters parameters, CancellationToken cancellationToken = default)
+    public async Task Execute(string configuration, CancellationToken cancellationToken = default)
     {
+        var configurationPath = Path.Combine(Path.GetTempPath(), "configuration.ini");
+        File.WriteAllText(configurationPath, configuration);
         var processInfo = new ProcessStartInfo
         {
             FileName = terminalProvider.GetTerminalPath(),
-            Arguments = $"/config:\"{configurationBuilder.BuildConfiguration(parameters)}\"",
+            Arguments = $"/config:\"{configurationPath}\"",
             WindowStyle = ProcessWindowStyle.Minimized,
             UseShellExecute = false,
             CreateNoWindow = true
