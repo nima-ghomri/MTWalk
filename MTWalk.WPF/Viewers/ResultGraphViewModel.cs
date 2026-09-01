@@ -8,7 +8,7 @@ namespace MTWalk.WPF.Viewers;
 
 partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgressReport>
 {
-    private static TwoColorLineSeries balanceSeries;
+    static TwoColorLineSeries balanceSeries;
 
     [ObservableProperty]
     public partial PlotModel PlotModel { get; set; } = CreateBalanceModel();
@@ -62,13 +62,13 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgres
             TrackerFormatString = "{0}\nTime: {2:yyyy.MM.dd HH:mm}\nBalance: {4:0.00}"
         };
 
+        model.Series.Add(balanceSeries);
 
         return model;
     }
 
     public void Receive(WalkProgressReport message)
     {
-        var p = CreateBalanceModel();
         IEnumerable<DealRecord> dealHistory = message.Report.Deals;
         // 4. Map the data points
         // OxyPlot requires DateTimes to be converted using DateTimeAxis.ToDouble()
@@ -79,9 +79,6 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgres
 
             balanceSeries.Points.Add(new DataPoint(xValue, yValue));
         }
-        p.Series.Add(balanceSeries);
-
-
-        PlotModel = p;
+        PlotModel.InvalidatePlot(true);
     }
 }
