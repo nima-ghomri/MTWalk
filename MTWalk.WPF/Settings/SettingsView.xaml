@@ -9,62 +9,66 @@
              mc:Ignorable="d"        
              DataContext="{e:Resolve Type=local:SettingsViewModel}"
              d:DataContext="{d:DesignInstance Type=local:SettingsViewModel}"
-             d:DesignHeight="300" 
-             d:DesignWidth="800"
              d:Background="White">
     <UserControl.Resources>
         <ResourceDictionary Source="/Settings/SettingsView.Styles.xaml" />
     </UserControl.Resources>
-    <StackPanel>
-        <HeaderedItemsControl Header="{x:Static l:Words.Expert}">
-            <ComboBox Width="{StaticResource Large}"
+    <StackPanel Style="{StaticResource InputsPanel}">
+        <StackPanel>
+            <HeaderedItemsControl Header="{x:Static l:Words.Expert}">
+                <ComboBox Width="{StaticResource Large}"
                       Text="{Binding Expert, UpdateSourceTrigger=PropertyChanged}"
                       ItemsSource="{Binding Experts}" 
                       IsEditable="True"/>
-        </HeaderedItemsControl>
-        <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
-            <ComboBox Width="{StaticResource Medium}"
+            </HeaderedItemsControl>
+            <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
+                <ComboBox Width="{StaticResource Medium}"
                       Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged}"
                       ItemsSource="{Binding Symbols}" 
                       IsEditable="True"/>
-            <ComboBox Width="{StaticResource Small}"
+                <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding TimeFrame}"
                       ItemsSource="{Binding TimeFrames}"/>
-        </HeaderedItemsControl>
-        <HeaderedItemsControl Header="{x:Static l:Words.Date}">
-            <ComboBox Width="{StaticResource Small}"
+            </HeaderedItemsControl>
+            <HeaderedItemsControl Header="{x:Static l:Words.Date}">
+                <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding DateMode}"
                       ItemsSource="{Binding DateModes}"
                       />
-            <DatePicker SelectedDate="{Binding FromDate}" Width="{StaticResource Small}"/>
-            <DatePicker SelectedDate="{Binding ToDate}" Width="{StaticResource Small}"/>
-        </HeaderedItemsControl>
-        <HeaderedItemsControl Header="{x:Static l:Words.Delays}">
-            <ComboBox Width="{StaticResource Large}"
+                <DatePicker SelectedDate="{Binding FromDate}" Width="{StaticResource Small}"/>
+                <DatePicker SelectedDate="{Binding ToDate}" Width="{StaticResource Small}"/>
+            </HeaderedItemsControl>
+        </StackPanel>
+        <StackPanel>
+            <HeaderedItemsControl Header="{x:Static l:Words.Delays}">
+                <ComboBox Width="{StaticResource Large}"
                       SelectedValue="{Binding ExecutionMode}"
                       ItemsSource="{Binding ExecutionModes}"
                       />
-        </HeaderedItemsControl>
-        <HeaderedItemsControl Header="{x:Static l:Words.Modelling}">
-            <ComboBox Width="{StaticResource Large}" 
+            </HeaderedItemsControl>
+            <HeaderedItemsControl Header="{x:Static l:Words.Modelling}">
+                <ComboBox Width="{StaticResource Large}" 
                       SelectedValue="{Binding Model}" 
                       ItemsSource="{Binding Models}"/>
-        </HeaderedItemsControl>
-        <HeaderedItemsControl Header="{x:Static l:Words.Deposit}">
-            <ComboBox Width="{StaticResource Small}" 
+            </HeaderedItemsControl>
+            <HeaderedItemsControl Header="{x:Static l:Words.Deposit}">
+                <ComboBox Width="{StaticResource Small}" 
                       SelectedValue="{Binding Deposit}" 
                       ItemsSource="{Binding Deposits}"/>
-            <ComboBox Width="{StaticResource Small}"
+                <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding Currency}"
                       ItemsSource="{Binding Currencies}"/>
-            <ComboBox Width="{StaticResource Small}"
+                <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding Leverage}"
                       ItemsSource="{Binding Leverages}"/>
-        </HeaderedItemsControl>
-        <HeaderedItemsControl Header="{x:Static l:Words.Optimization}">
-            <ComboBox SelectedValue="{Binding Optimization}" 
+            </HeaderedItemsControl>
+        </StackPanel>
+        <StackPanel>
+            <HeaderedItemsControl Header="{x:Static l:Words.Optimization}">
+                <ComboBox SelectedValue="{Binding Optimization}" 
                       Width="{StaticResource Large}"
                       ItemsSource="{Binding Optimizations}"/>
-        </HeaderedItemsControl>
+            </HeaderedItemsControl>
+        </StackPanel>
     </StackPanel>
 </UserControl>

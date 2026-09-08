@@ -45,5 +45,6 @@ partial class SettingsViewModel : ObservableObject
         Model = Models.FirstOrDefault();
         Deposit = Deposits.FirstOrDefault();
         Currency = Currencies.FirstOrDefault();
+        Leverage = 100;
     }
 }

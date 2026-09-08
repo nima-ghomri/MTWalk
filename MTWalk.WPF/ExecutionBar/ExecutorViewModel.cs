@@ -1,8 +1,4 @@
-﻿
-using MTWalk.WPF.Inputs;
-using MTWalk.WPF.Settings;
-
-namespace MTWalk.WPF.ExecutionBar;
+﻿namespace MTWalk.WPF.ExecutionBar;
 
 partial class ExecutorViewModel(IWalker walker, InputsViewModel inputs, SettingsViewModel settings) : ObservableRecipient
 {
