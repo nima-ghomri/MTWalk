@@ -61,11 +61,83 @@ namespace MTWalk.WPF.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delays.
+        /// </summary>
+        public static string Delays {
+            get {
+                return ResourceManager.GetString("Delays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deposit.
+        /// </summary>
+        public static string Deposit {
+            get {
+                return ResourceManager.GetString("Deposit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expert.
+        /// </summary>
+        public static string Expert {
+            get {
+                return ResourceManager.GetString("Expert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forward.
+        /// </summary>
+        public static string Forward {
+            get {
+                return ResourceManager.GetString("Forward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inputs.
         /// </summary>
         public static string Inputs {
             get {
                 return ResourceManager.GetString("Inputs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leverage.
+        /// </summary>
+        public static string Leverage {
+            get {
+                return ResourceManager.GetString("Leverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modelling.
+        /// </summary>
+        public static string Modelling {
+            get {
+                return ResourceManager.GetString("Modelling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optimization.
+        /// </summary>
+        public static string Optimization {
+            get {
+                return ResourceManager.GetString("Optimization", resourceCulture);
             }
         }
         
@@ -93,6 +165,15 @@ namespace MTWalk.WPF.Localization {
         public static string Stop {
             get {
                 return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Symbol.
+        /// </summary>
+        public static string Symbol {
+            get {
+                return ResourceManager.GetString("Symbol", resourceCulture);
             }
         }
     }
