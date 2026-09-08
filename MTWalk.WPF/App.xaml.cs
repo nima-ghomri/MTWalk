@@ -1,8 +1,4 @@
-﻿using MTWalk.WPF.Main;
-using MTWalk.WPF.Viewers;
-using System.Windows.Markup;
-
-namespace MTWalk.WPF;
+﻿namespace MTWalk.WPF;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -36,6 +32,8 @@ public partial class App : Application
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<ExecutorViewModel>();
         services.AddSingleton<ResultGraphViewModel>();
+        services.AddSingleton<InputsViewModel>();
+        services.AddSingleton<SettingsViewModel>();
 
         return services.BuildServiceProvider();
     }

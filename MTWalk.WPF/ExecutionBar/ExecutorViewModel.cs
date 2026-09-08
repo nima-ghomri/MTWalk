@@ -1,7 +1,10 @@
 ﻿
+using MTWalk.WPF.Inputs;
+using MTWalk.WPF.Settings;
+
 namespace MTWalk.WPF.ExecutionBar;
 
-partial class ExecutorViewModel(IWalker walker) : ObservableRecipient
+partial class ExecutorViewModel(IWalker walker, InputsViewModel inputs, SettingsViewModel settings) : ObservableRecipient
 {
     CancellationTokenSource? cancellationTokenSource;
 
@@ -19,7 +22,7 @@ partial class ExecutorViewModel(IWalker walker) : ObservableRecipient
             );
         var testerRequest = new TesterRequest(
                  Expert: @"Examples\MACD\MACD Sample.ex5",
-                 Symbol: "EURUSD",
+                 Symbol: settings.Symbol,
                  TimeFrame: TimeFrame.H1,
                  Start: new DateTime(2025, 1, 1),
                  End: new DateTime(2025, 3, 1),

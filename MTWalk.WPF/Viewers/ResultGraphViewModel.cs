@@ -2,13 +2,11 @@
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using System.ComponentModel;
 
 namespace MTWalk.WPF.Viewers;
 
 partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgressReport>
 {
-    static TwoColorLineSeries balanceSeries;
 
     [ObservableProperty]
     public partial PlotModel PlotModel { get; set; } = CreateBalanceModel();
@@ -22,18 +20,18 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgres
     {
         var model = new PlotModel
         {
-            Background = OxyColor.Parse("#151515"),
-            TextColor = OxyColors.White,
-            PlotAreaBorderColor = OxyColors.Gray
+            Background = OxyColors.White,
+            TextColor = OxyColors.Black,
+            PlotAreaBorderColor = OxyColors.Gray,
         };
 
         // 1. X-Axis: Time
         var timeAxis = new DateTimeAxis
         {
             Position = AxisPosition.Bottom,
-            StringFormat = "yyyy.MM.dd HH:mm",
+            StringFormat = "yyyy.MM.dd",
             MajorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColor.Parse("#333333"),
+            MajorGridlineColor = OxyColors.DimGray,
             TicklineColor = OxyColors.Gray
         };
 
@@ -44,7 +42,7 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgres
         {
             Position = AxisPosition.Right,
             MajorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColor.Parse("#333333"),
+            MajorGridlineColor = OxyColors.DimGray,
             TicklineColor = OxyColors.Gray,
 
             // Optional: Add some padding so the line doesn't hit the absolute top/bottom
@@ -54,9 +52,9 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgres
         model.Axes.Add(balanceAxis);
 
         // 3. Series: StepSeries creates the classic MT5 blocky staircase look
-        balanceSeries = new TwoColorLineSeries
+        var balanceSeries = new TwoColorLineSeries
         {
-            Color = OxyColor.Parse("#007ACC"), // Dodger Blue
+            Color = OxyColors.DodgerBlue,
             StrokeThickness = 2,
             Title = "Balance",
             TrackerFormatString = "{0}\nTime: {2:yyyy.MM.dd HH:mm}\nBalance: {4:0.00}"
@@ -67,15 +65,16 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgres
         return model;
     }
 
-    public void Receive(WalkProgressReport message)
+    void IRecipient<WalkProgressReport>.Receive(WalkProgressReport message)
     {
-        IEnumerable<DealRecord> dealHistory = message.Report.Deals;
-        // 4. Map the data points
+        var balanceSeries = PlotModel.Series.FirstOrDefault() as TwoColorLineSeries
+            ?? throw new InvalidOperationException("Balance series not found");
+
         // OxyPlot requires DateTimes to be converted using DateTimeAxis.ToDouble()
-        foreach (var deal in dealHistory)
+        foreach (var deal in message.Report.Deals)
         {
-            double xValue = DateTimeAxis.ToDouble(deal.Date);
-            double yValue = new Random().NextDouble() * 1000;
+            var xValue = DateTimeAxis.ToDouble(deal.Date);
+            var yValue = deal.Balance;
 
             balanceSeries.Points.Add(new DataPoint(xValue, yValue));
         }
