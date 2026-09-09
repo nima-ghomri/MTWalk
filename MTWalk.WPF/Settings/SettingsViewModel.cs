@@ -18,6 +18,7 @@ partial class SettingsViewModel : ObservableObject
     [ObservableProperty] public partial string Currency { get; set; }
     [ObservableProperty] public partial int Leverage { get; set; }
     [ObservableProperty] public partial Optimization Optimization { get; set; }
+    [ObservableProperty] public partial OptimizationCriterion OptimizationCriterion { get; set; }
 
     public string[] Experts { get; set; } = [@"Examples\MACD\MACD Sample.ex5"];
     public string[] Symbols { get; set; } = ["EURUSD", "AUDUSD"];
@@ -31,6 +32,7 @@ partial class SettingsViewModel : ObservableObject
     public double[] Deposits { get; set; } = [3000, 5000, 10_000, 25_000, 50_000, 100_000];
     public int[] Leverages { get; set; } = [1, 10, 50, 100, 200, 500];
     public string[] Currencies { get; set; } = ["USD", "EUR", "GBP", "JPY"];
+    public OptimizationCriterion[] OptimizationCriteria { get; set; } = Enum.GetValues<OptimizationCriterion>();
 
     public SettingsViewModel()
     {
@@ -46,5 +48,39 @@ partial class SettingsViewModel : ObservableObject
         Deposit = Deposits.FirstOrDefault();
         Currency = Currencies.FirstOrDefault();
         Leverage = 100;
+    }
+
+    public bool TryGetRequests(out TesterRequest? testerRequest, out WindowingRequest? windowingRequest)
+    {
+        if (string.IsNullOrWhiteSpace(Expert)
+            || string.IsNullOrWhiteSpace(Symbol)
+            )
+        {
+            testerRequest = null;
+            windowingRequest = null;
+            return false;
+        }
+        windowingRequest = new RollingWindowingRequest
+                (
+                    OptimizationSize: TimeSpan.FromDays(30),
+                    ForwardSize: TimeSpan.FromDays(14)
+                );
+        testerRequest = new TesterRequest(
+                 Expert: Expert,
+                 Symbol: Symbol,
+                 TimeFrame: TimeFrame,
+                 Start: FromDate,
+                 End: ToDate,
+                 ForwardMode: default,
+                 ForwardDate: default,
+                 ExecutionMode: ExecutionMode,
+                 Model: Model,
+                 Deposit: Deposit,
+                 Currency: Currency,
+                 Leverage: Leverage,
+                 Optimization: Optimization,
+                 OptimizationCriterion: OptimizationCriterion
+             );
+        return true;
     }
 }

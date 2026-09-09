@@ -66,8 +66,11 @@
         <StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Words.Optimization}">
                 <ComboBox SelectedValue="{Binding Optimization}" 
-                      Width="{StaticResource Large}"
+                      Width="{StaticResource Medium}"
                       ItemsSource="{Binding Optimizations}"/>
+                <ComboBox SelectedValue="{Binding OptimizationCriterion}" 
+                          Width="{StaticResource Small}"
+                          ItemsSource="{Binding OptimizationCriteria}"/>
             </HeaderedItemsControl>
         </StackPanel>
     </StackPanel>
