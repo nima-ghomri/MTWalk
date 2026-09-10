@@ -6,7 +6,8 @@
     <system:Double x:Key="Medium">306</system:Double>
     <system:Double x:Key="Large">462</system:Double>
     <GridLength x:Key="LabelWidth">80</GridLength>
-    
+
+    <BooleanToVisibilityConverter x:Key="BVConverter"/>
     <Style TargetType="HeaderedItemsControl" x:Key="InputsLabel">
         <Setter Property="ItemsPanel">
             <Setter.Value>

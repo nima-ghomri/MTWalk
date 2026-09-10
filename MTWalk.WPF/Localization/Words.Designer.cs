@@ -176,5 +176,14 @@ namespace MTWalk.WPF.Localization {
                 return ResourceManager.GetString("Symbol", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Walk.
+        /// </summary>
+        public static string Walk {
+            get {
+                return ResourceManager.GetString("Walk", resourceCulture);
+            }
+        }
     }
 }

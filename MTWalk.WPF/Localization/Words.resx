@@ -156,4 +156,7 @@
   <data name="Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="Walk" xml:space="preserve">
+    <value>Walk</value>
+  </data>
 </root>

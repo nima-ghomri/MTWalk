@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 
 namespace MTWalk.WPF.Settings;
 
 partial class SettingsViewModel : ObservableObject
 {
-    [ObservableProperty] public partial string? Expert { get; set; }
-    [ObservableProperty] public partial string? Symbol { get; set; }
+    [ObservableProperty] public partial string Expert { get; set; }
+    [ObservableProperty] public partial string Symbol { get; set; }
     [ObservableProperty] public partial TimeFrame TimeFrame { get; set; }
     [ObservableProperty] public partial DateMode DateMode { get; set; }
     [ObservableProperty] public partial DateTime FromDate { get; set; }
@@ -19,6 +20,10 @@ partial class SettingsViewModel : ObservableObject
     [ObservableProperty] public partial int Leverage { get; set; }
     [ObservableProperty] public partial Optimization Optimization { get; set; }
     [ObservableProperty] public partial OptimizationCriterion OptimizationCriterion { get; set; }
+    [ObservableProperty] public partial WindowType WindowType { get; set; }
+    [ObservableProperty] public partial int OptimizationSize { get; set; }
+    [ObservableProperty] public partial int ForwardSize { get; set; }
+    [ObservableProperty] public partial DateTime AnchorDate { get; set; } = new(2025, 10, 2);
 
     public string[] Experts { get; set; } = [@"Examples\MACD\MACD Sample.ex5"];
     public string[] Symbols { get; set; } = ["EURUSD", "AUDUSD"];
@@ -33,7 +38,9 @@ partial class SettingsViewModel : ObservableObject
     public int[] Leverages { get; set; } = [1, 10, 50, 100, 200, 500];
     public string[] Currencies { get; set; } = ["USD", "EUR", "GBP", "JPY"];
     public OptimizationCriterion[] OptimizationCriteria { get; set; } = Enum.GetValues<OptimizationCriterion>();
-
+    public WindowType[] WindowTypes { get; set; } = Enum.GetValues<WindowType>();
+    public int[] OptimizationSizes { get; set; } = [7, 14, 30, 60, 90];
+    public int[] ForwardSizes { get; set; } = [1, 7, 14, 30, 60, 90];
     public SettingsViewModel()
     {
         Expert = Experts.FirstOrDefault();
@@ -48,6 +55,9 @@ partial class SettingsViewModel : ObservableObject
         Deposit = Deposits.FirstOrDefault();
         Currency = Currencies.FirstOrDefault();
         Leverage = 100;
+        OptimizationCriterion = OptimizationCriteria.FirstOrDefault();
+        ForwardSize = ForwardSizes.FirstOrDefault();
+        OptimizationSize = OptimizationSizes.FirstOrDefault();
     }
 
     public bool TryGetRequests(out TesterRequest? testerRequest, out WindowingRequest? windowingRequest)
@@ -60,11 +70,20 @@ partial class SettingsViewModel : ObservableObject
             windowingRequest = null;
             return false;
         }
-        windowingRequest = new RollingWindowingRequest
+        windowingRequest = WindowType switch
+        {
+            WindowType.Rolling => new RollingWindowingRequest
                 (
-                    OptimizationSize: TimeSpan.FromDays(30),
-                    ForwardSize: TimeSpan.FromDays(14)
-                );
+                    OptimizationSize: TimeSpan.FromDays(OptimizationSize),
+                    ForwardSize: TimeSpan.FromDays(ForwardSize)
+                ),
+            WindowType.Anchored => new AnchoredWindowingRequest
+                (
+                    AnchorDate: AnchorDate,
+                    ForwardSize: TimeSpan.FromDays(ForwardSize)
+                ),
+            _ => throw new NotImplementedException()
+        };
         testerRequest = new TesterRequest(
                  Expert: Expert,
                  Symbol: Symbol,

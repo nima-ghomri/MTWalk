@@ -3,7 +3,7 @@
 /// <summary>
 /// Defines the type of windowing strategy to use.
 /// </summary>
-enum WindowType
+public enum WindowType
 {
     Rolling,
     Anchored,

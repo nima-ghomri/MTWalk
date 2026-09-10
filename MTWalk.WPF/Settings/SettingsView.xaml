@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MTWalk.WPF.Settings"
              xmlns:e="clr-namespace:MTWalk.WPF.Extensions"
              xmlns:l="clr-namespace:MTWalk.WPF.Localization"
+             xmlns:local="clr-namespace:MTWalk.WPF.Settings"
+             xmlns:windowing="clr-namespace:MTWalk.Windowing;assembly=MTWalk"
              mc:Ignorable="d"        
              DataContext="{e:Resolve Type=local:SettingsViewModel}"
              d:DataContext="{d:DesignInstance Type=local:SettingsViewModel}"
@@ -71,6 +72,47 @@
                 <ComboBox SelectedValue="{Binding OptimizationCriterion}" 
                           Width="{StaticResource Small}"
                           ItemsSource="{Binding OptimizationCriteria}"/>
+            </HeaderedItemsControl>
+        </StackPanel>
+
+        <StackPanel>
+            <HeaderedItemsControl Header="{x:Static l:Words.Walk}">
+                <ComboBox 
+                            SelectedValue="{Binding WindowType}" 
+                            Width="{StaticResource Small}"
+                            ItemsSource="{Binding WindowTypes}"
+                            />
+                <ContentControl Content="{Binding}" Margin="{StaticResource Gap}">
+                    <ContentControl.Resources>
+                            <DataTemplate x:Key="RollingTemplate">
+                                <ComboBox Width="{StaticResource Small}"
+                                          SelectedValue="{Binding OptimizationSize}" 
+                                          ItemsSource="{Binding OptimizationSizes}"
+                                          IsEditable="True"/>
+                            </DataTemplate>
+                            <DataTemplate x:Key="AnchoredTemplate">
+                            <DatePicker SelectedDate="{Binding AnchorDate}" Width="{StaticResource Small}"/>
+                            </DataTemplate>
+                    </ContentControl.Resources>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="Rolling">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource RollingTemplate}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding WindowType}" Value="Anchored">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource AnchoredTemplate}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+                <ComboBox 
+                    Width="{StaticResource Small}"
+                    SelectedValue="{Binding ForwardSize}" 
+                    ItemsSource="{Binding ForwardSizes}"
+                    IsEditable="True"
+                          />
             </HeaderedItemsControl>
         </StackPanel>
     </StackPanel>
