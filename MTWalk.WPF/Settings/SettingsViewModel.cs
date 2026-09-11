@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Windows.Controls;
 
@@ -43,8 +44,8 @@ partial class SettingsViewModel : ObservableObject
     public int[] ForwardSizes { get; set; } = [1, 7, 14, 30, 60, 90];
     public SettingsViewModel()
     {
-        Expert = Experts.FirstOrDefault();
-        Symbol = Symbols.FirstOrDefault();
+        Expert = Experts.FirstOrDefault() ?? string.Empty;
+        Symbol = Symbols.FirstOrDefault() ?? string.Empty;
         TimeFrame = TimeFrames.FirstOrDefault();
         Optimization = Optimizations.FirstOrDefault();
         DateMode = DateMode.CustomPeriod;
@@ -53,14 +54,15 @@ partial class SettingsViewModel : ObservableObject
         ExecutionMode = ExecutionMode.ZeroDelay;
         Model = Models.FirstOrDefault();
         Deposit = Deposits.FirstOrDefault();
-        Currency = Currencies.FirstOrDefault();
+        Currency = Currencies.FirstOrDefault() ?? string.Empty;
         Leverage = 100;
         OptimizationCriterion = OptimizationCriteria.FirstOrDefault();
         ForwardSize = ForwardSizes.FirstOrDefault();
         OptimizationSize = OptimizationSizes.FirstOrDefault();
     }
 
-    public bool TryGetRequests(out TesterRequest? testerRequest, out WindowingRequest? windowingRequest)
+    public bool TryGetRequests([NotNullWhen(true)] out TesterRequest? testerRequest,
+       [NotNullWhen(true)] out WindowingRequest? windowingRequest)
     {
         if (string.IsNullOrWhiteSpace(Expert)
             || string.IsNullOrWhiteSpace(Symbol)

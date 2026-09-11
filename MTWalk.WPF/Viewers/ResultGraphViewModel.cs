@@ -5,79 +5,85 @@ using OxyPlot.Series;
 
 namespace MTWalk.WPF.Viewers;
 
-partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkProgressReport>
+partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkReport>, IRecipient<WalkInitialized>
 {
-
-    [ObservableProperty]
-    public partial PlotModel PlotModel { get; set; } = CreateBalanceModel();
+    readonly ResultGraphModel graph = new();
+    public PlotModel PlotModel => graph.PlotModel;
 
     public ResultGraphViewModel()
     {
         Messenger.RegisterAll(this);
     }
 
-    public static PlotModel CreateBalanceModel()
+    void IRecipient<WalkInitialized>.Receive(WalkInitialized message)
     {
-        var model = new PlotModel
-        {
-            Background = OxyColors.White,
-            TextColor = OxyColors.Black,
-            PlotAreaBorderColor = OxyColors.Gray,
-        };
-
-        // 1. X-Axis: Time
-        var timeAxis = new DateTimeAxis
-        {
-            Position = AxisPosition.Bottom,
-            StringFormat = "yyyy.MM.dd",
-            MajorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColors.DimGray,
-            TicklineColor = OxyColors.Gray
-        };
-
-        model.Axes.Add(timeAxis);
-
-        // 2. Y-Axis: Balance (Positioned on the Right like MT5)
-        var balanceAxis = new LinearAxis
-        {
-            Position = AxisPosition.Right,
-            MajorGridlineStyle = LineStyle.Dot,
-            MajorGridlineColor = OxyColors.DimGray,
-            TicklineColor = OxyColors.Gray,
-
-            // Optional: Add some padding so the line doesn't hit the absolute top/bottom
-            MinimumPadding = 0.1,
-            MaximumPadding = 0.1
-        };
-        model.Axes.Add(balanceAxis);
-
-        // 3. Series: StepSeries creates the classic MT5 blocky staircase look
-        var balanceSeries = new TwoColorLineSeries
-        {
-            Color = OxyColors.DodgerBlue,
-            StrokeThickness = 2,
-            Title = "Balance",
-            TrackerFormatString = "{0}\nTime: {2:yyyy.MM.dd HH:mm}\nBalance: {4:0.00}"
-        };
-
-        model.Series.Add(balanceSeries);
-
-        return model;
+        graph.ResetTimeAxis(message.StartDate, message.EndDate);
     }
 
-    void IRecipient<WalkProgressReport>.Receive(WalkProgressReport message)
+    void IRecipient<WalkReport>.Receive(WalkReport message)
     {
-        var balanceSeries = PlotModel.Series.FirstOrDefault() as TwoColorLineSeries
-            ?? throw new InvalidOperationException("Balance series not found");
+        graph.AddDeals(message.Report.Deals);
+    }
+}
 
-        // OxyPlot requires DateTimes to be converted using DateTimeAxis.ToDouble()
-        foreach (var deal in message.Report.Deals)
+class ResultGraphModel
+{
+    public TwoColorLineSeries BalanceSeries { get; } = new()
+    {
+        Color = OxyColors.DodgerBlue,
+        StrokeThickness = 2,
+        Title = "Balance",
+        TrackerFormatString = "{0}\nTime: {2:yyyy.MM.dd HH:mm}\nBalance: {4:0.00}"
+    };
+    public DateTimeAxis TimeAxis { get; } = new()
+    {
+        Position = AxisPosition.Bottom,
+        StringFormat = "yyyy.MM.dd",
+        MajorGridlineStyle = LineStyle.Dot,
+        MajorGridlineColor = OxyColors.DimGray,
+        TicklineColor = OxyColors.Gray
+    };
+    public PlotModel PlotModel { get; } = new()
+    {
+        Background = OxyColors.White,
+        TextColor = OxyColors.Black,
+        PlotAreaBorderColor = OxyColors.Gray,
+    };
+    public LinearAxis BalanceAxis { get; } = new()
+    {
+        Position = AxisPosition.Right,
+        MajorGridlineStyle = LineStyle.Dot,
+        MajorGridlineColor = OxyColors.DimGray,
+        TicklineColor = OxyColors.Gray,
+
+        // Optional: Add some padding so the line doesn't hit the absolute top/bottom
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1
+    };
+
+    public ResultGraphModel()
+    {
+        PlotModel.Series.Add(BalanceSeries);
+        PlotModel.Axes.Add(TimeAxis);
+        PlotModel.Axes.Add(BalanceAxis);
+    }
+
+    internal void AddDeals(DealRecord[] deals)
+    {
+        foreach (var deal in deals)
         {
             var xValue = DateTimeAxis.ToDouble(deal.Date);
             var yValue = deal.Balance;
 
-            balanceSeries.Points.Add(new DataPoint(xValue, yValue));
+            BalanceSeries.Points.Add(new DataPoint(xValue, yValue));
         }
+        PlotModel.InvalidatePlot(true);
+    }
+
+    internal void ResetTimeAxis(DateTime startDate, DateTime endDate)
+    {
+        TimeAxis.Minimum = DateTimeAxis.ToDouble(startDate);
+        TimeAxis.Maximum = DateTimeAxis.ToDouble(endDate);
         PlotModel.InvalidatePlot(true);
     }
 }

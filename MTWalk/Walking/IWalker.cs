@@ -7,7 +7,7 @@ public interface IWalker
 {
     Task Start(WindowingRequest windowingRequest,
                TesterRequest testerRequest,
-               IProgress<WalkProgressReport>? progress = null,
+               IProgress<WalkReport>? progress = null,
                CancellationToken token = default);
 }
 

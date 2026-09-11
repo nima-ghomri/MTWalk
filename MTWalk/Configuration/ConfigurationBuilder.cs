@@ -4,7 +4,7 @@ namespace MTWalk.Configuration;
 
 class ConfigurationBuilder : IConfigurationBuilder
 {
-    StringBuilder builder = new();
+    readonly StringBuilder builder = new();
 
     public IConfigurationBuilder AddParameters(IConfigurationParameters parameters)
     {

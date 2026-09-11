@@ -18,7 +18,7 @@ class Walker(IWindowingStrategy windowingStrategy,
 {
     public async Task Start(WindowingRequest windowingRequest,
                             TesterRequest testerRequest,
-                            IProgress<WalkProgressReport>? progress = default,
+                            IProgress<WalkReport>? progress = default,
                             CancellationToken token = default)
     {
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
@@ -27,7 +27,7 @@ class Walker(IWindowingStrategy windowingStrategy,
         {
             var eventsParametes = new EventsConfigurationParameters(Enable: false);
             // Optimiziation
-            var optimizationParameters = new TestConfigurationParameters(
+            var optimizationParameters = new OptimizationConfigurationParameters(
                 Expert: testerRequest.Expert,
                 ExpertParameters: default,
                 Symbol: testerRequest.Symbol,
@@ -37,15 +37,11 @@ class Walker(IWindowingStrategy windowingStrategy,
                 Leverage: testerRequest.Leverage,
                 Model: testerRequest.Model,
                 ExecutionMode: testerRequest.ExecutionMode,
-                Optimization: Optimization.Disabled,
-                OptimizationCriterion: default,
+                Optimization: testerRequest.Optimization,
+                OptimizationCriterion: testerRequest.OptimizationCriterion,
                 FromDate: testerRequest.Start,
                 ToDate: testerRequest.End,
-                ForwardMode: default,
-                ForwardDate: default,
-                Report: reportProvider.GetReportFileName(window.Optimization),
-                ReplaceReport: true,
-                ShutdownTerminal: true);
+                Report: default);
             var optimizationConfiguration = configurationBuilder
                 .AddParameters(optimizationParameters)
                 .AddParameters(eventsParametes)
@@ -53,24 +49,19 @@ class Walker(IWindowingStrategy windowingStrategy,
             await terminalExecutor.Execute(optimizationConfiguration, token);
 
             // Forward test
-            var forwawrdParameters = new TestConfigurationParameters(Expert: testerRequest.Expert,
-                                             ExpertParameters: default,
-                                             Symbol: testerRequest.Symbol,
-                                             Period: testerRequest.TimeFrame,
-                                             Login: default,
-                                             Deposit: testerRequest.Deposit,
-                                             Leverage: testerRequest.Leverage,
-                                             Model: testerRequest.Model,
-                                             ExecutionMode: testerRequest.ExecutionMode,
-                                             Optimization: testerRequest.Optimization,
-                                             OptimizationCriterion: testerRequest.OptimizationCriterion,
-                                             FromDate: window.Forward.Start,
-                                             ToDate: window.Forward.End,
-                                             ForwardMode: default,
-                                             ForwardDate: default,
-                                             Report: default,
-                                             ReplaceReport: default,
-                                             ShutdownTerminal: true);
+            var forwawrdParameters = new ForwardConfigurationParameters(
+                Expert: testerRequest.Expert,
+                ExpertParameters: default,
+                Symbol: testerRequest.Symbol,
+                Period: testerRequest.TimeFrame,
+                Login: default,
+                Deposit: testerRequest.Deposit,
+                Leverage: testerRequest.Leverage,
+                Model: testerRequest.Model,
+                ExecutionMode: testerRequest.ExecutionMode,
+                FromDate: window.Forward.Start,
+                ToDate: window.Forward.End,
+                Report: reportProvider.GetReportFileName(window.Forward));
             var forwardConfiguration = configurationBuilder
                 .AddParameters(forwawrdParameters)
                 .AddParameters(eventsParametes)

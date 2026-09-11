@@ -1,13 +1,14 @@
-﻿namespace MTWalk.WPF.ExecutionBar;
+﻿using System.Diagnostics.CodeAnalysis;
 
-partial class ExecutorViewModel(IWalker walker, InputsViewModel inputs, SettingsViewModel settings) : ObservableRecipient
+namespace MTWalk.WPF.ExecutionBar;
+
+partial class ExecutorViewModel(IWalker walker, SettingsViewModel settings) 
+    : ObservableRecipient
 {
     TesterRequest? testerRequest;
     WindowingRequest? windowingRequest;
     CancellationTokenSource? cancellationTokenSource;
 
-    [ObservableProperty]
-    public partial WalkerState WalkerState { get; set; }
 
     bool CanStartWalker => settings.TryGetRequests(out testerRequest, out windowingRequest);
 
@@ -15,12 +16,13 @@ partial class ExecutorViewModel(IWalker walker, InputsViewModel inputs, Settings
     async Task StartWalker()
     {
         cancellationTokenSource = new();
-        
+        Messenger.Send(new WalkInitialized(testerRequest!.Start, testerRequest!.End));
+
         try
         {
-            Progress<WalkProgressReport> progress = new(report => Messenger.Send(report));
-            await walker.Start(windowingRequest,
-                               testerRequest,
+            Progress<WalkReport> progress = new(report => Messenger.Send(report));
+            await walker.Start(windowingRequest!,
+                               testerRequest!,
                                progress,
                                cancellationTokenSource.Token);
         }
@@ -31,14 +33,7 @@ partial class ExecutorViewModel(IWalker walker, InputsViewModel inputs, Settings
     }
 
     [RelayCommand]
-    void StopWalker()
-    {
-        cancellationTokenSource?.Cancel();
-    }
+    void StopWalker() => cancellationTokenSource?.Cancel();
 }
 
-enum WalkerState
-{
-    Completed,
-    Running,
-}
+record WalkInitialized(DateTime StartDate, DateTime EndDate);

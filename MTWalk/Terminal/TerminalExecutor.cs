@@ -8,7 +8,7 @@ namespace MTWalk.Terminal;
 /// </summary>
 /// <param name="terminalProvider"></param>
 /// <param name="configurationBuilder"></param>
-class TerminalExecutor(ITerminalProvider terminalProvider, IConfigurationBuilder configurationBuilder) : ITerminalExecutor
+class TerminalExecutor(ITerminalProvider terminalProvider) : ITerminalExecutor
 {
     public async Task Execute(string configuration, CancellationToken cancellationToken = default)
     {
