@@ -26,7 +26,7 @@ partial class SettingsViewModel : ObservableObject
     [ObservableProperty] public partial int ForwardSize { get; set; }
     [ObservableProperty] public partial DateTime AnchorDate { get; set; } = new(2025, 10, 2);
 
-    public string[] Experts { get; set; } = [@"Examples\MACD\MACD Sample.ex5"];
+    public string[] Experts { get; set; } = [@"Examples\Moving Average\Moving Average.ex5"];
     public string[] Symbols { get; set; } = ["EURUSD", "AUDUSD"];
     public TimeFrame[] TimeFrames { get; set; } = Enum.GetValues<TimeFrame>();
     public ExecutionMode[] ExecutionModes { get; set; } = Enum.GetValues<ExecutionMode>();
@@ -41,7 +41,7 @@ partial class SettingsViewModel : ObservableObject
     public OptimizationCriterion[] OptimizationCriteria { get; set; } = Enum.GetValues<OptimizationCriterion>();
     public WindowType[] WindowTypes { get; set; } = Enum.GetValues<WindowType>();
     public int[] OptimizationSizes { get; set; } = [7, 14, 30, 60, 90];
-    public int[] ForwardSizes { get; set; } = [1, 7, 14, 30, 60, 90];
+    public int[] ForwardSizes { get; set; } = [3, 7, 14, 30, 60, 90];
     public SettingsViewModel()
     {
         Expert = Experts.FirstOrDefault() ?? string.Empty;
@@ -52,7 +52,7 @@ partial class SettingsViewModel : ObservableObject
         FromDate = DateTime.Now.AddDays(-30);
         ToDate = DateTime.Now;
         ExecutionMode = ExecutionMode.ZeroDelay;
-        Model = Models.FirstOrDefault();
+        Model = Model.OneMinuteOHLC;
         Deposit = Deposits.FirstOrDefault();
         Currency = Currencies.FirstOrDefault() ?? string.Empty;
         Leverage = 100;

@@ -28,7 +28,7 @@ class TerminalTests
         // Act
         var parameteres = new DummyConfigurationParameters(new(2025, 1, 1), new(2025, 3, 1));
         var configurationBuilder = new DummyConfigurationBuilder().AddParameters(parameteres);
-        Assert.DoesNotThrowAsync(async () => await terminalExecutor.Execute(configurationBuilder.Build()));
+        Assert.DoesNotThrowAsync(async () => await terminalExecutor.Execute(configurationBuilder.ToString()));
     }
 
     class DummyTerminalProvider : ITerminalProvider
@@ -67,6 +67,6 @@ class TerminalTests
             return this;
         }
 
-        public string Build() => throw new NotImplementedException();
+        public string ToString() => throw new NotImplementedException();
     }
 }

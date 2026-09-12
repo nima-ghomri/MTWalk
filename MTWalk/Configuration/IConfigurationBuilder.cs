@@ -6,5 +6,5 @@
 interface IConfigurationBuilder
 {
     IConfigurationBuilder AddParameters(IConfigurationParameters parameters);
-    string Build();
+    string ToString();
 }

@@ -17,7 +17,7 @@ partial class ResultGraphViewModel : ObservableRecipient, IRecipient<WalkReport>
 
     void IRecipient<WalkInitialized>.Receive(WalkInitialized message)
     {
-        graph.ResetTimeAxis(message.StartDate, message.EndDate);
+        graph.Reset(message.StartDate, message.EndDate);
     }
 
     void IRecipient<WalkReport>.Receive(WalkReport message)
@@ -80,8 +80,9 @@ class ResultGraphModel
         PlotModel.InvalidatePlot(true);
     }
 
-    internal void ResetTimeAxis(DateTime startDate, DateTime endDate)
+    internal void Reset(DateTime startDate, DateTime endDate)
     {
+        BalanceSeries.Points.Clear();
         TimeAxis.Minimum = DateTimeAxis.ToDouble(startDate);
         TimeAxis.Maximum = DateTimeAxis.ToDouble(endDate);
         PlotModel.InvalidatePlot(true);

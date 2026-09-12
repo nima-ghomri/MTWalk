@@ -13,14 +13,14 @@ namespace MTWalk.Walking;
 
 class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
-             IReportProvider reportProvider,
-             IConfigurationBuilder configurationBuilder) : IWalker
+             IReportProvider reportProvider) : IWalker
 {
     public async Task Start(WindowingRequest windowingRequest,
                             TesterRequest testerRequest,
                             IProgress<WalkReport>? progress = default,
                             CancellationToken token = default)
     {
+        var configurationBuilder = new ConfigurationBuilder();
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         var deposit = testerRequest.Deposit;
         foreach (var window in windows)
@@ -45,7 +45,7 @@ class Walker(IWindowingStrategy windowingStrategy,
             var optimizationConfiguration = configurationBuilder
                 .AddParameters(optimizationParameters)
                 .AddParameters(eventsParametes)
-                .Build();
+                .ToString();
             await terminalExecutor.Execute(optimizationConfiguration, token);
 
             // Forward test
@@ -55,17 +55,18 @@ class Walker(IWindowingStrategy windowingStrategy,
                 Symbol: testerRequest.Symbol,
                 Period: testerRequest.TimeFrame,
                 Login: default,
-                Deposit: testerRequest.Deposit,
+                Deposit: deposit,
                 Leverage: testerRequest.Leverage,
                 Model: testerRequest.Model,
                 ExecutionMode: testerRequest.ExecutionMode,
                 FromDate: window.Forward.Start,
                 ToDate: window.Forward.End,
                 Report: reportProvider.GetReportFileName(window.Forward));
+            configurationBuilder.Clear();
             var forwardConfiguration = configurationBuilder
                 .AddParameters(forwawrdParameters)
                 .AddParameters(eventsParametes)
-                .Build();
+                .ToString();
             await terminalExecutor.Execute(forwardConfiguration, token);
             var forwardReport = reportProvider.GetForwardReport(window.Forward);
             deposit = forwardReport.Deals.Last().Balance;

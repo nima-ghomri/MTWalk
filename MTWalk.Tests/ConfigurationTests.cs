@@ -33,6 +33,6 @@ class ConfigurationTests
                  ReplaceReport: false,
                  ShutdownTerminal: false
              );
-        var configurationFile = builder.AddParameters(parameters).Build();
+        var configurationFile = builder.AddParameters(parameters).ToString();
     }
 }

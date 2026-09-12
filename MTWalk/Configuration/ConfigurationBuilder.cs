@@ -13,5 +13,6 @@ class ConfigurationBuilder : IConfigurationBuilder
         return this;
     }
 
-    public string Build() => builder.ToString();
+    public override string ToString() => builder.ToString();
+    public void Clear() => builder.Clear();
 }

@@ -47,12 +47,20 @@ record TestConfigurationParameters(
     string IConfigurationParameters.Parse() => $"""
             [Tester]
             Expert={Expert}
+            ExpertParameters={ExpertParameters}
             Symbol={Symbol}
             Period={Period}
+            Login={Login}
+            Deposit={Deposit}
+            Leverage=1:{Leverage}
             Model={(int)Model}
+            ExecutionMode={(int)ExecutionMode}
             Optimization={(int)Optimization}
+            OptimizationCriterion={(int)OptimizationCriterion}
             FromDate={FromDate:yyyy.MM.dd}
             ToDate={ToDate:yyyy.MM.dd}
+            ForwardMode={(int)ForwardMode}
+            ForwardDate={ForwardDate:yyyy.MM.dd}
             Report={Report}
             ReplaceReport={(ReplaceReport ? 1 : 0)}
             ShutdownTerminal={(ShutdownTerminal ? 1 : 0)}
