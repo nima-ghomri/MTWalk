@@ -6,6 +6,26 @@
              xmlns:local="clr-namespace:MTWalk.WPF.Controls.Tree"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="HeaderedContentControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="HeaderedContentControl">
+                        <StackPanel Orientation="Horizontal" 
+                                    Margin="0,2" 
+                                    Cursor="Hand" 
+                                    Background="Transparent"
+                                    MouseLeftButtonUp="OnItemNodeClicked">
+                            <TextBlock Text="{TemplateBinding Header}"
+                                       Foreground="{TemplateBinding BorderBrush}" 
+                                       Margin="0,0,5,0"/>
+                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <ComboBox x:Name="MainComboBox"
               IsEditable="True" 
               Text="{Binding SelectedText, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}" 
@@ -25,26 +45,18 @@
                     <HierarchicalDataTemplate DataType="{x:Type local:ITree}" ItemsSource="{Binding Children}">
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type local:ITreeNode}">
-                                <StackPanel Orientation="Horizontal" 
-                                    Margin="0,2" 
-                                    Cursor="Hand" 
-                                    Background="Transparent"
-                                    MouseLeftButtonUp="OnItemNodeClicked">
-                                    <TextBlock Text="{Binding NodeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                       Foreground="Yellow" Margin="0,0,5,0"/>
-                                    <TextBlock Text="{Binding}"/>
-                                </StackPanel>
+                                <HeaderedContentControl 
+                                    Header="{Binding NodeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Content="{Binding}"
+                                    BorderBrush="{Binding NodeColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    />
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>
-                        <StackPanel Orientation="Horizontal" 
-                                    Margin="0,2" 
-                                    Cursor="Hand" 
-                                    Background="Transparent"
-                                    MouseLeftButtonUp="OnItemNodeClicked">
-                            <TextBlock Text="{Binding TreeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                       Foreground="Yellow" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding}"/>
-                        </StackPanel>
+                        <HeaderedContentControl 
+                              Header="{Binding TreeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              Content="{Binding}"
+                              BorderBrush="{Binding TreeColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MTWalk.WPF.Controls.Tree;
 
@@ -9,6 +10,21 @@ namespace MTWalk.WPF.Controls.Tree;
 public partial class TreeComboBox : UserControl
 {
     public TreeComboBox() => InitializeComponent();
+
+
+    public static readonly DependencyProperty TreeColorProperty =
+        DependencyProperty.Register(
+            nameof(TreeColor),
+            typeof(Brush),
+            typeof(TreeComboBox),
+            new PropertyMetadata(Brushes.Black));
+
+    public static readonly DependencyProperty NodeColorProperty =
+        DependencyProperty.Register(
+            nameof(NodeColor),
+            typeof(Brush),
+            typeof(TreeComboBox),
+            new PropertyMetadata(Brushes.Black));
 
     public static readonly DependencyProperty NodeIconProperty =
         DependencyProperty.Register(
@@ -37,6 +53,18 @@ public partial class TreeComboBox : UserControl
             typeof(TreeComboBox),
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+
+    public Brush TreeColor
+    {
+        get => (Brush)GetValue(TreeColorProperty);
+        set => SetValue(TreeColorProperty, value);
+    }
+
+    public Brush NodeColor
+    {
+        get => (Brush)GetValue(NodeColorProperty);
+        set => SetValue(NodeColorProperty, value);
+    }
 
     public string NodeIcon
     {

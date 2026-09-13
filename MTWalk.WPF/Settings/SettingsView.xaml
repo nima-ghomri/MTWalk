@@ -20,7 +20,9 @@
                 <tree:TreeComboBox Width="{StaticResource Large}" 
                                    ItemsSource="{Binding Experts}"
                                    NodeIcon="🎓"
-                                   TreeIcon="📁"/>
+                                   NodeColor="DarkBlue"
+                                   TreeIcon="📁"
+                                   TreeColor="Gold"/>
             </HeaderedItemsControl>
             <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
                 <ComboBox Width="{StaticResource Medium}"
