@@ -6,7 +6,7 @@
              xmlns:e="clr-namespace:MTWalk.WPF.Extensions"
              xmlns:l="clr-namespace:MTWalk.WPF.Localization"
              xmlns:local="clr-namespace:MTWalk.WPF.Settings"
-             xmlns:windowing="clr-namespace:MTWalk.Windowing;assembly=MTWalk"
+             xmlns:windowing="clr-namespace:MTWalk.Windowing;assembly=MTWalk" xmlns:tree="clr-namespace:MTWalk.WPF.Controls.Tree"
              mc:Ignorable="d"        
              DataContext="{e:Resolve Type=local:SettingsViewModel}"
              d:DataContext="{d:DesignInstance Type=local:SettingsViewModel}"
@@ -17,10 +17,10 @@
     <StackPanel Style="{StaticResource InputsPanel}">
         <StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Words.Expert}">
-                <ComboBox Width="{StaticResource Large}"
-                      Text="{Binding Expert, UpdateSourceTrigger=PropertyChanged}"
-                      ItemsSource="{Binding Experts}" 
-                      IsEditable="True"/>
+                <tree:TreeComboBox Width="{StaticResource Large}" 
+                                   ItemsSource="{Binding Experts}"
+                                   NodeIcon="🎓"
+                                   TreeIcon="📁"/>
             </HeaderedItemsControl>
             <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
                 <ComboBox Width="{StaticResource Medium}"
@@ -84,15 +84,15 @@
                             />
                 <ContentControl Content="{Binding}" Margin="{StaticResource Gap}">
                     <ContentControl.Resources>
-                            <DataTemplate x:Key="RollingTemplate">
-                                <ComboBox Width="{StaticResource Small}"
+                        <DataTemplate x:Key="RollingTemplate">
+                            <ComboBox Width="{StaticResource Small}"
                                           SelectedValue="{Binding OptimizationSize}" 
                                           ItemsSource="{Binding OptimizationSizes}"
                                           IsEditable="True"/>
-                            </DataTemplate>
-                            <DataTemplate x:Key="AnchoredTemplate">
+                        </DataTemplate>
+                        <DataTemplate x:Key="AnchoredTemplate">
                             <DatePicker SelectedDate="{Binding AnchorDate}" Width="{StaticResource Small}"/>
-                            </DataTemplate>
+                        </DataTemplate>
                     </ContentControl.Resources>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
