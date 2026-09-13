@@ -10,5 +10,7 @@ global using MTWalk.WPF.ExecutionBar;
 global using MTWalk.WPF.Inputs;
 global using MTWalk.WPF.Main;
 global using MTWalk.WPF.Settings;
+global using MTWalk.WPF.Settings.Providers;
 global using MTWalk.WPF.Viewers;
+global using System.Diagnostics.CodeAnalysis;
 global using System.Windows;

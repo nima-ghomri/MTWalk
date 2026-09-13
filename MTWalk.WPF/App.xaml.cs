@@ -1,4 +1,5 @@
-﻿namespace MTWalk.WPF;
+﻿
+namespace MTWalk.WPF;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -34,6 +35,7 @@ public partial class App : Application
         services.AddSingleton<ResultGraphViewModel>();
         services.AddSingleton<InputsViewModel>();
         services.AddSingleton<SettingsViewModel>();
+        services.AddSingleton<IExpertsSettingProvider, ExpertsSettingProvider>();
 
         return services.BuildServiceProvider();
     }

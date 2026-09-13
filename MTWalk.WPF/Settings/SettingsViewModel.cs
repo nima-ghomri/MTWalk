@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using System.Windows.Controls;
-
+﻿
 namespace MTWalk.WPF.Settings;
 
 partial class SettingsViewModel : ObservableObject
@@ -26,7 +21,7 @@ partial class SettingsViewModel : ObservableObject
     [ObservableProperty] public partial int ForwardSize { get; set; }
     [ObservableProperty] public partial DateTime AnchorDate { get; set; } = new(2025, 10, 2);
 
-    public string[] Experts { get; set; } = [@"Examples\Moving Average\Moving Average.ex5"];
+    public string[] Experts { get; set; }
     public string[] Symbols { get; set; } = ["EURUSD", "AUDUSD"];
     public TimeFrame[] TimeFrames { get; set; } = Enum.GetValues<TimeFrame>();
     public ExecutionMode[] ExecutionModes { get; set; } = Enum.GetValues<ExecutionMode>();
@@ -42,14 +37,15 @@ partial class SettingsViewModel : ObservableObject
     public WindowType[] WindowTypes { get; set; } = Enum.GetValues<WindowType>();
     public int[] OptimizationSizes { get; set; } = [7, 14, 30, 60, 90];
     public int[] ForwardSizes { get; set; } = [3, 7, 14, 30, 60, 90];
-    public SettingsViewModel()
+    public SettingsViewModel(IExpertsSettingProvider expertsSettingProvider)
     {
+        Experts = expertsSettingProvider.GetExperts().Select(x=>x.Name).ToArray();
         Expert = Experts.FirstOrDefault() ?? string.Empty;
         Symbol = Symbols.FirstOrDefault() ?? string.Empty;
         TimeFrame = TimeFrames.FirstOrDefault();
         Optimization = Optimizations.FirstOrDefault();
         DateMode = DateMode.CustomPeriod;
-        FromDate = DateTime.Now.AddDays(-30);
+        FromDate = DateTime.Now.AddMonths(-2);
         ToDate = DateTime.Now;
         ExecutionMode = ExecutionMode.ZeroDelay;
         Model = Model.OneMinuteOHLC;
