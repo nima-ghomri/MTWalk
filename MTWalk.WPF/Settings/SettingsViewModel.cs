@@ -39,7 +39,7 @@ partial class SettingsViewModel : ObservableObject
     public int[] ForwardSizes { get; set; } = [3, 7, 14, 30, 60, 90];
     public SettingsViewModel(IExpertsSettingProvider expertsSettingProvider)
     {
-        Experts = expertsSettingProvider.GetExperts().Select(x=>x.Name).ToArray();
+        Experts = expertsSettingProvider.GetExperts().Select(x => x.Name).ToArray();
         Expert = Experts.FirstOrDefault() ?? string.Empty;
         Symbol = Symbols.FirstOrDefault() ?? string.Empty;
         TimeFrame = TimeFrames.FirstOrDefault();
