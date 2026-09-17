@@ -46,12 +46,12 @@ public partial class TreeComboBox : UserControl
             typeof(IEnumerable<ITreeNode>),
             typeof(TreeComboBox));
 
-    public static readonly DependencyProperty SelectedTextProperty =
+    public static readonly DependencyProperty SelectedValueProperty =
         DependencyProperty.Register(
-            nameof(SelectedText),
-            typeof(string),
+            nameof(SelectedValue),
+            typeof(object),
             typeof(TreeComboBox),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            new FrameworkPropertyMetadata(default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     public Brush TreeColor
@@ -84,24 +84,50 @@ public partial class TreeComboBox : UserControl
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public string? SelectedText
+    public object? SelectedValue
     {
-        get => (string?)GetValue(SelectedTextProperty);
-        set => SetValue(SelectedTextProperty, value);
+        get => (object?)GetValue(SelectedValueProperty);
+        set => SetValue(SelectedValueProperty, value);
     }
 
     void OnItemNodeClicked(object sender, MouseButtonEventArgs e)
     {
-        // Extract the underlying data context from the clicked visual element
-        if (sender is not FrameworkElement element
-            || element.DataContext is not ITreeNode item)
-            return;
-        SelectedText = item.ToString();
+        if (sender is FrameworkElement { DataContext: ITreeNode item } element)
+        {
+            // If this item represents a tree/directory, treat click as expand/collapse.
+            if (item is ITree)
+            {
+                if (FindAncestor<TreeViewItem>(element) is TreeViewItem tvi)
+                {
+                    tvi.IsExpanded ^= true; // Toggle expansion state
+                }
+                e.Handled = true;
+                return;
+                //Swallow the event so the ComboBox doesn't close
+            }
 
-        // Force the dropdown to close upon selection
-        MainComboBox.IsDropDownOpen = false;
+            // Leaf node: finalize selection and close dropdown
+            SelectedValue = item;
+            MainComboBox.IsDropDownOpen = false;
+            // Prevent the click from bubbling up and causing unintended visual tree behavior
+            e.Handled = true;
+        }
+    }
 
-        // Prevent the click from bubbling up and causing unintended visual tree behavior
-        e.Handled = true;
+    static T? FindAncestor<T>(DependencyObject? current) where T : DependencyObject
+    {
+        while (current is not null)
+        {
+            if (current is T match)
+                return match;
+            current = VisualTreeHelper.GetParent(current);
+        }
+        return null;
+    }
+
+    void TreeViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is TreeViewItem { DataContext: ITree } item)
+            e.Handled = true;
     }
 }

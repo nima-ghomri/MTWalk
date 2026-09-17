@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MTWalk.WPF.Controls.Tree"
+             xmlns:p="clr-namespace:MTWalk.WPF.Settings.Providers"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -11,54 +12,75 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="HeaderedContentControl">
-                        <StackPanel Orientation="Horizontal" 
-                                    Margin="0,2" 
-                                    Cursor="Hand" 
-                                    Background="Transparent"
-                                    MouseLeftButtonUp="OnItemNodeClicked">
-                            <TextBlock Text="{TemplateBinding Header}"
-                                       Foreground="{TemplateBinding BorderBrush}" 
-                                       Margin="0,0,5,0"/>
+                        <StackPanel 
+               Margin="0,2" 
+               Cursor="Hand" 
+               Orientation="Horizontal" 
+               Background="Transparent"
+               MouseLeftButtonUp="OnItemNodeClicked">
+                            <TextBlock 
+                   Margin="0,0,5,0"
+                   Text="{TemplateBinding Header}"
+                   Foreground="{TemplateBinding BorderBrush}"/>
                             <ContentPresenter Content="{TemplateBinding Content}"/>
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <HierarchicalDataTemplate x:Key="TreeTemplate" ItemsSource="{Binding Children}">
+            <!--<HeaderedContentControl 
+      Content="{Binding}"
+      Header="{Binding TreeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+      BorderBrush="{Binding TreeColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+    />-->
+
+            <StackPanel 
+               MouseLeftButtonUp="OnItemNodeClicked">
+                <Label Content="{Binding}"/>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+        <!-- Template for ITreeNode (Leaf Node) -->
+        <DataTemplate x:Key="NodeTemplate">
+            <StackPanel
+               MouseLeftButtonUp="OnItemNodeClicked" >
+                <Label Content="{Binding}"/>
+            </StackPanel>
+            <!--<HeaderedContentControl 
+      Content="{Binding}"
+      Header="{Binding NodeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+      BorderBrush="{Binding NodeColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+   />-->
+        </DataTemplate>
+
+        <!-- Configure the Selector -->
+        <local:TreeNodeTemplateSelector x:Key="NodeSelector"
+                       TreeTemplate="{StaticResource TreeTemplate}"
+                       NodeTemplate="{StaticResource NodeTemplate}" />
+
+        <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_PreviewMouseLeftButtonDown"/>
+        </Style>
+
+        <Style x:Key="ComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
     </UserControl.Resources>
     <ComboBox x:Name="MainComboBox"
               IsEditable="True" 
-              Text="{Binding SelectedText, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}" 
-              MaxDropDownHeight="300">
-
-        <ComboBox.ItemContainerStyle>
-            <Style TargetType="ComboBoxItem">
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            </Style>
-        </ComboBox.ItemContainerStyle>
-
+              MaxDropDownHeight="300"
+              Text="{Binding SelectedValue, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}" 
+              ItemContainerStyle="{StaticResource ComboBoxItemStyle}">
         <ComboBoxItem>
-            <TreeView ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+            <TreeView 
+                x:Name="MainTreeView"
+                ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                      ItemTemplateSelector="{StaticResource NodeSelector}"
+                      ItemContainerStyle="{StaticResource TreeViewItemStyle}"
                       BorderThickness="0">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type local:ITree}" ItemsSource="{Binding Children}">
-                        <HierarchicalDataTemplate.ItemTemplate>
-                            <DataTemplate DataType="{x:Type local:ITreeNode}">
-                                <HeaderedContentControl 
-                                    Header="{Binding NodeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    Content="{Binding}"
-                                    BorderBrush="{Binding NodeColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    />
-                            </DataTemplate>
-                        </HierarchicalDataTemplate.ItemTemplate>
-                        <HeaderedContentControl 
-                              Header="{Binding TreeIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                              Content="{Binding}"
-                              BorderBrush="{Binding TreeColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                              />
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
             </TreeView>
         </ComboBoxItem>
     </ComboBox>

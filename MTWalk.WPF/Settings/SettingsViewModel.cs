@@ -38,7 +38,7 @@ partial class SettingsViewModel : ObservableObject
     public WindowType[] WindowTypes { get; set; } = Enum.GetValues<WindowType>();
     public int[] OptimizationSizes { get; set; } = [7, 14, 30, 60, 90];
     public int[] ForwardSizes { get; set; } = [3, 7, 14, 30, 60, 90];
-    public SettingsViewModel(IExpertsSettingProvider expertsSettingProvider)
+    public SettingsViewModel(IExpertsProvider expertsSettingProvider)
     {
         Experts = expertsSettingProvider.GetExperts().ToArray();
         Expert = Experts.FirstOrDefault()?.ToString() ?? string.Empty;

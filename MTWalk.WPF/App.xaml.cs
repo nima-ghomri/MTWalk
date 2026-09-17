@@ -35,7 +35,7 @@ public partial class App : Application
         services.AddSingleton<ResultGraphViewModel>();
         services.AddSingleton<InputsViewModel>();
         services.AddSingleton<SettingsViewModel>();
-        services.AddSingleton<IExpertsSettingProvider, ExpertsSettingProvider>();
+        services.AddSingleton<IExpertsProvider, ExpertsProvider>();
 
         return services.BuildServiceProvider();
     }

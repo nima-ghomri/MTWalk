@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace MTWalk.WPF.Settings.Providers;
 
-interface IExpertsSettingProvider
+interface IExpertsProvider
 {
     ITreeNode[] GetExperts();
 }
@@ -30,18 +30,24 @@ class DirectoryViewModel(string name, IEnumerable<ITreeNode> children) : ITree
 
 }
 
-class ExpertsSettingProvider : IExpertsSettingProvider
+class ExpertsProvider : IExpertsProvider
 {
     public ITreeNode[] GetExperts()
     {
         return
         [
-            new DirectoryViewModel(@"Examples\Moving Average\Moving Average.ex5", []),
-            new DirectoryViewModel("Examples", [
-                 new ExpertViewModel("Moving Average.ex5"),
+            new ExpertViewModel(@"Examples\Moving Average\Moving Average.ex5"),
+            new DirectoryViewModel("Examples",
+            [
+                new DirectoryViewModel("D",
+                    [
+                        new DirectoryViewModel("D2",[]),
+                        new ExpertViewModel("MACD.ex5"),
+                    ]),
+                new ExpertViewModel("Moving Average.ex5"),
                 new ExpertViewModel("MACD.ex5"),
                 new ExpertViewModel("RSI.ex5"),
-                ]),
+            ]),
             new ExpertViewModel("Moving Average.ex5"),
         ];
     }
