@@ -104,25 +104,19 @@ public partial class TreeComboBox : UserControl
 
     void TreeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (sender is TreeViewItem { DataContext: ITreeNode item } element)
+        if (sender is TreeViewItem { DataContext: { } context } treeItem)
         {
-            // If this item represents a tree/directory, treat click as expand/collapse.
-            if (item is ITree)
+            if (treeItem.HasItems)
+                // If this item represents a tree/directory, treat click as expand/collapse.
+                treeItem.IsExpanded ^= true; // Toggle expansion state
+            else
             {
-                if (FindAncestor<TreeViewItem>(element) is TreeViewItem tvi)
-                {
-                    tvi.IsExpanded ^= true; // Toggle expansion state
-                }
-                e.Handled = true;
-                return;
-                //Swallow the event so the ComboBox doesn't close
+                // Leaf node: finalize selection and close dropdown
+                Text = DisplayMemberPath is null ? context.ToString()
+                    : context.GetType().GetProperty(DisplayMemberPath)?.GetValue(context)?.ToString();
+                MainComboBox.IsDropDownOpen = false;
+                // Prevent the click from bubbling up and causing unintended visual tree behavior
             }
-
-            // Leaf node: finalize selection and close dropdown
-            Text = DisplayMemberPath is null ? item.ToString()
-                : item.GetType().GetProperty(DisplayMemberPath)?.GetValue(item)?.ToString();
-            MainComboBox.IsDropDownOpen = false;
-            // Prevent the click from bubbling up and causing unintended visual tree behavior
             e.Handled = true;
         }
     }
@@ -131,16 +125,5 @@ public partial class TreeComboBox : UserControl
     {
         if (sender is TreeViewItem { DataContext: ITree } item)
             e.Handled = true;
-    }
-
-    static T? FindAncestor<T>(DependencyObject? current) where T : DependencyObject
-    {
-        while (current is not null)
-        {
-            if (current is T match)
-                return match;
-            current = VisualTreeHelper.GetParent(current);
-        }
-        return null;
     }
 }
