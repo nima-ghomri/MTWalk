@@ -38,7 +38,7 @@ class WalkingTests
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
-        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportProvider, configurationBuilder);
+        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportProvider);
         // Act & Assert
         Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest));
     }

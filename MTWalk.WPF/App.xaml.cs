@@ -35,7 +35,8 @@ public partial class App : Application
         services.AddSingleton<ResultGraphViewModel>();
         services.AddSingleton<InputsViewModel>();
         services.AddSingleton<SettingsViewModel>();
-        services.AddSingleton<IExpertsProvider, ExpertsProvider>();
+        services.AddTransient<FileViewModel>();
+        services.AddTransient<DirectoryViewModel>();
 
         return services.BuildServiceProvider();
     }

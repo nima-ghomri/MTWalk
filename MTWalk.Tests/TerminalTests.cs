@@ -5,7 +5,6 @@ namespace MTWalk.Tests;
 
 class TerminalTests
 {
-
     [Test]
     public void TerminalProvider_GetDataFolder_ReturnsCorrectPath()
     {
@@ -19,7 +18,7 @@ class TerminalTests
         // Assert
         Assert.That(actualDataFolder, Is.Not.Null);
     }
-
+    
     [Test]
     public async Task TerminalExecutor_ExecuteTest_InitializesTerminal()
     {
@@ -31,9 +30,22 @@ class TerminalTests
         Assert.DoesNotThrowAsync(async () => await terminalExecutor.Execute(configurationBuilder.ToString()));
     }
 
+    [Test]
+    public async Task ExpertProvider_SubDirectories_GetFileInfos()
+    {
+        var expertProvider = new ExpertProvider(new DummyTerminalProvider());
+        var s = expertProvider.GetFileInfos();
+    }
+
     class DummyTerminalProvider : ITerminalProvider
     {
-        public string GetDataFolder() => throw new NotImplementedException();
+        public string GetDataFolder()
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var terminalDirectory = Path.Combine(appData, @"MetaQuotes\Terminal");
+            var dataFolder = new DirectoryInfo(terminalDirectory).EnumerateDirectories().First(x => x.EnumerateFiles("origin.txt").Any());
+            return dataFolder.FullName;
+        }
 
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
     }
@@ -47,7 +59,7 @@ class TerminalTests
     {
         public IConfigurationBuilder AddParameters(IConfigurationParameters parameters)
         {
-            if(parameters is not DummyConfigurationParameters dummyParams)
+            if (parameters is not DummyConfigurationParameters dummyParams)
                 throw new ArgumentException("Invalid configuration parameters type.");
             var configurationContent = $"""
             [Tester]

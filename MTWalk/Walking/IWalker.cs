@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ITerminalExecutor, TerminalExecutor>();
         services.AddSingleton<ITerminalProvider, TerminalProvider>();
         services.AddSingleton<IWindowingStrategy, RollingWindowingStrategy>();
+        services.AddSingleton<IExpertProvider, ExpertProvider>();
         return services.AddSingleton<IWalker, Walker>();
     }
 }

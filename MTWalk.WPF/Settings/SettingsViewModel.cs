@@ -1,6 +1,4 @@
-﻿using MTWalk.WPF.Controls.Tree;
-
-namespace MTWalk.WPF.Settings;
+﻿namespace MTWalk.WPF.Settings;
 
 partial class SettingsViewModel : ObservableObject
 {
@@ -22,7 +20,7 @@ partial class SettingsViewModel : ObservableObject
     [ObservableProperty] public partial int ForwardSize { get; set; }
     [ObservableProperty] public partial DateTime AnchorDate { get; set; } = new(2025, 10, 2);
 
-    public ITreeNode[] Experts { get; set; }
+    public FileBaseViewModel[] Experts { get; set; }
     public string[] Symbols { get; set; } = ["EURUSD", "AUDUSD"];
     public TimeFrame[] TimeFrames { get; set; } = Enum.GetValues<TimeFrame>();
     public ExecutionMode[] ExecutionModes { get; set; } = Enum.GetValues<ExecutionMode>();
@@ -38,9 +36,10 @@ partial class SettingsViewModel : ObservableObject
     public WindowType[] WindowTypes { get; set; } = Enum.GetValues<WindowType>();
     public int[] OptimizationSizes { get; set; } = [7, 14, 30, 60, 90];
     public int[] ForwardSizes { get; set; } = [3, 7, 14, 30, 60, 90];
-    public SettingsViewModel(IExpertsProvider expertsSettingProvider)
+    public SettingsViewModel(IExpertProvider expertProvider, IServiceProvider serviceProvider)
     {
-        Experts = expertsSettingProvider.GetExperts().ToArray();
+        var root = serviceProvider.GetRequiredService<DirectoryViewModel>();
+        Experts = root.GetChildren();
         Expert = Experts.FirstOrDefault()?.ToString() ?? string.Empty;
         Symbol = Symbols.FirstOrDefault() ?? string.Empty;
         TimeFrame = TimeFrames.FirstOrDefault();
