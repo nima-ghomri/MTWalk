@@ -1,16 +1,30 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace MTWalk.WPF.ExecutionBar;
 
-partial class ExecutorViewModel(IWalker walker, SettingsViewModel settings) 
-    : ObservableRecipient
+partial class ExecutorViewModel
+    : ObservableRecipient, IRecipient<PropertyChangedMessage<string>>
 {
+    readonly IWalker walker;
+    readonly SettingsViewModel settings;
     TesterRequest? testerRequest;
     WindowingRequest? windowingRequest;
     CancellationTokenSource? cancellationTokenSource;
 
+    public ExecutorViewModel(IWalker walker, SettingsViewModel settings)
+    {
+        this.walker = walker;
+        this.settings = settings;
+        Messenger.RegisterAll(this);
+    }
+
 
     bool CanStartWalker => settings.TryGetRequests(out testerRequest, out windowingRequest);
+
+    public void Receive(PropertyChangedMessage<string> message)
+    {
+        StartWalkerCommand.NotifyCanExecuteChanged();
+    }
 
     [RelayCommand(CanExecute = nameof(CanStartWalker))]
     async Task StartWalker()

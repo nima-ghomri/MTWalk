@@ -1,8 +1,10 @@
 ﻿namespace MTWalk.WPF.Settings;
 
-partial class SettingsViewModel : ObservableObject
+record SettingChangedMessage;
+
+partial class SettingsViewModel : ObservableRecipient
 {
-    [ObservableProperty] public partial string Expert { get; set; }
+    [ObservableProperty, NotifyPropertyChangedRecipients] public partial string Expert { get; set; }
     [ObservableProperty] public partial string Symbol { get; set; }
     [ObservableProperty] public partial TimeFrame TimeFrame { get; set; }
     [ObservableProperty] public partial DateMode DateMode { get; set; }

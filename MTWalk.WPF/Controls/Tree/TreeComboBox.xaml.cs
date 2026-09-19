@@ -43,7 +43,7 @@ public partial class TreeComboBox : UserControl
     public static readonly DependencyProperty ItemsSourceProperty =
         DependencyProperty.Register(
             nameof(ItemsSource),
-            typeof(IEnumerable<ITreeNode>),
+            typeof(IEnumerable<object>),
             typeof(TreeComboBox));
 
     public static readonly DependencyProperty TextProperty =
@@ -84,9 +84,9 @@ public partial class TreeComboBox : UserControl
         set => SetValue(TreeIconProperty, value);
     }
 
-    public IEnumerable<ITreeNode> ItemsSource
+    public IEnumerable<object> ItemsSource
     {
-        get => (IEnumerable<ITreeNode>)GetValue(ItemsSourceProperty);
+        get => (IEnumerable<object>)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
@@ -123,7 +123,7 @@ public partial class TreeComboBox : UserControl
 
     void TreeViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is TreeViewItem { DataContext: ITree } item)
+        if (sender is TreeViewItem { HasItems: true } item)
             e.Handled = true;
     }
 }
