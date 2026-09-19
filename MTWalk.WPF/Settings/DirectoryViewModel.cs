@@ -8,16 +8,19 @@ class DirectoryViewModel(IExpertProvider expertProvider, IServiceProvider servic
     public IEnumerable<ITreeNode> Children => field ??= GetChildren().AsEnumerable();
 
     public FileBaseViewModel[] GetChildren()
-        => expertProvider.GetFileInfos(FullName).Select(x =>
-            {
-                FileBaseViewModel result = x switch
+    {
+        var expertsFolder = expertProvider.GetExpertsFolder().FullName;
+        return expertProvider.GetFileInfos(RelativePath).Select(x =>
                 {
-                    DirectoryInfo => serviceProvider.GetRequiredService<DirectoryViewModel>(),
-                    FileSystemInfo => serviceProvider.GetRequiredService<FileViewModel>(),
-                };
-                result.Name = x.Name;
-                result.FullName = x.FullName;
-                return result;
+                    FileBaseViewModel result = x switch
+                    {
+                        DirectoryInfo => serviceProvider.GetRequiredService<DirectoryViewModel>(),
+                        FileSystemInfo => serviceProvider.GetRequiredService<FileViewModel>(),
+                    };
+                    result.Name = x.Name;
+                    result.RelativePath = Path.GetRelativePath(expertsFolder, x.FullName);
+                    return result;
 
-            }).ToArray();
+                }).ToArray();
+    }
 }

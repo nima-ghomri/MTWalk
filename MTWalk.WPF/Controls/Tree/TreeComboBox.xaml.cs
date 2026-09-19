@@ -46,12 +46,18 @@ public partial class TreeComboBox : UserControl
             typeof(IEnumerable<ITreeNode>),
             typeof(TreeComboBox));
 
-    public static readonly DependencyProperty SelectedValueProperty =
+    public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register(
-            nameof(SelectedValue),
-            typeof(object),
+            nameof(Text),
+            typeof(string),
             typeof(TreeComboBox),
             new FrameworkPropertyMetadata(default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public static readonly DependencyProperty DisplayMemberPathProperty =
+        DependencyProperty.Register(nameof(DisplayMemberPath),
+            typeof(string),
+            typeof(TreeComboBox),
+            new PropertyMetadata(default));
 
 
     public Brush TreeColor
@@ -84,15 +90,21 @@ public partial class TreeComboBox : UserControl
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public object? SelectedValue
+    public string? Text
     {
-        get => (object?)GetValue(SelectedValueProperty);
-        set => SetValue(SelectedValueProperty, value);
+        get => (string?)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
     }
 
-    void OnItemNodeClicked(object sender, MouseButtonEventArgs e)
+    public string? DisplayMemberPath
     {
-        if (sender is FrameworkElement { DataContext: ITreeNode item } element)
+        get { return (string?)GetValue(DisplayMemberPathProperty); }
+        set { SetValue(DisplayMemberPathProperty, value); }
+    }
+
+    void TreeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is TreeViewItem { DataContext: ITreeNode item } element)
         {
             // If this item represents a tree/directory, treat click as expand/collapse.
             if (item is ITree)
@@ -107,11 +119,18 @@ public partial class TreeComboBox : UserControl
             }
 
             // Leaf node: finalize selection and close dropdown
-            SelectedValue = item;
+            Text = DisplayMemberPath is null ? item.ToString()
+                : item.GetType().GetProperty(DisplayMemberPath)?.GetValue(item)?.ToString();
             MainComboBox.IsDropDownOpen = false;
             // Prevent the click from bubbling up and causing unintended visual tree behavior
             e.Handled = true;
         }
+    }
+
+    void TreeViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is TreeViewItem { DataContext: ITree } item)
+            e.Handled = true;
     }
 
     static T? FindAncestor<T>(DependencyObject? current) where T : DependencyObject
@@ -123,11 +142,5 @@ public partial class TreeComboBox : UserControl
             current = VisualTreeHelper.GetParent(current);
         }
         return null;
-    }
-
-    void TreeViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (sender is TreeViewItem { DataContext: ITree } item)
-            e.Handled = true;
     }
 }

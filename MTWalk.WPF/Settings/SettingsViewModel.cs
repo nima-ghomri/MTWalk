@@ -40,7 +40,6 @@ partial class SettingsViewModel : ObservableObject
     {
         var root = serviceProvider.GetRequiredService<DirectoryViewModel>();
         Experts = root.GetChildren();
-        Expert = Experts.FirstOrDefault()?.ToString() ?? string.Empty;
         Symbol = Symbols.FirstOrDefault() ?? string.Empty;
         TimeFrame = TimeFrames.FirstOrDefault();
         Optimization = Optimizations.FirstOrDefault();

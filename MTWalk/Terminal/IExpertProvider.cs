@@ -3,4 +3,5 @@
 public interface IExpertProvider
 {
     FileSystemInfo[] GetFileInfos(string? relativePath = default);
+    DirectoryInfo GetExpertsFolder();
 }

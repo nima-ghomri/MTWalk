@@ -17,12 +17,15 @@
     <StackPanel Style="{StaticResource InputsPanel}">
         <StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Words.Expert}">
-                <tree:TreeComboBox Width="{StaticResource Large}" 
-                                   ItemsSource="{Binding Experts}"
-                                   NodeIcon="🎓"
-                                   NodeColor="DarkBlue"
-                                   TreeIcon="📁"
-                                   TreeColor="Gold"/>
+                <tree:TreeComboBox 
+                    Width="{StaticResource Large}" 
+                    ItemsSource="{Binding Experts}"
+                    DisplayMemberPath="RelativePath"
+                    Text="{Binding Expert}"
+                    NodeIcon="🎓"
+                    NodeColor="DarkBlue"
+                    TreeIcon="📁"
+                    TreeColor="Gold"/>
             </HeaderedItemsControl>
             <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
                 <ComboBox Width="{StaticResource Medium}"
