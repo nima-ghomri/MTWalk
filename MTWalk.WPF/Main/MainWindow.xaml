@@ -34,8 +34,9 @@
                     <inputs:InputsView/>
                 </TabItem>
             </TabControl>
-            <DockPanel VerticalAlignment="Bottom"
-                       Margin="110,0,0,0">
+            <DockPanel 
+                VerticalAlignment="Bottom"
+                Margin="110,0,0,0">
                 <executionbar:ExecutorView DockPanel.Dock="Right"/>
                 <TextBlock Text="{Binding Text}" />
             </DockPanel>

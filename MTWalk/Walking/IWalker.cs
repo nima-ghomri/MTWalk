@@ -17,11 +17,12 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IHtmReportParser, HtmReportParser>();
         services.AddSingleton<IReportProvider, ReportProvider>();
-        services.AddSingleton<IConfigurationBuilder, ConfigurationBuilder>();
         services.AddSingleton<ITerminalExecutor, TerminalExecutor>();
         services.AddSingleton<ITerminalProvider, TerminalProvider>();
         services.AddSingleton<IWindowingStrategy, RollingWindowingStrategy>();
         services.AddSingleton<IExpertProvider, ExpertProvider>();
-        return services.AddSingleton<IWalker, Walker>();
+        services.AddSingleton<ISymbolsProvider, SymbolsProvider>();
+        services.AddSingleton<IWalker, Walker>();
+        return services;
     }
 }

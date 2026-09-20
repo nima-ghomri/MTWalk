@@ -18,7 +18,7 @@ class TerminalTests
         // Assert
         Assert.That(actualDataFolder, Is.Not.Null);
     }
-    
+
     [Test]
     public async Task TerminalExecutor_ExecuteTest_InitializesTerminal()
     {
@@ -26,7 +26,7 @@ class TerminalTests
         var terminalExecutor = new TerminalExecutor(new DummyTerminalProvider());
         // Act
         var parameteres = new DummyConfigurationParameters(new(2025, 1, 1), new(2025, 3, 1));
-        var configurationBuilder = new DummyConfigurationBuilder().AddParameters(parameteres);
+        var configurationBuilder = new ConfigurationBuilder().AddParameters(parameteres);
         Assert.DoesNotThrowAsync(async () => await terminalExecutor.Execute(configurationBuilder.ToString()));
     }
 
@@ -53,32 +53,5 @@ class TerminalTests
     record DummyConfigurationParameters(DateTime FromDate, DateTime ToDate) : IConfigurationParameters
     {
         public string Parse() => throw new NotImplementedException();
-    }
-
-    class DummyConfigurationBuilder : IConfigurationBuilder
-    {
-        public IConfigurationBuilder AddParameters(IConfigurationParameters parameters)
-        {
-            if (parameters is not DummyConfigurationParameters dummyParams)
-                throw new ArgumentException("Invalid configuration parameters type.");
-            var configurationContent = $"""
-            [Tester]
-            Expert=Examples\MACD\MACD Sample.ex5
-            Symbol=EURUSD
-            Period=H1
-            Model=1
-            Optimization=0
-            FromDate={dummyParams.FromDate:yyyy.MM.dd}
-            ToDate={dummyParams.ToDate:yyyy.MM.dd}
-            Forward=2025.02.01
-            ReplaceReport=1
-            ShutdownTerminal=1
-            """;
-            var configurationPath = Path.Combine(Path.GetTempPath(), "dummy_config.ini");
-            File.WriteAllText(configurationPath, configurationContent);
-            return this;
-        }
-
-        public string ToString() => throw new NotImplementedException();
     }
 }

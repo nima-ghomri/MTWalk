@@ -1,7 +1,7 @@
 ﻿using MTWalk.WPF.Controls.Tree;
 using System.IO;
 
-namespace MTWalk.WPF.Settings;
+namespace MTWalk.WPF.Settings.Expert;
 
 class DirectoryViewModel(IExpertProvider expertProvider, IServiceProvider serviceProvider) : FileBaseViewModel, ITree
 {

@@ -12,7 +12,11 @@
              d:DataContext="{d:DesignInstance Type=local:SettingsViewModel}"
              d:Background="White">
     <UserControl.Resources>
-        <ResourceDictionary Source="/Settings/SettingsView.Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MTWalk.WPF;component/Settings/SettingsView.Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Style="{StaticResource InputsPanel}">
         <StackPanel>
@@ -28,10 +32,14 @@
                     TreeColor="Gold"/>
             </HeaderedItemsControl>
             <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
-                <ComboBox Width="{StaticResource Medium}"
-                      Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged}"
-                      ItemsSource="{Binding Symbols}" 
-                      IsEditable="True"/>
+                <tree:TreeComboBox 
+                   Width="{StaticResource Medium}" 
+                   ItemsSource="{Binding Symbols}"
+                   Text="{Binding Symbol}"
+                   NodeIcon="💲"
+                   NodeColor="Orange"
+                   TreeIcon="▩"
+                   TreeColor="DarkBlue"/>
                 <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding TimeFrame}"
                       ItemsSource="{Binding TimeFrames}"/>

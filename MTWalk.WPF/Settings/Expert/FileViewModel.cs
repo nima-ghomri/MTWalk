@@ -1,6 +1,6 @@
 ﻿using MTWalk.WPF.Controls.Tree;
 
-namespace MTWalk.WPF.Settings;
+namespace MTWalk.WPF.Settings.Expert;
 
 abstract class FileBaseViewModel : ITreeNode
 {

@@ -1,10 +1,13 @@
-﻿namespace MTWalk.WPF.Settings;
+﻿using MTWalk.WPF.Settings.Expert;
+using MTWalk.WPF.Settings.Symbol;
+
+namespace MTWalk.WPF.Settings;
 
 record SettingChangedMessage;
 
 partial class SettingsViewModel : ObservableRecipient
 {
-    [ObservableProperty, NotifyPropertyChangedRecipients] public partial string Expert { get; set; }
+    [ObservableProperty, NotifyPropertyChangedRecipients] public partial string? Expert { get; set; }
     [ObservableProperty] public partial string Symbol { get; set; }
     [ObservableProperty] public partial TimeFrame TimeFrame { get; set; }
     [ObservableProperty] public partial DateMode DateMode { get; set; }
@@ -23,7 +26,7 @@ partial class SettingsViewModel : ObservableRecipient
     [ObservableProperty] public partial DateTime AnchorDate { get; set; } = new(2025, 10, 2);
 
     public FileBaseViewModel[] Experts { get; set; }
-    public string[] Symbols { get; set; } = ["EURUSD", "AUDUSD"];
+    public SymbolViewModel[] Symbols { get; set; }
     public TimeFrame[] TimeFrames { get; set; } = Enum.GetValues<TimeFrame>();
     public ExecutionMode[] ExecutionModes { get; set; } = Enum.GetValues<ExecutionMode>();
     public DateMode[] DateModes { get; set; } = Enum.GetValues<DateMode>();
@@ -38,11 +41,15 @@ partial class SettingsViewModel : ObservableRecipient
     public WindowType[] WindowTypes { get; set; } = Enum.GetValues<WindowType>();
     public int[] OptimizationSizes { get; set; } = [7, 14, 30, 60, 90];
     public int[] ForwardSizes { get; set; } = [3, 7, 14, 30, 60, 90];
-    public SettingsViewModel(IExpertProvider expertProvider, IServiceProvider serviceProvider)
+    public SettingsViewModel(
+        IExpertProvider expertProvider,
+        IServiceProvider serviceProvider,
+        ISymbolsProvider symbolsProvider)
     {
         var root = serviceProvider.GetRequiredService<DirectoryViewModel>();
         Experts = root.GetChildren();
-        Symbol = Symbols.FirstOrDefault() ?? string.Empty;
+        Symbols = symbolsProvider.GetSymbols().ToViewModels();
+        Symbol = Symbols.FirstOrDefault()?.Name ?? string.Empty;
         TimeFrame = TimeFrames.FirstOrDefault();
         Optimization = Optimizations.FirstOrDefault();
         DateMode = DateMode.CustomPeriod;

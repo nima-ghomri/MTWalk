@@ -2,11 +2,11 @@
 
 namespace MTWalk.Configuration;
 
-class ConfigurationBuilder : IConfigurationBuilder
+class ConfigurationBuilder 
 {
     readonly StringBuilder builder = new();
 
-    public IConfigurationBuilder AddParameters(IConfigurationParameters parameters)
+    public ConfigurationBuilder AddParameters(IConfigurationParameters parameters)
     {
         var configurationContent = parameters.Parse();
         builder.AppendLine(configurationContent);
