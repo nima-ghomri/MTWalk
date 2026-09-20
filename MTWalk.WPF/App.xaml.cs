@@ -17,7 +17,7 @@ public partial class App : Application
     /// <summary>
     /// Gets the current <see cref="App"/> instance in use
     /// </summary>
-    public new static App Current => (App)Application.Current;
+    public new static App? Current => Application.Current as App;
 
     /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
@@ -27,7 +27,7 @@ public partial class App : Application
     /// <summary>
     /// Configures the services for the application.
     /// </summary>
-    static IServiceProvider ConfigureServices()
+    static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
         
