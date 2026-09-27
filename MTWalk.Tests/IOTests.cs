@@ -1,0 +1,380 @@
+﻿using MTWalk.IO;
+
+namespace MTWalk.Tests;
+
+class IOTests
+{
+    [Test]
+    [TestCase("""
+                <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
+          <head>
+            <title>Strategy Tester Report</title>
+            <meta name="generator" content="strategy tester">
+            <style type="text/css">
+            <!--
+            @media screen {
+              td { font: 8pt  Tahoma,Arial; }
+              th { font: 10pt Tahoma,Arial; }
+            }
+            @media print {
+              td { font: 7pt Tahoma,Arial; }
+              th { font: 9pt Tahoma,Arial; }
+            }
+            .msdate { mso-number-format:"General Date"; }
+            .mspt   { mso-number-format:\#\,\#\#0\.00;  }
+            body {margin:1px;}
+            //-->
+            </style>
+          </head>
+        <body>
+        <div align="center">
+        <table cellspacing="1" cellpadding="3" border="0">
+           <tr align="center">
+              <td colspan="13"><div style="font: 14pt Tahoma"><b>Strategy Tester Report</b><br></div></td>
+           </tr>
+           <tr align="center">
+              <td colspan="13"><div style="font: 10pt Tahoma"><b>FundedNext-Server 2 (Build 6182)</b><br></div></td>
+           </tr>
+           <tr>
+              <td nowrap style="height: 10px"></td>
+            </tr>
+           <tr>
+              <td colspan="13" align="center"><div style="font: 10pt Tahoma"><b>Settings</b></div></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Expert:</td>
+              <td nowrap colspan="10" align="left"><b>MACD Sample</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Symbol:</td>
+              <td nowrap colspan="10" align="left"><b>EURUSD</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Period:</td>
+              <td nowrap colspan="10" align="left"><b>M1 (2026.08.13 - 2026.08.14)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Inputs:</td>
+              <td nowrap colspan="10" align="left"><b>InpLots=0.01</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3"></td>
+              <td nowrap colspan="10" align="left"><b>InpTakeProfit=50</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3"></td>
+              <td nowrap colspan="10" align="left"><b>InpTrailingStop=30</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3"></td>
+              <td nowrap colspan="10" align="left"><b>InpMACDOpenLevel=3</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3"></td>
+              <td nowrap colspan="10" align="left"><b>InpMACDCloseLevel=2</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3"></td>
+              <td nowrap colspan="10" align="left"><b>InpMATrendPeriod=26</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3" >Company:</td>
+              <td nowrap colspan="10" align="left"><b>FundedNext Ltd</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3" >Currency:</td>
+              <td nowrap colspan="10" align="left"><b>USD</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3" >Initial Deposit:</td>
+              <td nowrap colspan="10" align="left"><b>0.00</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3" >Leverage:</td>
+              <td nowrap colspan="10" align="left"><b>1:100</b></td>
+           </tr>
+           <tr>
+              <td nowrap style="height: 10px"></td>
+            </tr>
+           <tr>
+              <td colspan="13" align="center"><div style="font: 10pt Tahoma"><b>Results</b></div></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">History Quality:</td>
+              <td nowrap><b>100%</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Bars:</td>
+              <td nowrap><b>1439</b></td>
+              <td nowrap colspan="3">Ticks:</td>
+              <td nowrap><b>70793</b></td>
+              <td nowrap colspan="3">Symbols:</td>
+              <td nowrap colspan="2"><b>0</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Total Net Profit:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Balance Drawdown Absolute:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Equity Drawdown Absolute:</td>
+              <td nowrap colspan="2"><b>0.00</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Gross Profit:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Balance Drawdown Maximal:</td>
+              <td nowrap><b>0.00 (0.00%)</b></td>
+              <td nowrap colspan="3">Equity Drawdown Maximal:</td>
+              <td nowrap colspan="2"><b>0.00 (0.00%)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Gross Loss:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Balance Drawdown Relative:</td>
+              <td nowrap><b>0.00% (0.00)</b></td>
+              <td nowrap colspan="3">Equity Drawdown Relative:</td>
+              <td nowrap colspan="2"><b>0.00% (0.00)</b></td>
+           </tr>
+           <tr>
+              <td nowrap style="height: 10px"></td>
+            </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Profit Factor:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Expected Payoff:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Margin Level:</td>
+              <td nowrap colspan="2"><b></b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Recovery Factor:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Sharpe Ratio:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Z-Score:</td>
+              <td nowrap colspan="2"><b>0.00 (0.00%)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">AHPR:</td>
+              <td nowrap><b>0.0000 (0.00%)</b></td>
+              <td nowrap colspan="3">LR Correlation:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">OnTester result:</td>
+              <td nowrap colspan="2"><b>0</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">GHPR:</td>
+              <td nowrap><b>0.0000 (0.00%)</b></td>
+              <td nowrap colspan="3">LR Standard Error:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3"></td>
+              <td nowrap colspan="2"><b></b></td>
+           </tr>
+           <tr>
+              <td nowrap style="height: 10px"></td>
+            </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Total Trades:</td>
+              <td nowrap><b>0</b></td>
+              <td nowrap colspan="3">Short Trades (won %):</td>
+              <td nowrap><b>0 (0.00%)</b></td>
+              <td nowrap colspan="3">Long Trades (won %):</td>
+              <td nowrap colspan="2"><b>0 (0.00%)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Total Deals:</td>
+              <td nowrap><b>0</b></td>
+              <td nowrap colspan="3">Profit Trades (% of total):</td>
+              <td nowrap><b>0 (0.00%)</b></td>
+              <td nowrap colspan="3">Loss Trades (% of total):</td>
+              <td nowrap colspan="2"><b>0 (0.00%)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="4"></td>
+              <td nowrap colspan="3">Largest profit trade:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Largest loss trade:</td>
+              <td nowrap colspan="2"><b>0.00</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="4"></td>
+              <td nowrap colspan="3">Average profit trade:</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Average loss trade:</td>
+              <td nowrap colspan="2"><b>0.00</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="4"></td>
+              <td nowrap colspan="3">Maximum consecutive wins ($):</td>
+              <td nowrap><b>0 (0.00)</b></td>
+              <td nowrap colspan="3">Maximum consecutive losses ($):</td>
+              <td nowrap colspan="2"><b>0 (0.00)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="4"></td>
+              <td nowrap colspan="3">Maximal consecutive profit (count):</td>
+              <td nowrap><b>0.00 (0)</b></td>
+              <td nowrap colspan="3">Maximal consecutive loss (count):</td>
+              <td nowrap colspan="2"><b>0.00 (0)</b></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="4"></td>
+              <td nowrap colspan="3">Average consecutive wins:</td>
+              <td nowrap><b>0</b></td>
+              <td nowrap colspan="3">Average consecutive losses:</td>
+              <td nowrap colspan="2"><b>0</b></td>
+           </tr>
+           <tr align="right">
+              <td colspan="13" style="height: 10px"></td>
+           </tr>
+           <tr align="center">
+              <th colspan="13"><img src="Forward_20260813_20260814.png" title="Balance graph" width=820 height=200 border=0 alt="Graph"></th>
+           </tr>
+           <tr align="right">
+              <td colspan="13" style="height: 10px"></td>
+           </tr>
+           <tr align="center">
+              <th colspan="13"><img src="Forward_20260813_20260814-hst.png" width=860 height=400 border=0 alt="Graph"></th>
+           </tr>
+           <tr align="right">
+              <td colspan="13" style="height: 10px"></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Correlation (Profits,MFE):</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Correlation (Profits,MAE):</td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap colspan="3">Correlation (MFE,MAE):</td>
+              <td nowrap colspan="2"><b>0.0000</b></td>
+           </tr>
+           <tr align="center">
+              <th colspan="13"><img src="Forward_20260813_20260814-mfemae.png" width=860 height=400 border=0 alt="Graph"></th>
+           </tr>
+           <tr align="right">
+              <td colspan="13" style="height: 10px"></td>
+           </tr>
+           <tr align="right">
+              <td nowrap colspan="3">Minimal position holding time:</td>
+              <td nowrap><b>0:00:00</b></td>
+              <td nowrap colspan="3">Maximal position holding time:</td>
+              <td nowrap><b>0:00:00</b></td>
+              <td nowrap colspan="3">Average position holding time:</td>
+              <td nowrap colspan="2"><b>0:00:00</b></td>
+           </tr>
+           <tr align="center">
+              <th colspan="13"><img src="Forward_20260813_20260814-holding.png" width=860 height=200 border=0 alt="Graph"></th>
+           </tr>
+           <tr align="right">
+              <td colspan="13" style="height: 10px"></td>
+           </tr>
+        </table>
+        <table cellspacing="1" cellpadding="3" border="0">
+           <tr>
+              <td style="width: 90px;height: 10px"></td>
+              <td style="width: 40px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 70px;"></td>
+              <td style="width: 70px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 60px;"></td>
+              <td style="width: 100px;"></td>
+           </tr>
+           <tr align="center">
+              <th colspan="13" style="height: 25px"><div style="font: 10pt Tahoma"><b>Orders</b></div></th>
+           </tr>
+           <tr align="center" bgcolor="#E5F0FC">
+              <td nowrap style="height: 30px"><b>Open Time</b></td>
+              <td nowrap><b>Order</b></td>
+              <td nowrap><b>Symbol</b></td>
+              <td nowrap><b>Type</b></td>
+              <td nowrap colspan="2"><b>Volume</b></td>
+              <td nowrap><b>Price</b></td>
+              <td nowrap><b>S / L</b></td>
+              <td nowrap><b>T / P</b></td>
+              <td nowrap colspan="2"><b>Time</b></td>
+              <td nowrap><b>State</b></td>
+              <td nowrap><b>Comment</b></td>
+           </tr>
+           <tr>
+              <td nowrap style="height: 10px"></td>
+           </tr>
+           <tr align="center">
+              <th colspan="13" style="height: 25px"><div style="font: 10pt Tahoma"><b>Deals</b></div></th>
+           </tr>
+           <tr align="center" bgcolor="#E5F0FC">
+              <td nowrap style="height: 30px"><b>Time</b></td>
+              <td nowrap><b>Deal</b></td>
+              <td nowrap><b>Symbol</b></td>
+              <td nowrap><b>Type</b></td>
+              <td nowrap><b>Direction</b></td>
+              <td nowrap><b>Volume</b></td>
+              <td nowrap><b>Price</b></td>
+              <td nowrap><b>Order</b></td>
+              <td nowrap><b>Commission</b></td>
+              <td nowrap><b>Swap</b></td>
+              <td nowrap><b>Profit</b></td>
+              <td nowrap><b>Balance</b></td>
+              <td nowrap><b>Comment</b></td>
+           </tr>
+           <tr bgcolor="#FFFFFF" align=right><td>2026.08.13 00:00:00</td><td>1</td><td></td><td>balance</td><td></td><td></td><td></td><td></td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td></td></tr>
+           <tr align="right">
+              <td nowrap colspan="8" style="height: 30px"></td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap><b>0.00</b></td>
+              <td nowrap></td>
+           </tr>
+           <tr>
+              <td nowrap style="height: 10px"></td>
+           </tr>
+        </table>
+        </div>
+        </body>
+        </html>
+        """)]
+    public void HtmReportParser_TimeRange_GetBalanceData(string content)
+    {
+        HtmReportParser parser = new();
+        var singleReport = parser.Parse(content);
+        Assert.That(singleReport, Is.Not.Null);
+        Assert.That(singleReport.Deals, Is.Not.Empty);
+    }
+
+    [Test]
+    [TestCase("""
+        ; saved on 2026.08.08 16:14:15
+        ; this file contains input parameters for testing/optimizing Example expert advisor
+        ; to use it in the strategy tester, click Load in the context menu of the Inputs tab
+        ;
+        ; --- Portfolio Settings ---
+        Magic_Number=10001
+        ; --- Prop Firm Protections ---
+        Max_Daily_Loss_Pct=1.5
+        Max_Daily_Consecutive_Losses=2
+        Max_Daily_Total_Losses=3
+        """)]
+    public void IniParametersParser_SetFileContent_ReturnsCorrectParameters(string content)
+    {
+        var parser = new IniParametersParser();
+        var groups = parser.Parse(content);
+        Assert.That(groups, Has.Length.EqualTo(2));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(groups[0].Name, Is.EqualTo("Portfolio Settings"));
+            Assert.That(groups[0].Children, Has.Length.EqualTo(1));
+            Assert.That(groups[0].Children[0].Name, Is.EqualTo("Magic_Number"));
+            Assert.That(groups[0].Children[0].Value.Equals(1000L));
+
+            Assert.That(groups[1].Children, Has.Length.EqualTo(3));
+            Assert.That(groups[1].Name, Is.EqualTo("Prop Firm Protections"));
+        }
+
+    }
+}

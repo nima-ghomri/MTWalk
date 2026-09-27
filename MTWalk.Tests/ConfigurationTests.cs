@@ -1,4 +1,5 @@
-﻿using MTWalk.Configuration;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using MTWalk.Configuration;
 using MTWalk.MetaQuotes;
 using MTWalk.Terminal;
 using System;
@@ -34,5 +35,7 @@ class ConfigurationTests
                  ShutdownTerminal: false
              );
         var configurationFile = builder.AddParameters(parameters).ToString();
+        Assert.That(configurationFile, Does.Contain("[Tester]")
+            .And.Contain("Symbol=EURUSD"));
     }
 }

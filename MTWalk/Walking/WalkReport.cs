@@ -1,5 +1,3 @@
-﻿using MTWalk.Reporting;
-
-namespace MTWalk.Walking;
+﻿namespace MTWalk.Walking;
 
 public record WalkReport(WalkWindow Window, SingleReport Report);

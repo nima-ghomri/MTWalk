@@ -120,6 +120,9 @@
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
   <data name="Delays" xml:space="preserve">
     <value>Delays</value>
   </data>
@@ -138,11 +141,17 @@
   <data name="Leverage" xml:space="preserve">
     <value>Leverage</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
   <data name="Modelling" xml:space="preserve">
     <value>Modelling</value>
   </data>
   <data name="Optimization" xml:space="preserve">
     <value>Optimization</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
@@ -150,11 +159,23 @@
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="Steps" xml:space="preserve">
+    <value>Steps</value>
+  </data>
   <data name="Stop" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="Symbol" xml:space="preserve">
     <value>Symbol</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Variable" xml:space="preserve">
+    <value>Variable</value>
   </data>
   <data name="Walk" xml:space="preserve">
     <value>Walk</value>

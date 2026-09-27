@@ -3,14 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MTWalk.WPF.Inputs"
+             xmlns:l="clr-namespace:MTWalk.WPF.Localization"
              xmlns:e="clr-namespace:MTWalk.WPF.Extensions" 
+             xmlns:local="clr-namespace:MTWalk.WPF.Inputs"
              mc:Ignorable="d" 
-             d:DesignHeight="450" 
-             d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance Type=local:InputsViewModel}"
              DataContext="{e:Resolve Type=local:InputsViewModel}"
-             >
-    <Grid>
-    </Grid>
+             d:DataContext="{d:DesignInstance Type=local:InputsViewModel}"
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+    <DataGrid 
+        ItemsSource="{Binding Inputs}" 
+        AutoGenerateColumns="False" 
+        CanUserAddRows="False">
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="{x:Static l:Words.Load}" Command="{Binding LoadCommand}" />
+                <MenuItem Header="{x:Static l:Words.Save}" IsEnabled="False"/>
+                <MenuItem Header="{x:Static l:Words.Default}" IsEnabled="False"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+
+        <!-- Column Definitions -->
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="{x:Static l:Words.Variable}" IsReadOnly="True" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Words.Value}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Words.Start}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Words.Step}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Words.Stop}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Words.Steps}" Width="*" />
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

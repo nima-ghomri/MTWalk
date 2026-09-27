@@ -1,4 +1,4 @@
-﻿namespace MTWalk.Reporting;
+﻿namespace MTWalk.IO;
 
 public record SingleReport(DealRecord[] Deals);
 
