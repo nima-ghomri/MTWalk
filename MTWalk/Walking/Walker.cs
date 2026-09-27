@@ -17,6 +17,7 @@ class Walker(IWindowingStrategy windowingStrategy,
 {
     public async Task Start(WindowingRequest windowingRequest,
                             TesterRequest testerRequest,
+                            InputsRequest inputsRequest,
                             IProgress<WalkReport>? progress = default,
                             CancellationToken token = default)
     {
@@ -29,7 +30,7 @@ class Walker(IWindowingStrategy windowingStrategy,
             // Optimiziation
             var optimizationParameters = new OptimizationConfigurationParameters(
                 Expert: testerRequest.Expert,
-                ExpertParameters: default,
+                ExpertParameters: inputsRequest.SetFilePath,
                 Symbol: testerRequest.Symbol,
                 Period: testerRequest.TimeFrame,
                 Login: default,
@@ -47,6 +48,7 @@ class Walker(IWindowingStrategy windowingStrategy,
                 .AddParameters(eventsParametes)
                 .ToString();
             await terminalExecutor.Execute(optimizationConfiguration, token);
+            var optimizationReport = reportProvider.GetOptimizationReport(window.Optimization);
 
             // Forward test
             var forwawrdParameters = new ForwardConfigurationParameters(

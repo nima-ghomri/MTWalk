@@ -14,7 +14,7 @@ class ConfigurationTests
     public void ConfigurationBuilder_TestParameters_CorrectResult()
     {
         var builder = new ConfigurationBuilder();
-        var parameters = new TestConfigurationParameters(
+        var parameters = new TesterConfigurationParameters(
                  Expert: @"Examples\MACD\MACD Sample.ex5",
                  ExpertParameters: default,
                  Symbol: "EURUSD",

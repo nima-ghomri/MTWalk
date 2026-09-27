@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.Configuration;
 
-/// <inheritdoc cref="TestConfigurationParameters"/>
+/// <inheritdoc cref="TesterConfigurationParameters"/>
 record OptimizationConfigurationParameters(
     string Expert,
     string? ExpertParameters,
@@ -15,7 +15,7 @@ record OptimizationConfigurationParameters(
     OptimizationCriterion OptimizationCriterion,
     DateTime FromDate,
     DateTime ToDate,
-    string? Report) : TestConfigurationParameters(
+    string? Report) : TesterConfigurationParameters(
         Expert: Expert,
         ExpertParameters: ExpertParameters,
         Symbol: Symbol,

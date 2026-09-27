@@ -35,13 +35,14 @@ class WalkingTests
             );
         var windowingRequest = new RollingWindowingRequest(optimizationSize, forwardSize);
         // Arrange
+        var inputsRequest = new InputsRequest(default);
         ReportProvider reportProvider = new(new TerminalProvider(), new DummyReportParser());
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
         var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportProvider);
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest));
+        Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest, inputsRequest));
     }
 
     class DummyTerminalProvider : ITerminalProvider

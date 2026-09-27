@@ -24,7 +24,7 @@ namespace MTWalk.Configuration;
 /// <param name="Report">The file name/path to save the testing (.htm) or optimization (.xml) report.</param>
 /// <param name="ReplaceReport">If true, overwrites the report file if it already exists; otherwise, adds a number suffix (e.g., report[1].xml).</param>
 /// <param name="ShutdownTerminal">If true, automatically closes the MetaTrader 5 terminal upon completion of the test or optimization.</param>
-record TestConfigurationParameters(
+record TesterConfigurationParameters(
     string Expert,
     string? ExpertParameters,
     string Symbol,

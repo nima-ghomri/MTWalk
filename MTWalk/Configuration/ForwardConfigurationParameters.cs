@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.Configuration;
 
-/// <inheritdoc cref="TestConfigurationParameters"/>
+/// <inheritdoc cref="TesterConfigurationParameters"/>
 record ForwardConfigurationParameters(
     string Expert,
     string? ExpertParameters,
@@ -13,7 +13,7 @@ record ForwardConfigurationParameters(
     ExecutionMode ExecutionMode,
     DateTime FromDate,
     DateTime ToDate,
-    string? Report) : TestConfigurationParameters(
+    string? Report) : TesterConfigurationParameters(
         Expert: Expert,
         ExpertParameters: ExpertParameters,
         Symbol: Symbol,
