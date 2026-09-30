@@ -13,7 +13,7 @@ namespace MTWalk.Walking;
 
 class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
-             IReportProvider reportProvider) : IWalker
+             IReportContextFactory reportContextFactory) : IWalker
 {
     public async Task Start(WindowingRequest windowingRequest,
                             TesterRequest testerRequest,
@@ -21,13 +21,15 @@ class Walker(IWindowingStrategy windowingStrategy,
                             IProgress<WalkReport>? progress = default,
                             CancellationToken token = default)
     {
+        var reportContext = reportContextFactory.CreateContext(testerRequest);
         var configurationBuilder = new ConfigurationBuilder();
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         var deposit = testerRequest.Deposit;
         foreach (var window in windows)
         {
-            var eventsParametes = new EventsConfigurationParameters(Enable: false);
-            // Optimiziation
+            var eventsParameters = new EventsConfigurationParameters(Enable: false);
+            var optimizationReader = reportContext.CreateOptimizationReportReader(window.Optimization);
+            // Optimization
             var optimizationParameters = new OptimizationConfigurationParameters(
                 Expert: testerRequest.Expert,
                 ExpertParameters: inputsRequest.SetFilePath,
@@ -42,16 +44,17 @@ class Walker(IWindowingStrategy windowingStrategy,
                 OptimizationCriterion: testerRequest.OptimizationCriterion,
                 FromDate: testerRequest.Start,
                 ToDate: testerRequest.End,
-                Report: default);
+                Report: optimizationReader.RelativePath);
             var optimizationConfiguration = configurationBuilder
                 .AddParameters(optimizationParameters)
-                .AddParameters(eventsParametes)
+                .AddParameters(eventsParameters)
                 .ToString();
             await terminalExecutor.Execute(optimizationConfiguration, token);
-            var optimizationReport = reportProvider.GetOptimizationReport(window.Optimization);
+            var optimizationReport = optimizationReader.Read();
 
             // Forward test
-            var forwawrdParameters = new ForwardConfigurationParameters(
+            var forwardReader = reportContext.CreateSingleReportReader(window.Forward);
+            var forwardParameters = new ForwardConfigurationParameters(
                 Expert: testerRequest.Expert,
                 ExpertParameters: default,
                 Symbol: testerRequest.Symbol,
@@ -63,14 +66,14 @@ class Walker(IWindowingStrategy windowingStrategy,
                 ExecutionMode: testerRequest.ExecutionMode,
                 FromDate: window.Forward.Start,
                 ToDate: window.Forward.End,
-                Report: reportProvider.GetReportFileName(window.Forward));
+                Report: forwardReader.RelativePath);
             configurationBuilder.Clear();
             var forwardConfiguration = configurationBuilder
-                .AddParameters(forwawrdParameters)
-                .AddParameters(eventsParametes)
+                .AddParameters(forwardParameters)
+                .AddParameters(eventsParameters)
                 .ToString();
             await terminalExecutor.Execute(forwardConfiguration, token);
-            var forwardReport = reportProvider.GetForwardReport(window.Forward);
+            var forwardReport = forwardReader.Read();
             deposit = forwardReport.Deals.Last().Balance;
             progress?.Report(new(window, forwardReport));
         }

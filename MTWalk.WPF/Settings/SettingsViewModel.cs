@@ -48,10 +48,11 @@ partial class SettingsViewModel : ObservableRecipient
     {
         var root = serviceProvider.GetRequiredService<DirectoryViewModel>();
         Experts = root.GetChildren();
+        Expert = @"Examples\Moving Average\MovingAverage";
         Symbols = symbolsProvider.GetSymbols().ToViewModels();
-        Symbol = Symbols.FirstOrDefault()?.Name ?? string.Empty;
-        TimeFrame = TimeFrames.FirstOrDefault();
-        Optimization = Optimizations.FirstOrDefault();
+        Symbol = @"EURUSD";
+        TimeFrame = TimeFrame.H1;
+        Optimization = Optimization.FastGeneticAlgorithm;
         DateMode = DateMode.CustomPeriod;
         FromDate = DateTime.Now.AddMonths(-2);
         ToDate = DateTime.Now;
@@ -60,7 +61,7 @@ partial class SettingsViewModel : ObservableRecipient
         Deposit = Deposits.FirstOrDefault();
         Currency = Currencies.FirstOrDefault() ?? string.Empty;
         Leverage = 100;
-        OptimizationCriterion = OptimizationCriteria.FirstOrDefault();
+        OptimizationCriterion = OptimizationCriterion.ComplexCriterionMax;
         ForwardSize = ForwardSizes.FirstOrDefault();
         OptimizationSize = OptimizationSizes.FirstOrDefault();
     }

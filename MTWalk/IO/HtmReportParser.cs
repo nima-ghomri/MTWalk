@@ -1,9 +1,10 @@
 ﻿using HtmlAgilityPack;
+using MTWalk.Reporting;
 using System.Globalization;
 
 namespace MTWalk.IO;
 
-class HtmReportParser : IHtmReportParser
+class HtmReportParser
 {
     public SingleReport Parse(string content)
     {

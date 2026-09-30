@@ -13,17 +13,13 @@ class WalkingTests
     [Test]
     public async Task Walker_Start_ExecutesWithoutExceptions()
     {
-        DateTime start = new(2025, 2, 3);
-        DateTime end = new(2025, 2, 7);
-        TimeSpan optimizationSize = TimeSpan.FromDays(7);
-        TimeSpan forwardSize = TimeSpan.FromDays(2);
         var testerRequest = new TesterRequest(
                 Expert: @"Examples\MACD\MACD Sample.ex5",
                 Symbol: "EURUSD",
                 TimeFrame: TimeFrame.H1,
-                Start: start,
-                End: end,
-                ForwardMode: ForwardMode.Custom,
+                Start: new(2025, 2, 3),
+                End: new(2025, 4, 3),
+                ForwardMode: default,
                 ForwardDate: default,
                 ExecutionMode: ExecutionMode.ZeroDelay,
                 Model: Model.OneMinuteOHLC,
@@ -31,28 +27,24 @@ class WalkingTests
                 Currency: "USD",
                 Leverage: 100,
                 Optimization: Optimization.FastGeneticAlgorithm,
-                OptimizationCriterion: OptimizationCriterion.BalanceMax
+                OptimizationCriterion: OptimizationCriterion.ComplexCriterionMax
             );
-        var windowingRequest = new RollingWindowingRequest(optimizationSize, forwardSize);
+        var windowingRequest = new RollingWindowingRequest(TimeSpan.FromDays(7), TimeSpan.FromDays(2));
         // Arrange
-        var inputsRequest = new InputsRequest(default);
-        ReportProvider reportProvider = new(new TerminalProvider(), new DummyReportParser());
+        var inputsRequest = new InputsRequest(default!);
+        ReportContextFactory reportFactory = new(new TerminalProvider());
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
-        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportProvider);
+        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportFactory);
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest, inputsRequest));
+        await walker.Start(windowingRequest, testerRequest, inputsRequest);
+        //Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest, inputsRequest));
     }
 
     class DummyTerminalProvider : ITerminalProvider
     {
         public string GetDataFolder() => throw new NotImplementedException();
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
-    }
-
-    class DummyReportParser : IHtmReportParser
-    {
-        public SingleReport Parse(string content) => throw new NotImplementedException();
     }
 }

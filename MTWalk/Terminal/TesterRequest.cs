@@ -8,7 +8,8 @@
 /// <param name="TimeFrame">The time frame for the test.</param>
 /// <param name="Start">The start date for the test.</param>
 /// <param name="End">The end date for the test.</param>
-/// <param name="Forward">The forward date for the test.</param>
+/// <param name="ForwardMode">The forward mode for the test.</param>
+/// <param name="ForwardDate">The forward date for the test.</param>
 /// <param name="ExecutionMode">The delays for the test.</param>
 /// <param name="Model">The modelling approach for the test.</param>
 /// <param name="Deposit">The initial deposit for the test.</param>

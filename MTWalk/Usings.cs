@@ -1,9 +1,8 @@
 ﻿global using MTWalk.Configuration;
-global using MTWalk.Terminal;
-global using MTWalk.Walking;
 global using MTWalk.IO;
-global using MTWalk.Windowing;
 global using MTWalk.MetaQuotes;
-
+global using MTWalk.Reporting;
+global using MTWalk.Terminal;
+global using MTWalk.Windowing;
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("MTWalk.Tests")]

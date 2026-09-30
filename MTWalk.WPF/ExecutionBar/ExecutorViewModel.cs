@@ -7,14 +7,16 @@ partial class ExecutorViewModel
 {
     readonly IWalker walker;
     readonly SettingsViewModel settings;
+    readonly InputsViewModel inputs;
     TesterRequest? testerRequest;
     WindowingRequest? windowingRequest;
     CancellationTokenSource? cancellationTokenSource;
 
-    public ExecutorViewModel(IWalker walker, SettingsViewModel settings)
+    public ExecutorViewModel(IWalker walker, SettingsViewModel settings, InputsViewModel inputs)
     {
         this.walker = walker;
         this.settings = settings;
+        this.inputs = inputs;
         Messenger.RegisterAll(this);
     }
 
@@ -37,6 +39,7 @@ partial class ExecutorViewModel
             Progress<WalkReport> progress = new(report => Messenger.Send(report));
             await walker.Start(windowingRequest!,
                                testerRequest!,
+                               new(inputs.SetFilePath),
                                progress,
                                cancellationTokenSource.Token);
         }

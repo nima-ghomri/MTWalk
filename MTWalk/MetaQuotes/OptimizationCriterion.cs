@@ -37,4 +37,9 @@ public enum OptimizationCriterion
     /// The optimization criterion here is the value of the OnTester() function in the Expert Advisor. This parameter allows using any custom value for the optimization of 
     /// </summary>
     CustomMax,
+
+    /// <summary>
+    /// The maximum of complex criterion
+    /// </summary>
+    ComplexCriterionMax,
 }
