@@ -15,6 +15,9 @@ class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
              IReportContextFactory reportContextFactory) : IWalker
 {
+    readonly ConfigurationBuilder configurationBuilder = new();
+    readonly EventsConfigurationParameters eventsParameters = new(Enable: false);
+
     public async Task Start(WindowingRequest windowingRequest,
                             TesterRequest testerRequest,
                             InputsRequest inputsRequest,
@@ -22,14 +25,12 @@ class Walker(IWindowingStrategy windowingStrategy,
                             CancellationToken token = default)
     {
         var reportContext = reportContextFactory.CreateContext(testerRequest);
-        var configurationBuilder = new ConfigurationBuilder();
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         var deposit = testerRequest.Deposit;
         foreach (var window in windows)
         {
-            var eventsParameters = new EventsConfigurationParameters(Enable: false);
-            var optimizationReader = reportContext.CreateOptimizationReportReader(window.Optimization);
             // Optimization
+            var optimizationReader = reportContext.CreateOptimizationReportReader(window.Optimization);
             var optimizationParameters = new OptimizationConfigurationParameters(
                 Expert: testerRequest.Expert,
                 ExpertParameters: inputsRequest.SetFilePath,
@@ -45,12 +46,10 @@ class Walker(IWindowingStrategy windowingStrategy,
                 FromDate: testerRequest.Start,
                 ToDate: testerRequest.End,
                 Report: optimizationReader.RelativePath);
-            var optimizationConfiguration = configurationBuilder
-                .AddParameters(optimizationParameters)
-                .AddParameters(eventsParameters)
-                .ToString();
+            var optimizationConfiguration = GetConfiguration(optimizationParameters);
             await terminalExecutor.Execute(optimizationConfiguration, token);
             var optimizationReport = optimizationReader.Read();
+            var bestPass = FindBestPass(optimizationReport.Passes, testerRequest.OptimizationCriterion);
 
             // Forward test
             var forwardReader = reportContext.CreateSingleReportReader(window.Forward);
@@ -67,15 +66,36 @@ class Walker(IWindowingStrategy windowingStrategy,
                 FromDate: window.Forward.Start,
                 ToDate: window.Forward.End,
                 Report: forwardReader.RelativePath);
-            configurationBuilder.Clear();
-            var forwardConfiguration = configurationBuilder
-                .AddParameters(forwardParameters)
-                .AddParameters(eventsParameters)
-                .ToString();
+            var forwardConfiguration = GetConfiguration(forwardParameters);
             await terminalExecutor.Execute(forwardConfiguration, token);
             var forwardReport = forwardReader.Read();
-            deposit = forwardReport.Deals.Last().Balance;
+            if (forwardReport.Deals.LastOrDefault()?.Balance is { } newBalance)
+                deposit = newBalance;
             progress?.Report(new(window, forwardReport));
         }
     }
+
+    static OptimizationPass? FindBestPass(OptimizationPass[] passes, OptimizationCriterion optimizationCriterion)
+          => passes.MaxBy(x => optimizationCriterion switch
+      {
+          OptimizationCriterion.BalanceMax => x.Profit,
+          OptimizationCriterion.ProfitFactorMax => x.ProfitFactor,
+          OptimizationCriterion.ExpectedPayoffMax => x.ExpectedPayoff,
+          OptimizationCriterion.DrawdownMin => x.EquityDrawdown,
+          OptimizationCriterion.RecoveryFactorMax => x.RecoveryFactor,
+          OptimizationCriterion.SharpeRatioMax => x.SharpeRatio,
+          OptimizationCriterion.CustomMax => x.Custom,
+          OptimizationCriterion.ComplexCriterionMax => x.Result,
+          _ => throw new NotImplementedException(),
+      });
+
+    string GetConfiguration(TesterConfigurationParameters testerConfigurationParameters)
+    {
+        configurationBuilder.Clear();
+        return configurationBuilder
+            .AddParameters(testerConfigurationParameters)
+            .AddParameters(eventsParameters)
+            .ToString();
+    }
+
 }

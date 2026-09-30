@@ -2,5 +2,5 @@
 
 interface IReportContextFactory
 {
-    IReportContext CreateContext(TesterRequest testerRequest);
+    ContextReport CreateContext(TesterRequest testerRequest);
 }
