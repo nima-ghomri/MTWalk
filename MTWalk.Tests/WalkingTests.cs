@@ -2,6 +2,7 @@
 using MTWalk.IO;
 using MTWalk.MetaQuotes;
 using MTWalk.Reporting;
+using MTWalk.Services;
 using MTWalk.Terminal;
 using MTWalk.Walking;
 using MTWalk.Windowing;
@@ -14,7 +15,7 @@ class WalkingTests
     public async Task Walker_Start_ExecutesWithoutExceptions()
     {
         var testerRequest = new TesterRequest(
-                Expert: @"Examples\MACD\MACD Sample.ex5",
+                Expert: @"Examples\Moving Average\Moving Average",
                 Symbol: "EURUSD",
                 TimeFrame: TimeFrame.H1,
                 Start: new(2025, 2, 3),
@@ -36,7 +37,8 @@ class WalkingTests
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
-        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportFactory);
+        IOptimizationService optimizationService = new OptimizationService();
+        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportFactory, optimizationService);
         // Act & Assert
         await walker.Start(windowingRequest, testerRequest, inputsRequest);
         //Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest, inputsRequest));

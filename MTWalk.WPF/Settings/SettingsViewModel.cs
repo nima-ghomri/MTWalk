@@ -48,7 +48,7 @@ partial class SettingsViewModel : ObservableRecipient
     {
         var root = serviceProvider.GetRequiredService<DirectoryViewModel>();
         Experts = root.GetChildren();
-        Expert = @"Examples\Moving Average\MovingAverage";
+        Expert = @"Examples\Moving Average\Moving Average";
         Symbols = symbolsProvider.GetSymbols().ToViewModels();
         Symbol = @"EURUSD";
         TimeFrame = TimeFrame.H1;

@@ -28,7 +28,7 @@ class ReportingTests
             );
         IReportContextFactory reportFactory = new ReportContextFactory(new TerminalProvider());
         var context = reportFactory.CreateContext(testerRequest);
-        var report = context.CreateSingleReportReader(new(new DateTime(2025, 1, 1), new DateTime(2025, 1, 31)));
+        var report = context.CreateSingleReportStream(new(new DateTime(2025, 1, 1), new DateTime(2025, 1, 31)));
         Assert.That(report.RelativePath, Contains.Value("Forward_20250101_20250131.xml"));
     }
 }

@@ -15,5 +15,5 @@ public class OptimizationPass
     public double EquityDrawdown { get; set; }
     public int Trades { get; set; }
 
-    public Dictionary<string, object> Inputs { get; set; } = new();
+    public List<Input> Inputs { get; set; } = [];
 }

@@ -3,9 +3,9 @@ using System.Xml.Linq;
 
 namespace MTWalk.IO;
 
-class XmlReportParser
+class XmlReportSerializer : IReportSerializer<OptimizationReport>
 {
-    public OptimizationReport Parser(string content)
+    public OptimizationReport Deserialize(string content)
     {
         XDocument doc = XDocument.Parse(content);
         XNamespace ns = "urn:schemas-microsoft-com:office:spreadsheet";
@@ -69,25 +69,32 @@ class XmlReportParser
                     {
                         // It's a whole number (covers ints, bools, and enums)
                         typedValue = (int)number;
+                        optPass.Inputs.Add(new Input(inputName, (int)number));
                     }
                     else
                     {
                         // It's a floating-point number
                         typedValue = number;
+                        optPass.Inputs.Add(new Input(inputName, number));
                     }
                 }
                 else
                 {
                     // Fallback: If it's not a number, keep it as a string
                     typedValue = inputValue;
+                    optPass.Inputs.Add(new Input(inputName, inputValue));
                 }
 
-                optPass.Inputs[inputName] = typedValue;
             }
 
             results.Add(optPass);
         }
 
         return new(results.ToArray());
+    }
+
+    public string Serialize(OptimizationReport report)
+    {
+        throw new NotImplementedException();
     }
 }

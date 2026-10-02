@@ -3,9 +3,9 @@ using System.Globalization;
 
 namespace MTWalk.IO;
 
-class HtmReportParser
+class HtmReportSerializer : IReportSerializer<SingleReport>
 {
-    public SingleReport Parse(string content)
+    public SingleReport Deserialize(string content)
     {
         var results = new List<DealRecord>();
         var doc = new HtmlDocument();
@@ -54,5 +54,9 @@ class HtmReportParser
 
         return new SingleReport(results.ToArray());
     }
-}
 
+    public string Serialize(SingleReport report)
+    {
+        throw new NotImplementedException();
+    }
+}

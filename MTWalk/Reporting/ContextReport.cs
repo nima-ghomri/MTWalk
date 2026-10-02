@@ -4,13 +4,19 @@ class ContextReport(string dataFolder, string reportFolderRelative)
 {
     readonly string reportFolder = Path.Combine(dataFolder, reportFolderRelative);
 
-    public OptimizationReportReader CreateOptimizationReportReader(TimeRange timeRange)
+    public OptimizationReportStream CreateOptimizationReportStream(TimeRange timeRange)
     {
         Directory.CreateDirectory(reportFolder);
         return new(dataFolder, reportFolderRelative, timeRange);
     }
 
-    public SingleReportReader CreateSingleReportReader(TimeRange timeRange)
+    public SingleReportStream CreateSingleReportStream(TimeRange timeRange)
+    {
+        Directory.CreateDirectory(reportFolder);
+        return new(dataFolder, reportFolderRelative, timeRange);
+    }
+
+    public ParametersReportStream CreateParametersReportStream(TimeRange timeRange)
     {
         Directory.CreateDirectory(reportFolder);
         return new(dataFolder, reportFolderRelative, timeRange);
