@@ -1,6 +1,4 @@
-﻿using MTWalk.Reporting;
-
-namespace MTWalk.Walking;
+﻿namespace MTWalk.Walking;
 
 public interface IWalker
 {

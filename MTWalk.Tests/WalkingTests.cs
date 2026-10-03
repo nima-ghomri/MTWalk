@@ -1,7 +1,6 @@
 ﻿using MTWalk.Configuration;
 using MTWalk.IO;
 using MTWalk.MetaQuotes;
-using MTWalk.Reporting;
 using MTWalk.Services;
 using MTWalk.Terminal;
 using MTWalk.Walking;
@@ -33,12 +32,11 @@ class WalkingTests
         var windowingRequest = new RollingWindowingRequest(TimeSpan.FromDays(7), TimeSpan.FromDays(2));
         // Arrange
         var inputsRequest = new InputsRequest(default!, default!);
-        ReportContextFactory reportFactory = new(new TerminalProvider());
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
         IOptimizationService optimizationService = new OptimizationService();
-        IDirectoryProvider directoryProvider = new DirectoryProvider(null);
+        IDirectoryProvider directoryProvider = new DirectoryProvider(new DummyTerminalProvider(), null);
         var walker = new Walker(rollingWindowingStrategy, terminalExecuter, directoryProvider, optimizationService);
         // Act & Assert
         await walker.Start(windowingRequest, testerRequest, inputsRequest);

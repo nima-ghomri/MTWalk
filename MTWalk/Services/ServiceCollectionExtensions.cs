@@ -7,7 +7,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddWalker(this IServiceCollection services)
     {
-        services.AddSingleton<IReportContextFactory, ReportContextFactory>();
         services.AddSingleton<ITerminalExecutor, TerminalExecutor>();
         services.AddSingleton<ITerminalProvider, TerminalProvider>();
         services.AddSingleton<IWindowingStrategy, RollingWindowingStrategy>();
