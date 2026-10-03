@@ -18,7 +18,7 @@ class TerminalExecutor(ITerminalProvider terminalProvider) : ITerminalExecutor
         {
             FileName = terminalProvider.GetTerminalPath(),
             Arguments = $"/config:\"{configurationPath}\"",
-            WindowStyle = ProcessWindowStyle.Minimized,
+            WindowStyle = ProcessWindowStyle.Maximized,
             UseShellExecute = false,
             CreateNoWindow = true
         };

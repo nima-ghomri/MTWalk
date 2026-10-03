@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
+using System.IO;
 
 namespace MTWalk.WPF.ExecutionBar;
 
@@ -39,7 +40,7 @@ partial class ExecutorViewModel
             Progress<WalkReport> progress = new(report => Messenger.Send(report));
             await walker.Start(windowingRequest!,
                                testerRequest!,
-                               new(inputs.SetFilePath),
+                               new(inputs.SetFilePath, inputs.SetFileContent),
                                progress,
                                cancellationTokenSource.Token);
         }

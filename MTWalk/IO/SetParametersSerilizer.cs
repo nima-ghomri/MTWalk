@@ -7,7 +7,54 @@ class SetParametersSerializer : IReportSerializer<InputSet>
 {
     public InputSet Deserialize(string content)
     {
-        throw new NotImplementedException();
+        var groups = new List<InputGroup>();
+        var currentChildren = new List<Input>();
+        string? currentGroupName = null;
+
+        var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var line in lines)
+        {
+            string trimmed = line.Trim();
+            if (string.IsNullOrWhiteSpace(trimmed)) continue;
+
+            // 1. Parse Group Headers (e.g., "; --- GroupName ---")
+            if (trimmed.StartsWith(";"))
+            {
+                if (trimmed.StartsWith("; ---") && trimmed.EndsWith("---"))
+                {
+                    // If we already have accumulated children or a named group, finalize it before starting the next
+                    if (currentChildren.Count > 0 || currentGroupName != null)
+                    {
+                        groups.Add(new InputGroup(currentGroupName, currentChildren.ToArray()));
+                        currentChildren.Clear();
+                    }
+
+                    currentGroupName = trimmed.Trim(';', '-', ' ').Trim();
+                }
+                continue;
+            }
+
+            // 2. Parse Key/Value Pairs
+            var parts = trimmed.Split('=', 2);
+            if (parts.Length < 2) continue;
+
+            string key = parts[0].Trim();
+            string rawValue = parts[1].Trim();
+
+            // Extract the base value by stripping out MT5 optimization constraints (Value||Start||Step||Stop||Flag)
+            string valuePart = rawValue.Split("||")[0];
+
+            currentChildren.Add(new Input(key, new InputValue(valuePart)));
+        }
+
+        // Finalize the last remaining group
+        if (currentChildren.Count > 0 || currentGroupName != null)
+        {
+            groups.Add(new InputGroup(currentGroupName, currentChildren.ToArray()));
+        }
+
+        return new InputSet(groups.ToArray());
     }
 
     public string Serialize(InputSet report)

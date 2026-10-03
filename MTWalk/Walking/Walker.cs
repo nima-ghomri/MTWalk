@@ -27,6 +27,10 @@ class Walker(IWindowingStrategy windowingStrategy,
                             CancellationToken token = default)
     {
         var reportContext = reportContextFactory.CreateContext(testerRequest);
+        var walkStream = reportContext.CreateParametersReportStream(new(testerRequest.Start, testerRequest.End));
+        var serializer = new SetParametersSerializer();
+        var inputs = serializer.Deserialize(inputsRequest.SetFileContent);
+        walkStream.Save(inputs);
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         var deposit = testerRequest.Deposit;
         foreach (var window in windows)
@@ -35,7 +39,7 @@ class Walker(IWindowingStrategy windowingStrategy,
             var optimizationStream = reportContext.CreateOptimizationReportStream(window.Optimization);
             var optimizationParameters = new OptimizationConfigurationParameters(
                 Expert: testerRequest.Expert,
-                ExpertParameters: inputsRequest.SetFilePath,
+                ExpertParameters: walkStream.RelativePath,
                 Symbol: testerRequest.Symbol,
                 Period: testerRequest.TimeFrame,
                 Login: default,

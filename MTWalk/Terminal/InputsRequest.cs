@@ -1,3 +1,3 @@
 ﻿namespace MTWalk.Terminal;
 
-public record InputsRequest(string SetFilePath);
+public record InputsRequest(string SetFilePath, string SetFileContent);
