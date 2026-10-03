@@ -3,15 +3,29 @@ using System.Text;
 
 namespace MTWalk.IO;
 
-class SetParametersSerializer : IReportSerializer<InputSet>
+public readonly union InputValue(bool, uint, long, double, string, DateTime);
+public record Input(string Name, InputValue Value);
+public record InputGroup(string? Name, Input[] Children);
+public record SetFile(InputGroup[] Groups) : IFile
 {
-    public InputSet Deserialize(string content)
+    public static SetFile Create(IEnumerable<Input>? inputs)
+    {
+        InputGroup group = new(null, inputs?.ToArray() ?? []);
+        InputGroup[] groups = [group];
+        SetFile inputSet = new(groups);
+        return inputSet;
+    }
+}
+
+class SetSerializer : ISerializer<SetFile>
+{
+    public SetFile Deserialize(string content)
     {
         var groups = new List<InputGroup>();
         var currentChildren = new List<Input>();
         string? currentGroupName = null;
 
-        var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var lines = content.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
 
         foreach (var line in lines)
         {
@@ -54,10 +68,10 @@ class SetParametersSerializer : IReportSerializer<InputSet>
             groups.Add(new InputGroup(currentGroupName, currentChildren.ToArray()));
         }
 
-        return new InputSet(groups.ToArray());
+        return new SetFile(groups.ToArray());
     }
 
-    public string Serialize(InputSet report)
+    public string Serialize(SetFile report)
     {
         var sb = new StringBuilder();
 
@@ -84,24 +98,16 @@ class SetParametersSerializer : IReportSerializer<InputSet>
         return sb.ToString().TrimEnd();
     }
 
-    string FormatMqlValue(InputValue value)
-    {
-        // Pattern match against the union types
-        return value switch
-        {
-            bool b => b ? "true" : "false",
-            uint u => u.ToString(CultureInfo.InvariantCulture),
-            long l => l.ToString(CultureInfo.InvariantCulture),
-
-            // Doubles must use invariant culture so they write "1.5" instead of "1,5"
-            double d => d.ToString(CultureInfo.InvariantCulture),
-
-            string s => s,
-
-            // MetaTrader standard DateTime format is YYYY.MM.DD HH:mm:ss
-            DateTime dt => dt.ToString("yyyy.MM.dd HH:mm:ss", CultureInfo.InvariantCulture),
-
-            _ => throw new ArgumentOutOfRangeException(nameof(value), "Unsupported MQL input type.")
-        };
-    }
+    static string FormatMqlValue(InputValue value)
+          => value switch
+          {
+              bool b => b ? "true" : "false",
+              uint u => u.ToString(CultureInfo.InvariantCulture),
+              long l => l.ToString(CultureInfo.InvariantCulture),
+              double d => d.ToString(CultureInfo.InvariantCulture),
+              string s => s,
+              DateTime dt => dt.ToString("yyyy.MM.dd HH:mm:ss", CultureInfo.InvariantCulture),
+              _ => throw new ArgumentOutOfRangeException(nameof(value), "Unsupported MQL input type.")
+          };
 }
+

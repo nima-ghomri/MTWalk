@@ -1,4 +1,4 @@
-﻿using MTWalk.Reporting;
+﻿using MTWalk.IO;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;

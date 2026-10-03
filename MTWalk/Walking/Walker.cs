@@ -14,7 +14,7 @@ namespace MTWalk.Walking;
 
 class Walker(IWindowingStrategy windowingStrategy,
              ITerminalExecutor terminalExecutor,
-             IReportContextFactory reportContextFactory,
+             IDirectoryProvider directoryProvider,
              IOptimizationService optimizationService) : IWalker
 {
     readonly ConfigurationBuilder configurationBuilder = new();
@@ -26,20 +26,18 @@ class Walker(IWindowingStrategy windowingStrategy,
                             IProgress<WalkReport>? progress = default,
                             CancellationToken token = default)
     {
-        var reportContext = reportContextFactory.CreateContext(testerRequest);
-        var walkStream = reportContext.CreateParametersReportStream(new(testerRequest.Start, testerRequest.End));
-        var serializer = new SetParametersSerializer();
-        var inputs = serializer.Deserialize(inputsRequest.SetFileContent);
-        walkStream.Save(inputs);
+        var walkDirectory = directoryProvider.GetWalkDirectory(testerRequest);
+        var WalkParametersFile = walkDirectory.GetWalkParametersFile();
+        WalkParametersFile.Write(inputsRequest.SetFileContent);
         var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
         var deposit = testerRequest.Deposit;
         foreach (var window in windows)
         {
             // Optimization
-            var optimizationStream = reportContext.CreateOptimizationReportStream(window.Optimization);
+            var optimizationReportFile = walkDirectory.GetOptimizationReportFile(window.Optimization);
             var optimizationParameters = new OptimizationConfigurationParameters(
                 Expert: testerRequest.Expert,
-                ExpertParameters: walkStream.RelativePath,
+                ExpertParameters: WalkParametersFile.RelativePath,
                 Symbol: testerRequest.Symbol,
                 Period: testerRequest.TimeFrame,
                 Login: default,
@@ -51,19 +49,19 @@ class Walker(IWindowingStrategy windowingStrategy,
                 OptimizationCriterion: testerRequest.OptimizationCriterion,
                 FromDate: window.Optimization.Start,
                 ToDate: window.Optimization.End,
-                Report: optimizationStream.RelativePath);
+                Report: optimizationReportFile.RelativePath);
             var optimizationConfiguration = GetConfiguration(optimizationParameters);
             await terminalExecutor.Execute(optimizationConfiguration, token);
-            var optimizationReport = optimizationStream.Read();
+            var optimizationReport = optimizationReportFile.Get();
             var bestPass = optimizationService.GetBestPass(optimizationReport.Passes, testerRequest.OptimizationCriterion);
-            var parametersStream = reportContext.CreateParametersReportStream(window.Optimization);
-            parametersStream.Save(InputSet.Create(bestPass?.Inputs));
+            var bestParametersFile = walkDirectory.GetParametersFile(window.Optimization);
+            bestParametersFile.Write(IO.SetFile.Create(bestPass?.Inputs));
 
             // Forward test
-            var forwardStream = reportContext.CreateSingleReportStream(window.Forward);
+            var forwardReportFile = walkDirectory.GetForwardReportFile(window.Forward);
             var forwardParameters = new ForwardConfigurationParameters(
                 Expert: testerRequest.Expert,
-                ExpertParameters: parametersStream.RelativePath,
+                ExpertParameters: bestParametersFile.RelativePath,
                 Symbol: testerRequest.Symbol,
                 Period: testerRequest.TimeFrame,
                 Login: default,
@@ -73,10 +71,10 @@ class Walker(IWindowingStrategy windowingStrategy,
                 ExecutionMode: testerRequest.ExecutionMode,
                 FromDate: window.Forward.Start,
                 ToDate: window.Forward.End,
-                Report: forwardStream.RelativePath);
+                Report: forwardReportFile.RelativePath);
             var forwardConfiguration = GetConfiguration(forwardParameters);
             await terminalExecutor.Execute(forwardConfiguration, token);
-            var forwardReport = forwardStream.Read();
+            var forwardReport = forwardReportFile.Get();
             if (forwardReport.Deals.LastOrDefault()?.Balance is { } newBalance)
                 deposit = newBalance;
             progress?.Report(new(window, forwardReport));

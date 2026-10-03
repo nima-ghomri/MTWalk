@@ -3,9 +3,13 @@ using System.Globalization;
 
 namespace MTWalk.IO;
 
-class HtmReportSerializer : IReportSerializer<SingleReport>
+public record DealRecord(DateTime Date, double Balance);
+
+public record HtmFile(DealRecord[] Deals) : IFile;
+
+class HtmSerializer : ISerializer<HtmFile>
 {
-    public SingleReport Deserialize(string content)
+    public HtmFile Deserialize(string content)
     {
         var results = new List<DealRecord>();
         var doc = new HtmlDocument();
@@ -52,10 +56,10 @@ class HtmReportSerializer : IReportSerializer<SingleReport>
             }
         }
 
-        return new SingleReport(results.ToArray());
+        return new HtmFile(results.ToArray());
     }
 
-    public string Serialize(SingleReport report)
+    public string Serialize(HtmFile report)
     {
         throw new NotImplementedException();
     }

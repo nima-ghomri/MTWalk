@@ -32,13 +32,14 @@ class WalkingTests
             );
         var windowingRequest = new RollingWindowingRequest(TimeSpan.FromDays(7), TimeSpan.FromDays(2));
         // Arrange
-        var inputsRequest = new InputsRequest(default!);
+        var inputsRequest = new InputsRequest(default!, default!);
         ReportContextFactory reportFactory = new(new TerminalProvider());
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
         IOptimizationService optimizationService = new OptimizationService();
-        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, reportFactory, optimizationService);
+        IDirectoryProvider directoryProvider = new DirectoryProvider(null);
+        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, directoryProvider, optimizationService);
         // Act & Assert
         await walker.Start(windowingRequest, testerRequest, inputsRequest);
         //Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest, inputsRequest));

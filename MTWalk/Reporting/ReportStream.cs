@@ -5,7 +5,7 @@ abstract class ReportStream<T>(string dataFolder,
                    string label,
                    string extension,
                    TimeRange timeRange,
-                   IReportSerializer<T> serializer) : IReportReader<T> where T : IReport
+                   ISerializer<T> serializer) : IReportReader<T> where T : IFile
 {
     public string RelativePath { get; } = Path.Combine(reportFolderRelative,
         @$"{label}_{timeRange.Start:yyyyMMdd}_{timeRange.End:yyyyMMdd}.{extension}");

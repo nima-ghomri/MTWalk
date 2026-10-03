@@ -3,16 +3,19 @@
 class TerminalProvider : ITerminalProvider
 {
     const string MT5RelativePath = @"MetaQuotes\Terminal";
-    readonly string dataFolder;
-    FileInfo terminal = new(@"C:\Program Files\MetaTrader 5\terminal64.exe");
+    string? dataFolder;
+    readonly FileInfo terminal = new(@"C:\Program Files\MetaTrader 5\terminal64.exe");
 
-    public TerminalProvider()
+    /// <summary>
+    /// Finds the dynamic AppData folder for a specific MT5 installation.
+    /// </summary>
+    /// <param name="installPath">The path where terminal64.exe is located (e.g., @"C:\Program Files\MetaTrader 5")</param>
+    /// <returns>The full path to the terminal's data folder, or null if not found.</returns>
+    public string GetDataFolder()
     {
-        dataFolder = FindDataFolder();
-    }
+        if (dataFolder is not null)
+            return dataFolder;
 
-    string FindDataFolder()
-    {
         // 1. Get the path to %APPDATA%\MetaQuotes\Terminal
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         var mt5SpecialFolder = new DirectoryInfo(Path.Combine(appData, MT5RelativePath));
@@ -34,19 +37,12 @@ class TerminalProvider : ITerminalProvider
                 // 4. Compare it against your known install path
                 // StringComparison.OrdinalIgnoreCase is crucial because Windows paths are not case-sensitive
                 if (originContent.Equals(terminal.Directory?.FullName, StringComparison.OrdinalIgnoreCase))
-                    return directory.FullName;
+                    return dataFolder = directory.FullName;
             }
         }
 
         throw new DirectoryNotFoundException("Matching terminal directory not found.");
     }
-
-    /// <summary>
-    /// Finds the dynamic AppData folder for a specific MT5 installation.
-    /// </summary>
-    /// <param name="installPath">The path where terminal64.exe is located (e.g., @"C:\Program Files\MetaTrader 5")</param>
-    /// <returns>The full path to the terminal's data folder, or null if not found.</returns>
-    public string GetDataFolder() => dataFolder;
 
     public string GetTerminalPath()
     {

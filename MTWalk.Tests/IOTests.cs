@@ -341,7 +341,7 @@ class IOTests
         """)]
     public void HtmReportParser_TimeRange_GetBalanceData(string content)
     {
-        HtmReportSerializer parser = new();
+        HtmSerializer parser = new();
         var singleReport = parser.Deserialize(content);
         Assert.That(singleReport, Is.Not.Null);
         Assert.That(singleReport.Deals, Is.Not.Empty);
@@ -362,7 +362,7 @@ class IOTests
         """)]
     public void IniParametersParser_SetFileContent_ReturnsCorrectParameters(string content)
     {
-        var parser = new SetParametersSerializer();
+        var parser = new SetSerializer();
         var groups = parser.Deserialize(content).Groups;
         Assert.That(groups, Has.Length.EqualTo(2));
         using (Assert.EnterMultipleScope())

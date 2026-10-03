@@ -1,9 +1,9 @@
 ﻿namespace MTWalk.Reporting;
 
 class ParametersReportStream(string dataFolder, string reportFolderRelative, TimeRange timeRange)
-    : ReportStream<InputSet>(dataFolder,
+    : ReportStream<SetFile>(dataFolder,
                                  reportFolderRelative,
                                  "Parameters",
                                  "set",
                                  timeRange,
-                                 new SetParametersSerializer());
+                                 new SetSerializer());

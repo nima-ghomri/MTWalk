@@ -1,9 +1,9 @@
 ﻿namespace MTWalk.Reporting;
 
 class SingleReportStream(string dataFolder, string reportFolderRelative, TimeRange timeRange)
-    : ReportStream<SingleReport>(dataFolder,
+    : ReportStream<HtmFile>(dataFolder,
                                  reportFolderRelative,
                                  "Forward",
                                  "htm",
                                  timeRange,
-                                 new HtmReportSerializer());
+                                 new HtmSerializer());
