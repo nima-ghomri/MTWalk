@@ -9,12 +9,7 @@ public record InputGroup(string? Name, Input[] Children);
 public record SetFile(InputGroup[] Groups) : IFile
 {
     public static SetFile Create(IEnumerable<Input>? inputs)
-    {
-        InputGroup group = new(null, inputs?.ToArray() ?? []);
-        InputGroup[] groups = [group];
-        SetFile inputSet = new(groups);
-        return inputSet;
-    }
+        => new(Groups: [new InputGroup(null, Children: inputs?.ToArray() ?? [])]);
 }
 
 class SetSerializer : ISerializer<SetFile>

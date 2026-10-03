@@ -12,103 +12,37 @@ namespace MTWalk.Walking;
 /// </remarks>
 
 class Walker(IWindowingStrategy windowingStrategy,
-             ITerminalExecutor terminalExecutor,
              IDirectoryProvider directoryProvider,
-             IOptimizationService optimizationService) : IWalker
+             IOptimizationService optimizationService,
+             IForwardService forwardService) : IWalker
 {
-    readonly ConfigurationBuilder configurationBuilder = new();
-    readonly EventsConfigurationParameters eventsParameters = new(Enable: false);
-
-    public async Task Start(WindowingRequest windowingRequest,
-                            TesterRequest testerRequest,
-                            InputsRequest inputsRequest,
+    public async Task Start(WalkRequest walkRequest,
                             IProgress<WalkReport>? progress = default,
                             CancellationToken token = default)
     {
-        var walkDirectory = directoryProvider.GetWalkDirectory(testerRequest);
-        var WalkParametersFile = walkDirectory.GetWalkParametersFile();
-        WalkParametersFile.Write(inputsRequest.SetFileContent);
-        var windows = windowingStrategy.GetWindows(testerRequest.Start, testerRequest.End, windowingRequest);
-        var deposit = testerRequest.Deposit;
+        var walkDirectory = directoryProvider.GetWalkDirectory(walkRequest.Tester);
+        var parameterStream = walkDirectory.GetWalkParametersFile();
+        parameterStream.Write(walkRequest.Inputs.SetFileContent);
+
+        var deposit = walkRequest.Tester.Deposit;
+        var windows = windowingStrategy.GetWindows(walkRequest.Tester.Start, walkRequest.Tester.End, walkRequest.Windowing);
         foreach (var window in windows)
         {
-            // Optimization
-            var optimizationReportFile = walkDirectory.GetOptimizationReportFile(window.Optimization);
-            var optimizationParameters = new OptimizationConfigurationParameters(
-                Expert: testerRequest.Expert,
-                ExpertParameters: WalkParametersFile.RelativePath,
-                Symbol: testerRequest.Symbol,
-                Period: testerRequest.TimeFrame,
-                Login: default,
-                Deposit: deposit,
-                Leverage: testerRequest.Leverage,
-                Model: testerRequest.Model,
-                ExecutionMode: testerRequest.ExecutionMode,
-                Optimization: testerRequest.Optimization,
-                OptimizationCriterion: testerRequest.OptimizationCriterion,
-                FromDate: window.Optimization.Start,
-                ToDate: window.Optimization.End,
-                Report: optimizationReportFile.RelativePath);
-            var optimizationConfiguration = GetConfiguration(optimizationParameters);
-            await terminalExecutor.Execute(optimizationConfiguration, token);
-            var optimizationReport = optimizationReportFile.Get();
-            var bestPass = optimizationService.GetBestPass(optimizationReport.Passes, testerRequest.OptimizationCriterion);
-            var bestParametersFile = walkDirectory.GetParametersFile(window.Optimization);
-            bestParametersFile.Write(IO.SetFile.Create(bestPass?.Inputs));
+            var optimizationResult = await optimizationService.RunAsync(walkRequest.Tester,
+                                                                      window.Optimization,
+                                                                      walkDirectory,
+                                                                      parameterStream.RelativePath,
+                                                                      deposit,
+                                                                      token);
 
-            // Forward test
-            var forwardReportFile = walkDirectory.GetForwardReportFile(window.Forward);
-            var forwardParameters = new ForwardConfigurationParameters(
-                Expert: testerRequest.Expert,
-                ExpertParameters: bestParametersFile.RelativePath,
-                Symbol: testerRequest.Symbol,
-                Period: testerRequest.TimeFrame,
-                Login: default,
-                Deposit: deposit,
-                Leverage: testerRequest.Leverage,
-                Model: testerRequest.Model,
-                ExecutionMode: testerRequest.ExecutionMode,
-                FromDate: window.Forward.Start,
-                ToDate: window.Forward.End,
-                Report: forwardReportFile.RelativePath);
-            var forwardConfiguration = GetConfiguration(forwardParameters);
-            await terminalExecutor.Execute(forwardConfiguration, token);
-            var forwardReport = forwardReportFile.Get();
-            if (forwardReport.Deals.LastOrDefault()?.Balance is { } newBalance)
-                deposit = newBalance;
-            progress?.Report(new(window, forwardReport));
+            var forwardResult = await forwardService.RunAsync(walkRequest.Tester,
+                                                              window.Forward,
+                                                              walkDirectory,
+                                                              optimizationResult.BestSetFile.RelativePath,
+                                                              deposit,
+                                                              token);
+            progress?.Report(new(window, forwardResult.Report));
+            deposit = forwardResult.Balance;
         }
     }
-
-    string GetConfiguration(TesterConfigurationParameters testerConfigurationParameters)
-    {
-        configurationBuilder.Clear();
-        return configurationBuilder
-            .AddParameters(testerConfigurationParameters)
-            .AddParameters(eventsParameters)
-            .ToString();
-    }
-
-}
-
-interface IOptimizationService
-{
-    OptimizationPass? GetBestPass(IEnumerable<OptimizationPass> passes, OptimizationCriterion optimizationCriterion);
-}
-
-class OptimizationService : IOptimizationService
-{
-    public OptimizationPass? GetBestPass(IEnumerable<OptimizationPass> passes, OptimizationCriterion optimizationCriterion)
-          => passes.MaxBy(x => optimizationCriterion switch
-          {
-              OptimizationCriterion.BalanceMax => x.Profit,
-              OptimizationCriterion.ProfitFactorMax => x.ProfitFactor,
-              OptimizationCriterion.ExpectedPayoffMax => x.ExpectedPayoff,
-              OptimizationCriterion.DrawdownMin => x.EquityDrawdown,
-              OptimizationCriterion.RecoveryFactorMax => x.RecoveryFactor,
-              OptimizationCriterion.SharpeRatioMax => x.SharpeRatio,
-              OptimizationCriterion.CustomMax => x.Custom,
-              OptimizationCriterion.ComplexCriterionMax => x.Result,
-              _ => throw new NotImplementedException(),
-          });
 }

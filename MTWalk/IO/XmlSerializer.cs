@@ -13,7 +13,22 @@ public record OptimizationPass(int Pass,
                                double Custom,
                                double EquityDrawdown,
                                int Trades,
-                               Input[] Inputs);
+                               Input[] Inputs)
+{
+    public object this[OptimizationCriterion value]
+            => value switch
+            {
+                OptimizationCriterion.BalanceMax => Profit,
+                OptimizationCriterion.ProfitFactorMax => ProfitFactor,
+                OptimizationCriterion.ExpectedPayoffMax => ExpectedPayoff,
+                OptimizationCriterion.DrawdownMin => EquityDrawdown,
+                OptimizationCriterion.RecoveryFactorMax => RecoveryFactor,
+                OptimizationCriterion.SharpeRatioMax => SharpeRatio,
+                OptimizationCriterion.CustomMax => Custom,
+                OptimizationCriterion.ComplexCriterionMax => Result,
+                _ => throw new NotImplementedException(),
+            };
+}
 
 record XmlFile(OptimizationPass[] Passes) : IFile;
 

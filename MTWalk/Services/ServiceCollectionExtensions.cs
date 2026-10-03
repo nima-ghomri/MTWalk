@@ -23,6 +23,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IFileStream<XmlFile>, FileStream<XmlFile>>();
         services.AddTransient<IFileStream<HtmFile>, FileStream<HtmFile>>();
         services.AddTransient<IFileStream<SetFile>, FileStream<SetFile>>();
+        services.AddSingleton<IForwardService, ForwardService>();
+        services.AddSingleton<IOptimizationService, OptimizationService>();
         return services;
     }
 }
