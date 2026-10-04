@@ -9,7 +9,6 @@ interface IWalkDirectoryProvider
 
 interface IFileProvider
 {
-    string RelativePath { get; set; }
     IFile GetWalkParametersFile();
     IFormatFile<XmlFormat> GetOptimizationReportFile(TimeRange timeRange);
     IFormatFile<SetFormat> GetParametersFile(TimeRange timeRange);
@@ -21,9 +20,8 @@ interface IFileProvider
 interface IFile
 {
     string FullPath { get; }
-    string RelativeToDataFolderPath { get; }
     string RelativeToTesterPath { get; }
-    //string BaseDirectoryPath { get; }
+    string RelativeToDataFolderPath { get; }
     void Write(string content);
 }
 
@@ -35,28 +33,26 @@ interface IFormatFile<T> : IFile where T : IFormat
 
 class DirectoryProvider(ITerminalProvider terminalProvider, IServiceProvider serviceProvider) : IWalkDirectoryProvider
 {
+    const string BaseFolderName = "MTWalk";
+
     public WalkDirectory GetWalkDirectory(TesterRequest testerRequest)
     {
         var fileProvider = serviceProvider.GetRequiredService<WalkDirectory>();
-        var relativePath = GetReportFolderRelative(testerRequest);
-        Directory.CreateDirectory(Path.Combine(terminalProvider.GetDataFolder(), relativePath));
-        fileProvider.RelativePath = relativePath;
+        fileProvider.FullPath = GetWalkDirectoryPath(testerRequest);
         return fileProvider;
     }
 
-    const string BaseDirectoryRelative = @"MQL5\Profiles\Tester\MTWalk";
-    static string GetReportFolderRelative(TesterRequest r)
+    string GetWalkDirectoryPath(TesterRequest r)
     {
         var expertFolder = Path.GetFileNameWithoutExtension(r.Expert);
         var walkFolder = $"{r.Symbol}_{r.TimeFrame}_{r.Model}_{r.Start:yyyyMMdd}_{r.End:yyyyMMdd}";
-        return Path.Combine(BaseDirectoryRelative, expertFolder, walkFolder);
+        return Path.Combine(terminalProvider.GetTesterFolder(), BaseFolderName, expertFolder, walkFolder);
     }
 }
 
 class WalkDirectory(IServiceProvider serviceProvider) : IFileProvider
 {
-    public required string RelativePath { get; set; }
-
+    public required string FullPath { get; internal set; }
     public IFile GetWalkParametersFile()
         => GetFile<IFile>("0_parameters_walk.set");
 
@@ -80,23 +76,21 @@ class WalkDirectory(IServiceProvider serviceProvider) : IFileProvider
         var file = serviceProvider.GetRequiredService<T>();
         if (file is not File f)
             throw new InvalidOperationException($"Service {typeof(T).Name} is not a File");
-        //f.BaseDirectoryPath = terminalProvider.GetDataFolder();
-        //f.RelativePath = Path.Combine(RelativePath, filename);
-        f.RelativeToDataFolderPath = Path.Combine(RelativePath, filename);
+        f.FullPath = Path.Combine(FullPath, filename);
         return file;
     }
 
     static string GetRelativePath(TimeRange timeRange, string label, string extension)
-         => $"{timeRange.Start:yyyyMMdd}_{timeRange.End:yyyyMMdd}_{label}.{extension}";
+         => $"{label}_{timeRange.Start:yyyyMMdd}_{timeRange.End:yyyyMMdd}.{extension}";
 }
 
 class File(ITerminalProvider terminalProvider) : IFile
 {
-    public required string RelativeToDataFolderPath { get; internal set; }
+    public string RelativeToDataFolderPath
+        => field ??= Path.GetRelativePath(terminalProvider.GetDataFolder(), FullPath);
     public string RelativeToTesterPath
-        => field ??= Path.GetRelativePath(Path.Combine(terminalProvider.GetDataFolder(), @"MQL5\Profiles\Tester"), FullPath);
-    //public required string BaseDirectoryPath { get; internal set; }
-    public string FullPath => field ??= Path.Combine(terminalProvider.GetDataFolder(), RelativeToDataFolderPath);
+        => field ??= Path.GetRelativePath(terminalProvider.GetTesterFolder(), FullPath);
+    public required string FullPath { get; internal set; }
     public string Read() => System.IO.File.ReadAllText(FullPath);
     public void Write(string content) => System.IO.File.WriteAllText(FullPath, content);
 }

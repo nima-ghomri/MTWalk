@@ -2,9 +2,11 @@
 
 class TerminalProvider : ITerminalProvider
 {
-    const string MT5RelativePath = @"MetaQuotes\Terminal";
+    const string SpecialFolderPattern = @"MetaQuotes\Terminal";
+    const string TesterFolderPattern = @"MQL5\Profiles\Tester";
+    const string TerminalDefaultPath = @"C:\Program Files\MetaTrader 5\terminal64.exe";
     string? dataFolder;
-    readonly FileInfo terminal = new(@"C:\Program Files\MetaTrader 5\terminal64.exe");
+    readonly FileInfo terminal = new(TerminalDefaultPath);
 
     /// <summary>
     /// Finds the dynamic AppData folder for a specific MT5 installation.
@@ -18,7 +20,7 @@ class TerminalProvider : ITerminalProvider
 
         // 1. Get the path to %APPDATA%\MetaQuotes\Terminal
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var mt5SpecialFolder = new DirectoryInfo(Path.Combine(appData, MT5RelativePath));
+        var mt5SpecialFolder = new DirectoryInfo(Path.Combine(appData, SpecialFolderPattern));
 
         if (mt5SpecialFolder.Exists is false)
             throw new DirectoryNotFoundException("Terminal base path not found.");
@@ -50,4 +52,6 @@ class TerminalProvider : ITerminalProvider
             throw new FileNotFoundException($"Terminal executable not found in '{terminal.FullName}'.");
         return terminal.FullName;
     }
+
+    public string GetTesterFolder() => Path.Combine(GetDataFolder(), TesterFolderPattern);
 }

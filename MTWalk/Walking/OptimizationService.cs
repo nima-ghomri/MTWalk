@@ -2,8 +2,7 @@
 
 class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationService
 {
-    readonly ConfigurationBuilder configurationBuilder = new();
-    readonly EventsConfigurationParameters eventsParameters = new(Enable: false);
+    readonly static EventsConfigurationParameters eventsParameters = new(Enable: false);
 
     public async Task<OptimizationResult> RunAsync(
         TesterRequest testerRequest,
@@ -29,8 +28,7 @@ class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationSer
             FromDate: timeRange.Start,
             ToDate: timeRange.End,
             Report: reportFile.RelativeToDataFolderPath);
-        configurationBuilder.Clear();
-        var configuration = configurationBuilder
+        var configuration = new ConfigurationBuilder()
             .AddParameters(parameters)
             .AddParameters(eventsParameters)
             .ToString();
@@ -45,10 +43,3 @@ class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationSer
         return new(setFile);
     }
 }
-
-
-
-
-
-
-

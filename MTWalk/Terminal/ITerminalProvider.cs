@@ -7,4 +7,5 @@ interface ITerminalProvider
 {
     string GetTerminalPath();
     string GetDataFolder();
+    string GetTesterFolder();
 }

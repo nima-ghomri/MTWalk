@@ -2,8 +2,7 @@
 
 class ForwardService(ITerminalExecutor terminalExecutor) : IForwardService
 {
-    readonly EventsConfigurationParameters eventsParameters = new(Enable: false);
-    readonly ConfigurationBuilder configurationBuilder = new();
+    readonly static EventsConfigurationParameters eventsParameters = new(Enable: false);
     public async Task<ForwardResult> RunAsync(
         TesterRequest testerRequest,
         TimeRange timeRange,
@@ -26,12 +25,13 @@ class ForwardService(ITerminalExecutor terminalExecutor) : IForwardService
             FromDate: timeRange.Start,
             ToDate: timeRange.End,
             Report: reportFile.RelativeToDataFolderPath);
-        configurationBuilder.Clear();
-        var configuration = configurationBuilder
+        var configuration = new ConfigurationBuilder()
             .AddParameters(parameters)
             .AddParameters(eventsParameters)
             .ToString();
-        await terminalExecutor.Execute(configuration, token);
+        var configurationFile = directory.GetForwardConfigurationFile(timeRange);
+        configurationFile.Write(configuration);
+        await terminalExecutor.ExecuteByPath(configurationFile.FullPath, token);
         var report = reportFile.Get();
         var balance = report.Deals.LastOrDefault()?.Balance ?? deposit;
         return new(balance, report);
