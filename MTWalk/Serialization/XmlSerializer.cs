@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Xml.Linq;
 
-namespace MTWalk.IO;
+namespace MTWalk.Serialization;
 
 public record OptimizationPass(int Pass,
                                double Result,

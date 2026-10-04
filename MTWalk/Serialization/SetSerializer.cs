@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 
-namespace MTWalk.IO;
+namespace MTWalk.Serialization;
 
 public readonly union InputValue(bool, uint, long, double, string, DateTime);
 public record Input(string Name, InputValue Value);

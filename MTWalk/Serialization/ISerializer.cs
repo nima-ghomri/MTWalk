@@ -1,4 +1,4 @@
-﻿namespace MTWalk.IO;
+﻿namespace MTWalk.Serialization;
 
 interface ISerializer<T> where T : IFormat
 {

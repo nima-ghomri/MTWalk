@@ -1,4 +1,5 @@
 ﻿using MTWalk.IO;
+using MTWalk.Serialization;
 
 namespace MTWalk.Tests;
 

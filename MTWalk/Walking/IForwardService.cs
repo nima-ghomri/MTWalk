@@ -1,4 +1,6 @@
-﻿namespace MTWalk.Walking;
+﻿using MTWalk.Serialization;
+
+namespace MTWalk.Walking;
 
 record ForwardResult(double Balance, HtmFomat Report);
 

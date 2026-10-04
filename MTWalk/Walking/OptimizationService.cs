@@ -1,4 +1,6 @@
-﻿namespace MTWalk.Walking;
+﻿using MTWalk.Serialization;
+
+namespace MTWalk.Walking;
 
 class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationService
 {

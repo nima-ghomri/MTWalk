@@ -1,7 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System.Globalization;
 
-namespace MTWalk.IO;
+namespace MTWalk.Serialization;
 
 public record DealRecord(DateTime Date, double Balance);
 

@@ -1,4 +1,6 @@
-﻿namespace MTWalk.Walking;
+﻿using MTWalk.Serialization;
+
+namespace MTWalk.Walking;
 
 record OptimizationResult(IFormatFile<SetFormat> BestSetFile);
 

@@ -1,11 +1,6 @@
 ﻿namespace MTWalk.Configuration;
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="Enable"></param>
-record EventsConfigurationParameters(
-    bool Enable) : IConfigurationParameters
+record EventsConfigurationParameters(bool Enable) : IConfigurationParameters
 {
     string IConfigurationParameters.Parse() => $"""
             [Events]
