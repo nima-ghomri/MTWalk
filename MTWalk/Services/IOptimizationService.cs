@@ -1,2 +1,0 @@
-﻿namespace MTWalk.Services;
-

@@ -8,4 +8,5 @@ namespace MTWalk.Terminal;
 interface ITerminalExecutor
 {
     Task Execute(string configuration, CancellationToken cancellationToken = default);
+    Task ExecuteByPath(string configurationPath, CancellationToken cancellationToken = default);
 }

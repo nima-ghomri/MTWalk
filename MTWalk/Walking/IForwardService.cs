@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.Walking;
 
-record ForwardResult(double Balance, HtmFile Report);
+record ForwardResult(double Balance, HtmFomat Report);
 
 interface IForwardService
 {

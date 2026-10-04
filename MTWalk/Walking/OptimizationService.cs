@@ -13,7 +13,7 @@ class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationSer
         double deposit,
         CancellationToken token = default)
     {
-        var stream = directory.GetOptimizationReportFile(timeRange);
+        var reportFile = directory.GetOptimizationReportFile(timeRange);
         var parameters = new OptimizationConfigurationParameters(
             Expert: testerRequest.Expert,
             ExpertParameters: expertParameters,
@@ -28,19 +28,21 @@ class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationSer
             OptimizationCriterion: testerRequest.OptimizationCriterion,
             FromDate: timeRange.Start,
             ToDate: timeRange.End,
-            Report: stream.RelativePath);
+            Report: reportFile.RelativeToDataFolderPath);
         configurationBuilder.Clear();
         var configuration = configurationBuilder
             .AddParameters(parameters)
             .AddParameters(eventsParameters)
             .ToString();
-        await terminalExecutor.Execute(configuration, token);
-        var report = stream.Get();
+        var configurationFile = directory.GetOptimizationConfigurationFile(timeRange);
+        configurationFile.Write(configuration);
+        await terminalExecutor.ExecuteByPath(configurationFile.FullPath, token);
+        var report = reportFile.Get();
         var bestPass = report.Passes.MaxBy(x => x[testerRequest.OptimizationCriterion]);
-        var setStream = directory.GetParametersFile(timeRange);
-        var setFile = SetFile.Create(bestPass?.Inputs);
-        setStream.Write(setFile);
-        return new(setStream);
+        var setFile = directory.GetParametersFile(timeRange);
+        var setFormat = SetFormat.Create(bestPass?.Inputs);
+        setFile.Write(setFormat);
+        return new(setFile);
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.Walking;
 
-record OptimizationResult(IFileStream<SetFile> BestSetFile);
+record OptimizationResult(IFormatFile<SetFormat> BestSetFile);
 
 interface IOptimizationService
 {

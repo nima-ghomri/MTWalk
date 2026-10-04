@@ -1,4 +1,4 @@
 ﻿
 namespace MTWalk.Walking;
 
-public record WalkReport(WalkWindow Window, HtmFile Report);
+public record WalkReport(WalkWindow Window, HtmFomat Report);

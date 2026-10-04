@@ -38,11 +38,8 @@ partial class ExecutorViewModel
         try
         {
             Progress<WalkReport> progress = new(report => Messenger.Send(report));
-            await walker.Start(windowingRequest!,
-                               testerRequest!,
-                               new(inputs.SetFilePath, inputs.SetFileContent),
-                               progress,
-                               cancellationTokenSource.Token);
+            var request = new WalkRequest(windowingRequest!, testerRequest!, new(inputs.SetFilePath, inputs.SetFileContent));
+            await walker.Start(request, progress, cancellationTokenSource.Token);
         }
         catch (TaskCanceledException)
         {

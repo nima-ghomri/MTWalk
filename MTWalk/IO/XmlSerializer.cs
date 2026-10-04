@@ -30,11 +30,11 @@ public record OptimizationPass(int Pass,
             };
 }
 
-record XmlFile(OptimizationPass[] Passes) : IFile;
+record XmlFormat(OptimizationPass[] Passes) : IFormat;
 
-class XmlSerializer : ISerializer<XmlFile>
+class XmlSerializer : ISerializer<XmlFormat>
 {
-    public XmlFile Deserialize(string content)
+    public XmlFormat Deserialize(string content)
     {
         XDocument doc = XDocument.Parse(content);
         XNamespace ns = "urn:schemas-microsoft-com:office:spreadsheet";
@@ -123,7 +123,7 @@ class XmlSerializer : ISerializer<XmlFile>
         return new(results.ToArray());
     }
 
-    public string Serialize(XmlFile report)
+    public string Serialize(XmlFormat report)
     {
         throw new NotImplementedException();
     }

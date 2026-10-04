@@ -6,15 +6,15 @@ namespace MTWalk.IO;
 public readonly union InputValue(bool, uint, long, double, string, DateTime);
 public record Input(string Name, InputValue Value);
 public record InputGroup(string? Name, Input[] Children);
-public record SetFile(InputGroup[] Groups) : IFile
+public record SetFormat(InputGroup[] Groups) : IFormat
 {
-    public static SetFile Create(IEnumerable<Input>? inputs)
+    public static SetFormat Create(IEnumerable<Input>? inputs)
         => new(Groups: [new InputGroup(null, Children: inputs?.ToArray() ?? [])]);
 }
 
-class SetSerializer : ISerializer<SetFile>
+class SetSerializer : ISerializer<SetFormat>
 {
-    public SetFile Deserialize(string content)
+    public SetFormat Deserialize(string content)
     {
         var groups = new List<InputGroup>();
         var currentChildren = new List<Input>();
@@ -63,10 +63,10 @@ class SetSerializer : ISerializer<SetFile>
             groups.Add(new InputGroup(currentGroupName, currentChildren.ToArray()));
         }
 
-        return new SetFile(groups.ToArray());
+        return new SetFormat(groups.ToArray());
     }
 
-    public string Serialize(SetFile report)
+    public string Serialize(SetFormat report)
     {
         var sb = new StringBuilder();
 

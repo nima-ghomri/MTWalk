@@ -32,7 +32,7 @@ class TerminalProvider : ITerminalProvider
             {
                 // 3. Read the text inside origin.txt (it contains the installation path)
                 // MT5 writes it in UTF-16, but File.ReadAllText handles the BOM automatically
-                var originContent = File.ReadAllText(originFile.FullName).Trim();
+                var originContent = System.IO.File.ReadAllText(originFile.FullName).Trim();
 
                 // 4. Compare it against your known install path
                 // StringComparison.OrdinalIgnoreCase is crucial because Windows paths are not case-sensitive

@@ -1,8 +1,6 @@
 ﻿namespace MTWalk.IO;
 
-interface IFile;
-
-interface ISerializer<T> where T : IFile
+interface ISerializer<T> where T : IFormat
 {
     string Serialize(T report);
     T Deserialize(string content);

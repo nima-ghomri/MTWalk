@@ -5,11 +5,11 @@ namespace MTWalk.IO;
 
 public record DealRecord(DateTime Date, double Balance);
 
-public record HtmFile(DealRecord[] Deals) : IFile;
+public record HtmFomat(DealRecord[] Deals) : IFormat;
 
-class HtmSerializer : ISerializer<HtmFile>
+class HtmSerializer : ISerializer<HtmFomat>
 {
-    public HtmFile Deserialize(string content)
+    public HtmFomat Deserialize(string content)
     {
         var results = new List<DealRecord>();
         var doc = new HtmlDocument();
@@ -56,10 +56,10 @@ class HtmSerializer : ISerializer<HtmFile>
             }
         }
 
-        return new HtmFile(results.ToArray());
+        return new HtmFomat(results.ToArray());
     }
 
-    public string Serialize(HtmFile report)
+    public string Serialize(HtmFomat report)
     {
         throw new NotImplementedException();
     }

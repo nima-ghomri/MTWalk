@@ -13,7 +13,12 @@ class TerminalExecutor(ITerminalProvider terminalProvider) : ITerminalExecutor
     public async Task Execute(string configuration, CancellationToken cancellationToken = default)
     {
         var configurationPath = Path.Combine(Path.GetTempPath(), "configuration.ini");
-        File.WriteAllText(configurationPath, configuration);
+        System.IO.File.WriteAllText(configurationPath, configuration);
+        await ExecuteByPath(configurationPath, cancellationToken);
+    }
+
+    public async Task ExecuteByPath(string configurationPath, CancellationToken cancellationToken = default)
+    {
         var processInfo = new ProcessStartInfo
         {
             FileName = terminalProvider.GetTerminalPath(),
