@@ -4,7 +4,7 @@ using System.Text;
 namespace MTWalk.Serialization;
 
 public readonly union InputValue(bool, uint, long, double, string, DateTime);
-public record Input(string Name, InputValue Value);
+public record Input(string Name, InputValue Value, string? Comment = default);
 public record InputGroup(string? Name, Input[] Children);
 public record SetFormat(InputGroup[] Groups) : IFormat
 {

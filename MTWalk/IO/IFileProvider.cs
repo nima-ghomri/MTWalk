@@ -4,10 +4,10 @@ namespace MTWalk.IO;
 
 interface IFileProvider
 {
-    IFile GetWalkParametersFile();
+    IMTFile GetWalkParametersFile();
     IFormatFile<XmlFormat> GetOptimizationReportFile(TimeRange timeRange);
     IFormatFile<SetFormat> GetParametersFile(TimeRange timeRange);
     IFormatFile<HtmFomat> GetForwardReportFile(TimeRange timeRange);
-    IFile GetForwardConfigurationFile(TimeRange timeRange);
-    IFile GetOptimizationConfigurationFile(TimeRange timeRange);
+    IMTFile GetForwardConfigurationFile(TimeRange timeRange);
+    IMTFile GetOptimizationConfigurationFile(TimeRange timeRange);
 }

@@ -1,6 +1,6 @@
 ﻿namespace MTWalk.IO;
 
-interface IFile
+interface IMTFile
 {
     string FullPath { get; }
     string RelativeToTesterPath { get; }

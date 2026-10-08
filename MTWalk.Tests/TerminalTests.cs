@@ -48,6 +48,8 @@ class TerminalTests
         }
 
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
+
+        public string GetTesterFolder() => throw new NotImplementedException();
     }
 
     record DummyConfigurationParameters(DateTime FromDate, DateTime ToDate) : IConfigurationParameters

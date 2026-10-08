@@ -1,13 +1,11 @@
 ﻿using MTWalk.Configuration;
 using MTWalk.IO;
 using MTWalk.MetaQuotes;
-using MTWalk.Services;
 using MTWalk.Terminal;
 using MTWalk.Walking;
 using MTWalk.Windowing;
 
 namespace MTWalk.Tests;
-
 class WalkingTests
 {
     [Test]
@@ -35,11 +33,12 @@ class WalkingTests
         TerminalExecutor terminalExecuter = new(new DummyTerminalProvider());
         RollingWindowingStrategy rollingWindowingStrategy = new();
         ConfigurationBuilder configurationBuilder = new();
-        IOptimizationService optimizationService = new OptimizationService();
         IWalkDirectoryProvider directoryProvider = new DirectoryProvider(new DummyTerminalProvider(), null);
-        var walker = new Walker(rollingWindowingStrategy, terminalExecuter, directoryProvider, optimizationService);
+        IOptimizationService optimizationService = new OptimizationService(terminalExecuter);
+        IForwardService forwardService = new ForwardService(terminalExecuter);
+        var walker = new Walker(rollingWindowingStrategy, directoryProvider, optimizationService, forwardService);
         // Act & Assert
-        await walker.Start(windowingRequest, testerRequest, inputsRequest);
+        await walker.Start(new(windowingRequest, testerRequest, inputsRequest));
         //Assert.DoesNotThrowAsync(async () => await walker.Start(windowingRequest, testerRequest, inputsRequest));
     }
 
@@ -47,5 +46,6 @@ class WalkingTests
     {
         public string GetDataFolder() => throw new NotImplementedException();
         public string GetTerminalPath() => @"C:\Program Files\MetaTrader 5\terminal64.exe";
+        public string GetTesterFolder() => throw new NotImplementedException();
     }
 }

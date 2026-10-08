@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISerializer<HtmFomat>, HtmSerializer>();
         services.AddSingleton<ISerializer<XmlFormat>, XmlSerializer>();
         services.AddSingleton<ISerializer<SetFormat>, SetSerializer>();
-        services.AddTransient<IFile, IO.File>();
+        services.AddTransient<IMTFile, IO.MTFile>();
         services.AddTransient<IFormatFile<XmlFormat>, FormatFile<XmlFormat>>();
         services.AddTransient<IFormatFile<HtmFomat>, FormatFile<HtmFomat>>();
         services.AddTransient<IFormatFile<SetFormat>, FormatFile<SetFormat>>();
