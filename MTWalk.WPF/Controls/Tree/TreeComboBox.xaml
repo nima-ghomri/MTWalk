@@ -16,12 +16,13 @@
               MaxDropDownHeight="300"
               Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}" 
               ItemContainerStyle="{StaticResource ComboBoxItemStyle}">
-        <ComboBoxItem>
+        <ComboBoxItem PreviewMouseLeftButtonUp="ComboBoxItem_PreviewMouseLeftButtonUp">
             <TreeView 
-                    x:Name="MainTreeView"
-                    ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                    ItemTemplateSelector="{StaticResource NodeSelector}"
-                    BorderThickness="0">
+                x:Name="MainTreeView"
+                ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                ItemTemplateSelector="{StaticResource NodeSelector}"
+                Margin="-1" 
+                BorderThickness="0">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_PreviewMouseLeftButtonDown"/>

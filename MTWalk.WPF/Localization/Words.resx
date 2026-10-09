@@ -171,6 +171,9 @@
   <data name="Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>

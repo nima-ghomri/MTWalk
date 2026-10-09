@@ -20,6 +20,12 @@
     </UserControl.Resources>
     <StackPanel Style="{StaticResource InputsPanel}">
         <StackPanel>
+            <HeaderedItemsControl Header="{x:Static l:Words.Terminal}">
+                <ComboBox Width="{StaticResource Large}"
+                />
+            </HeaderedItemsControl>
+        </StackPanel>
+        <StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Words.Expert}">
                 <tree:TreeComboBox 
                     Width="{StaticResource Large}" 
@@ -66,15 +72,21 @@
                       ItemsSource="{Binding Models}"/>
             </HeaderedItemsControl>
             <HeaderedItemsControl Header="{x:Static l:Words.Deposit}">
-                <ComboBox Width="{StaticResource Small}" 
-                      SelectedValue="{Binding Deposit}" 
-                      ItemsSource="{Binding Deposits}"/>
+                <ComboBox 
+                    IsEditable="True"
+                    Width="{StaticResource Small}" 
+                    SelectedValue="{Binding Deposit}" 
+                    ItemsSource="{Binding Deposits}"/>
                 <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding Currency}"
                       ItemsSource="{Binding Currencies}"/>
-                <ComboBox Width="{StaticResource Small}"
-                      SelectedValue="{Binding Leverage}"
-                      ItemsSource="{Binding Leverages}"/>
+                <ComboBox 
+                    IsEditable="True"
+                    Width="{StaticResource Small}"
+                    Text="{Binding Leverage, StringFormat='1:{0}'}"
+                    SelectedValue="{Binding Leverage}"
+                    ItemStringFormat="1:{0}"
+                    ItemsSource="{Binding Leverages}"/>
             </HeaderedItemsControl>
         </StackPanel>
         <StackPanel>

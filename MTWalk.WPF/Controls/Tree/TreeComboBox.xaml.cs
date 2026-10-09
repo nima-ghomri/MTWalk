@@ -123,7 +123,13 @@ public partial class TreeComboBox : UserControl
 
     void TreeViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is TreeViewItem { HasItems: true } item)
+        if (sender is TreeViewItem { HasItems: true })
+            e.Handled = true;
+    }
+
+    void ComboBoxItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is Grid)
             e.Handled = true;
     }
 }
