@@ -134,10 +134,10 @@
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding WindowType}" Value="Rolling">
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static windowing:WindowType.Rolling}">
                                     <Setter Property="ContentTemplate" Value="{StaticResource RollingTemplate}" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding WindowType}" Value="Anchored">
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static windowing:WindowType.Anchored}">
                                     <Setter Property="ContentTemplate" Value="{StaticResource AnchoredTemplate}" />
                                 </DataTrigger>
                             </Style.Triggers>
