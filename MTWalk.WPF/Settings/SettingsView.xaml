@@ -15,6 +15,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MTWalk.WPF;component/Settings/SettingsView.Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MTWalk.WPF;component/Converters/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -55,8 +56,16 @@
                       SelectedValue="{Binding DateMode}"
                       ItemsSource="{Binding DateModes}"
                       />
-                <DatePicker SelectedDate="{Binding FromDate}" Width="{StaticResource Small}"/>
-                <DatePicker SelectedDate="{Binding ToDate}" Width="{StaticResource Small}"/>
+                <DatePicker 
+                    Width="{StaticResource Small}"
+                    SelectedDate="{Binding FromDate}"
+                    IsEnabled="{Binding IsFromAndToDateEnabled}"
+                    />
+                <DatePicker 
+                    Width="{StaticResource Small}"
+                    SelectedDate="{Binding ToDate}" 
+                    IsEnabled="{Binding IsFromAndToDateEnabled}"
+                    />
             </HeaderedItemsControl>
         </StackPanel>
         <StackPanel>
@@ -74,16 +83,18 @@
             <HeaderedItemsControl Header="{x:Static l:Words.Deposit}">
                 <ComboBox 
                     IsEditable="True"
-                    Width="{StaticResource Small}" 
+                    Width="{StaticResource Small}"
+                    Text="{Binding Deposit, Converter={StaticResource DoubleToStringConverter}}"
                     SelectedValue="{Binding Deposit}" 
                     ItemsSource="{Binding Deposits}"/>
-                <ComboBox Width="{StaticResource Small}"
-                      SelectedValue="{Binding Currency}"
-                      ItemsSource="{Binding Currencies}"/>
+                <ComboBox 
+                    Width="{StaticResource Small}"
+                    SelectedValue="{Binding Currency}"
+                    ItemsSource="{Binding Currencies}"/>
                 <ComboBox 
                     IsEditable="True"
                     Width="{StaticResource Small}"
-                    Text="{Binding Leverage, StringFormat='1:{0}'}"
+                    Text="{Binding Leverage, Converter={StaticResource IntToStringConverter}, StringFormat='1:{0}'}"
                     SelectedValue="{Binding Leverage}"
                     ItemStringFormat="1:{0}"
                     ItemsSource="{Binding Leverages}"/>
@@ -103,17 +114,18 @@
         <StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Words.Walk}">
                 <ComboBox 
-                            SelectedValue="{Binding WindowType}" 
-                            Width="{StaticResource Small}"
-                            ItemsSource="{Binding WindowTypes}"
-                            />
+                    SelectedValue="{Binding WindowType}" 
+                    Width="{StaticResource Small}"
+                    ItemsSource="{Binding WindowTypes}"
+                    />
                 <ContentControl Content="{Binding}" Margin="{StaticResource Gap}">
                     <ContentControl.Resources>
                         <DataTemplate x:Key="RollingTemplate">
-                            <ComboBox Width="{StaticResource Small}"
-                                          SelectedValue="{Binding OptimizationSize}" 
-                                          ItemsSource="{Binding OptimizationSizes}"
-                                          IsEditable="True"/>
+                            <ComboBox 
+                                Width="{StaticResource Small}"
+                                SelectedValue="{Binding OptimizationSize}" 
+                                ItemsSource="{Binding OptimizationSizes}"
+                                IsEditable="True"/>
                         </DataTemplate>
                         <DataTemplate x:Key="AnchoredTemplate">
                             <DatePicker SelectedDate="{Binding AnchorDate}" Width="{StaticResource Small}"/>

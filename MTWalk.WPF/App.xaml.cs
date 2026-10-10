@@ -1,5 +1,4 @@
-﻿
-using MTWalk.Services;
+﻿using MTWalk.Services;
 using MTWalk.WPF.Settings.Expert;
 
 namespace MTWalk.WPF;
@@ -13,6 +12,17 @@ public partial class App : Application
     {
         Services = ConfigureServices();
         this.InitializeComponent();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+        if (ST.Default.UpgradeRequired)
+        {
+            ST.Default.Upgrade();
+            ST.Default.UpgradeRequired = false;
+            ST.Default.Save();
+        }
     }
 
     /// <summary>
@@ -31,7 +41,7 @@ public partial class App : Application
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
-        
+
         services.AddWalker();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<ExecutorViewModel>();

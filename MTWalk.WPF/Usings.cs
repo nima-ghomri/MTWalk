@@ -13,3 +13,4 @@ global using MTWalk.WPF.Settings;
 global using MTWalk.WPF.Viewers;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Windows;
+global using ST = MTWalk.WPF.Properties.Settings;

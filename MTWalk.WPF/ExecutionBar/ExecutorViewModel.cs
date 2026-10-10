@@ -21,7 +21,6 @@ partial class ExecutorViewModel
         Messenger.RegisterAll(this);
     }
 
-
     bool CanStartWalker => settings.TryGetRequests(out testerRequest, out windowingRequest);
 
     public void Receive(PropertyChangedMessage<string> message)
