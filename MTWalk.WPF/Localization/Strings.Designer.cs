@@ -61,6 +61,60 @@ namespace MTWalk.WPF.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Market Watch Symbols.
+        /// </summary>
+        public static string AllMarketWatchSymbols {
+            get {
+                return ResourceManager.GetString("AllMarketWatchSymbols", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance Max.
+        /// </summary>
+        public static string BalanceMax {
+            get {
+                return ResourceManager.GetString("BalanceMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complex Criterion Max.
+        /// </summary>
+        public static string ComplexCriterionMax {
+            get {
+                return ResourceManager.GetString("ComplexCriterionMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Delay.
+        /// </summary>
+        public static string CustomDelay {
+            get {
+                return ResourceManager.GetString("CustomDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Max.
+        /// </summary>
+        public static string CustomMax {
+            get {
+                return ResourceManager.GetString("CustomMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Period.
+        /// </summary>
+        public static string CustomPeriod {
+            get {
+                return ResourceManager.GetString("CustomPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
@@ -97,11 +151,74 @@ namespace MTWalk.WPF.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        public static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drawdown Min.
+        /// </summary>
+        public static string DrawdownMin {
+            get {
+                return ResourceManager.GetString("DrawdownMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entire History.
+        /// </summary>
+        public static string EntireHistory {
+            get {
+                return ResourceManager.GetString("EntireHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Every Tick.
+        /// </summary>
+        public static string EveryTick {
+            get {
+                return ResourceManager.GetString("EveryTick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Every Tick Based On Real Ticks.
+        /// </summary>
+        public static string EveryTickBasedOnRealTicks {
+            get {
+                return ResourceManager.GetString("EveryTickBasedOnRealTicks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected Payoff Max.
+        /// </summary>
+        public static string ExpectedPayoffMax {
+            get {
+                return ResourceManager.GetString("ExpectedPayoffMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expert.
         /// </summary>
         public static string Expert {
             get {
                 return ResourceManager.GetString("Expert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast Genetic Algorithm.
+        /// </summary>
+        public static string FastGeneticAlgorithm {
+            get {
+                return ResourceManager.GetString("FastGeneticAlgorithm", resourceCulture);
             }
         }
         
@@ -124,6 +241,24 @@ namespace MTWalk.WPF.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Month.
+        /// </summary>
+        public static string LastMonth {
+            get {
+                return ResourceManager.GetString("LastMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Year.
+        /// </summary>
+        public static string LastYear {
+            get {
+                return ResourceManager.GetString("LastYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Leverage.
         /// </summary>
         public static string Leverage {
@@ -142,6 +277,15 @@ namespace MTWalk.WPF.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Math Calculations.
+        /// </summary>
+        public static string MathCalculations {
+            get {
+                return ResourceManager.GetString("MathCalculations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modelling.
         /// </summary>
         public static string Modelling {
@@ -151,11 +295,56 @@ namespace MTWalk.WPF.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One Minute OHLC.
+        /// </summary>
+        public static string OneMinuteOHLC {
+            get {
+                return ResourceManager.GetString("OneMinuteOHLC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Prices Only.
+        /// </summary>
+        public static string OpenPricesOnly {
+            get {
+                return ResourceManager.GetString("OpenPricesOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optimization.
         /// </summary>
         public static string Optimization {
             get {
                 return ResourceManager.GetString("Optimization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profit Factor Max.
+        /// </summary>
+        public static string ProfitFactorMax {
+            get {
+                return ResourceManager.GetString("ProfitFactorMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Random Delay.
+        /// </summary>
+        public static string RandomDelay {
+            get {
+                return ResourceManager.GetString("RandomDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery Factor Max.
+        /// </summary>
+        public static string RecoveryFactorMax {
+            get {
+                return ResourceManager.GetString("RecoveryFactorMax", resourceCulture);
             }
         }
         
@@ -174,6 +363,24 @@ namespace MTWalk.WPF.Localization {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sharpe Ratio Max.
+        /// </summary>
+        public static string SharpeRatioMax {
+            get {
+                return ResourceManager.GetString("SharpeRatioMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slow Complete Algorithm.
+        /// </summary>
+        public static string SlowCompleteAlgorithm {
+            get {
+                return ResourceManager.GetString("SlowCompleteAlgorithm", resourceCulture);
             }
         }
         
@@ -255,6 +462,15 @@ namespace MTWalk.WPF.Localization {
         public static string Walk {
             get {
                 return ResourceManager.GetString("Walk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zero Delay.
+        /// </summary>
+        public static string ZeroDelay {
+            get {
+                return ResourceManager.GetString("ZeroDelay", resourceCulture);
             }
         }
     }

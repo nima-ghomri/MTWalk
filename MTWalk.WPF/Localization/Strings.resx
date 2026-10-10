@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="D" xml:space="preserve">
-    <value>D</value>
+  <data name="ZeroDelay" xml:space="preserve">
+    <value>Zero Delay</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
@@ -185,5 +185,74 @@
   </data>
   <data name="Walk" xml:space="preserve">
     <value>Walk</value>
+  </data>
+  <data name="RandomDelay" xml:space="preserve">
+    <value>Random Delay</value>
+  </data>
+  <data name="CustomDelay" xml:space="preserve">
+    <value>Custom Delay</value>
+  </data>
+  <data name="EveryTick" xml:space="preserve">
+    <value>Every Tick</value>
+  </data>
+  <data name="OneMinuteOHLC" xml:space="preserve">
+    <value>One Minute OHLC</value>
+  </data>
+  <data name="OpenPricesOnly" xml:space="preserve">
+    <value>Open Prices Only</value>
+  </data>
+  <data name="MathCalculations" xml:space="preserve">
+    <value>Math Calculations</value>
+  </data>
+  <data name="EveryTickBasedOnRealTicks" xml:space="preserve">
+    <value>Every Tick Based On Real Ticks</value>
+  </data>
+  <data name="SlowCompleteAlgorithm" xml:space="preserve">
+    <value>Slow Complete Algorithm</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="FastGeneticAlgorithm" xml:space="preserve">
+    <value>Fast Genetic Algorithm</value>
+  </data>
+  <data name="AllMarketWatchSymbols" xml:space="preserve">
+    <value>All Market Watch Symbols</value>
+  </data>
+  <data name="BalanceMax" xml:space="preserve">
+    <value>Balance Max</value>
+  </data>
+  <data name="ProfitFactorMax" xml:space="preserve">
+    <value>Profit Factor Max</value>
+  </data>
+  <data name="ExpectedPayoffMax" xml:space="preserve">
+    <value>Expected Payoff Max</value>
+  </data>
+  <data name="DrawdownMin" xml:space="preserve">
+    <value>Drawdown Min</value>
+  </data>
+  <data name="RecoveryFactorMax" xml:space="preserve">
+    <value>Recovery Factor Max</value>
+  </data>
+  <data name="SharpeRatioMax" xml:space="preserve">
+    <value>Sharpe Ratio Max</value>
+  </data>
+  <data name="CustomMax" xml:space="preserve">
+    <value>Custom Max</value>
+  </data>
+  <data name="ComplexCriterionMax" xml:space="preserve">
+    <value>Complex Criterion Max</value>
+  </data>
+  <data name="EntireHistory" xml:space="preserve">
+    <value>Entire History</value>
+  </data>
+  <data name="LastMonth" xml:space="preserve">
+    <value>Last Month</value>
+  </data>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last Year</value>
+  </data>
+  <data name="CustomPeriod" xml:space="preserve">
+    <value>Custom Period</value>
   </data>
 </root>

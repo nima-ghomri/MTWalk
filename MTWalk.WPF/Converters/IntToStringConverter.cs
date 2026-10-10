@@ -2,6 +2,7 @@
 using System.Windows.Data;
 
 namespace MTWalk.WPF.Converters;
+
 public class IntToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

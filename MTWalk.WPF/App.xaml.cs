@@ -1,5 +1,7 @@
 ﻿using MTWalk.Services;
+using MTWalk.WPF.Converters;
 using MTWalk.WPF.Settings.Expert;
+using System.ComponentModel;
 
 namespace MTWalk.WPF;
 
@@ -23,6 +25,8 @@ public partial class App : Application
             ST.Default.UpgradeRequired = false;
             ST.Default.Save();
         }
+        LocalizedEnumConverter.AddAssembly(typeof(ExecutionMode).Assembly);
+        LocalizedEnumConverter.AddType<DateMode>();
     }
 
     /// <summary>
