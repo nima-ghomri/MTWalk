@@ -20,12 +20,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Style="{StaticResource InputsPanel}">
-        <StackPanel>
+        <!--<StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Strings.Terminal}">
                 <ComboBox Width="{StaticResource Large}"
                 />
             </HeaderedItemsControl>
-        </StackPanel>
+        </StackPanel>-->
         <StackPanel>
             <HeaderedItemsControl Header="{x:Static l:Strings.Expert}">
                 <tree:TreeComboBox 
