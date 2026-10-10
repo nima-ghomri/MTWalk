@@ -27,10 +27,10 @@
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>
         <Grid  Grid.Row="2" >
             <TabControl TabStripPlacement="Bottom">
-                <TabItem Header="{x:Static l:Words.Settings}">
+                <TabItem Header="{x:Static l:Strings.Settings}">
                     <settings:SettingsView/>
                 </TabItem>
-                <TabItem Header="{x:Static l:Words.Inputs}">
+                <TabItem Header="{x:Static l:Strings.Inputs}">
                     <inputs:InputsView/>
                 </TabItem>
             </TabControl>

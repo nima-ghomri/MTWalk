@@ -21,13 +21,13 @@
     </UserControl.Resources>
     <StackPanel Style="{StaticResource InputsPanel}">
         <StackPanel>
-            <HeaderedItemsControl Header="{x:Static l:Words.Terminal}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Terminal}">
                 <ComboBox Width="{StaticResource Large}"
                 />
             </HeaderedItemsControl>
         </StackPanel>
         <StackPanel>
-            <HeaderedItemsControl Header="{x:Static l:Words.Expert}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Expert}">
                 <tree:TreeComboBox 
                     Width="{StaticResource Large}" 
                     ItemsSource="{Binding Experts}"
@@ -38,7 +38,7 @@
                     TreeIcon="📁"
                     TreeColor="Gold"/>
             </HeaderedItemsControl>
-            <HeaderedItemsControl Header="{x:Static l:Words.Symbol}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Symbol}">
                 <tree:TreeComboBox 
                    Width="{StaticResource Medium}" 
                    ItemsSource="{Binding Symbols}"
@@ -51,7 +51,7 @@
                       SelectedValue="{Binding TimeFrame}"
                       ItemsSource="{Binding TimeFrames}"/>
             </HeaderedItemsControl>
-            <HeaderedItemsControl Header="{x:Static l:Words.Date}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Date}">
                 <ComboBox Width="{StaticResource Small}"
                       SelectedValue="{Binding DateMode}"
                       ItemsSource="{Binding DateModes}"
@@ -69,18 +69,18 @@
             </HeaderedItemsControl>
         </StackPanel>
         <StackPanel>
-            <HeaderedItemsControl Header="{x:Static l:Words.Delays}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Delays}">
                 <ComboBox Width="{StaticResource Large}"
                       SelectedValue="{Binding ExecutionMode}"
                       ItemsSource="{Binding ExecutionModes}"
                       />
             </HeaderedItemsControl>
-            <HeaderedItemsControl Header="{x:Static l:Words.Modelling}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Modelling}">
                 <ComboBox Width="{StaticResource Large}" 
                       SelectedValue="{Binding Model}" 
                       ItemsSource="{Binding Models}"/>
             </HeaderedItemsControl>
-            <HeaderedItemsControl Header="{x:Static l:Words.Deposit}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Deposit}">
                 <ComboBox 
                     IsEditable="True"
                     Width="{StaticResource Small}"
@@ -101,7 +101,7 @@
             </HeaderedItemsControl>
         </StackPanel>
         <StackPanel>
-            <HeaderedItemsControl Header="{x:Static l:Words.Optimization}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Optimization}">
                 <ComboBox SelectedValue="{Binding Optimization}" 
                       Width="{StaticResource Medium}"
                       ItemsSource="{Binding Optimizations}"/>
@@ -112,7 +112,7 @@
         </StackPanel>
 
         <StackPanel>
-            <HeaderedItemsControl Header="{x:Static l:Words.Walk}">
+            <HeaderedItemsControl Header="{x:Static l:Strings.Walk}">
                 <ComboBox 
                     SelectedValue="{Binding WindowType}" 
                     Width="{StaticResource Small}"

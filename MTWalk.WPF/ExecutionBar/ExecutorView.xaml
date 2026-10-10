@@ -13,8 +13,8 @@
              DataContext="{e:Resolve Type=local:ExecutorViewModel}">
     <StackPanel Orientation="Horizontal">
         <Button Command="{Binding StartWalkerCommand}"
-                Content="{x:Static l:Words.Start}"/>
+                Content="{x:Static l:Strings.Start}"/>
         <Button Command="{Binding StopWalkerCommand}"
-                Content="{x:Static l:Words.Stop}"/>
+                Content="{x:Static l:Strings.Stop}"/>
     </StackPanel>
 </UserControl>

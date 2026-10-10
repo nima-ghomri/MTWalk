@@ -17,20 +17,20 @@
         CanUserAddRows="False">
         <DataGrid.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="{x:Static l:Words.Load}" Command="{Binding LoadCommand}" />
-                <MenuItem Header="{x:Static l:Words.Save}" IsEnabled="False"/>
-                <MenuItem Header="{x:Static l:Words.Default}" IsEnabled="False"/>
+                <MenuItem Header="{x:Static l:Strings.Load}" Command="{Binding LoadCommand}" />
+                <MenuItem Header="{x:Static l:Strings.Save}" IsEnabled="False"/>
+                <MenuItem Header="{x:Static l:Strings.Default}" IsEnabled="False"/>
             </ContextMenu>
         </DataGrid.ContextMenu>
 
         <!-- Column Definitions -->
         <DataGrid.Columns>
-            <DataGridTextColumn Header="{x:Static l:Words.Variable}" IsReadOnly="True" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Words.Value}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Words.Start}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Words.Step}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Words.Stop}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Words.Steps}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Strings.Variable}" IsReadOnly="True" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Strings.Value}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Strings.Start}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Strings.Step}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Strings.Stop}" Width="*" />
+            <DataGridTextColumn Header="{x:Static l:Strings.Steps}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>
