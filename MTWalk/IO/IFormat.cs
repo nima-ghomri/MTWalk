@@ -1,3 +1,3 @@
 ﻿namespace MTWalk.IO;
 
-interface IFormat;
+public interface IFormat;

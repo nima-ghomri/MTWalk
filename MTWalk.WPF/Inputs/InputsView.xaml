@@ -11,26 +11,37 @@
              d:DataContext="{d:DesignInstance Type=local:InputsViewModel}"
              d:DesignHeight="450" 
              d:DesignWidth="800">
-    <DataGrid 
-        ItemsSource="{Binding Inputs}" 
-        AutoGenerateColumns="False" 
-        CanUserAddRows="False">
-        <DataGrid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="{x:Static l:Strings.Load}" Command="{Binding LoadCommand}" />
-                <MenuItem Header="{x:Static l:Strings.Save}" IsEnabled="False"/>
-                <MenuItem Header="{x:Static l:Strings.Default}" IsEnabled="False"/>
-            </ContextMenu>
-        </DataGrid.ContextMenu>
+    <DockPanel LastChildFill="True">
+        <Button 
+            Width="40" 
+            Height="20" 
+            DockPanel.Dock="Top" 
+            HorizontalAlignment="Left" 
+            Content="{x:Static l:Strings.Load}"
+            Command="{Binding LoadCommand}"
+            />
+        <DataGrid DockPanel.Dock="Bottom" 
+                  IsReadOnly="True"
+            ItemsSource="{Binding Inputs}" 
+            AutoGenerateColumns="False" 
+            CanUserAddRows="False">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{x:Static l:Strings.Load}" Command="{Binding LoadCommand}" />
+                    <MenuItem Header="{x:Static l:Strings.Save}" IsEnabled="False"/>
+                    <MenuItem Header="{x:Static l:Strings.Default}" IsEnabled="False"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
 
-        <!-- Column Definitions -->
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="{x:Static l:Strings.Variable}" IsReadOnly="True" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Strings.Value}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Strings.Start}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Strings.Step}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Strings.Stop}" Width="*" />
-            <DataGridTextColumn Header="{x:Static l:Strings.Steps}" Width="*" />
-        </DataGrid.Columns>
-    </DataGrid>
+            <!-- Column Definitions -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="{x:Static l:Strings.Variable}" IsReadOnly="True" Width="*" />
+                <DataGridTextColumn Binding="{Binding Value.Value}" Header="{x:Static l:Strings.Value}" Width="*" />
+                <DataGridTextColumn Binding="{Binding Start}" Header="{x:Static l:Strings.Start}" Width="*" />
+                <DataGridTextColumn Binding="{Binding Step}" Header="{x:Static l:Strings.Step}" Width="*" />
+                <DataGridTextColumn Binding="{Binding Stop}" Header="{x:Static l:Strings.Stop}" Width="*" />
+                <DataGridTextColumn Binding="{Binding Steps}" Header="{x:Static l:Strings.Steps}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

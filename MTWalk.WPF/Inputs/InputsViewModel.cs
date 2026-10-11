@@ -1,12 +1,15 @@
 ﻿using Microsoft.Win32;
+using MTWalk.Serialization;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace MTWalk.WPF.Inputs;
 
-partial class InputsViewModel : ObservableObject
+partial class InputsViewModel(ISerializer<SetFormat> serializer) : ObservableObject
 {
     [ObservableProperty] public partial string SetFileContent { get; set; }
     [ObservableProperty] public partial string SetFilePath { get; set; }
+    [ObservableProperty] public partial ObservableCollection<Input> Inputs { get; set; } = [];
 
     [RelayCommand]
     void Load()
@@ -21,8 +24,11 @@ partial class InputsViewModel : ObservableObject
 
         if (openFileDialog.ShowDialog() is false)
             return;
-        
+
         SetFilePath = openFileDialog.FileName;
         SetFileContent = File.ReadAllText(SetFilePath);
+        var set = serializer.Deserialize(SetFileContent);
+        Inputs.Clear();
+        set.Groups.SelectMany(g => g.Children).ToList().ForEach(Inputs.Add);
     }
 }
