@@ -1,4 +1,5 @@
-﻿using MTWalk.Serialization;
+﻿using MTWalk.Exceptions;
+using MTWalk.Serialization;
 
 namespace MTWalk.Walking;
 
@@ -37,11 +38,18 @@ class OptimizationService(ITerminalExecutor terminalExecutor) : IOptimizationSer
         var configurationFile = directory.GetOptimizationConfigurationFile(timeRange);
         configurationFile.Write(configuration);
         await terminalExecutor.ExecuteByPath(configurationFile.FullPath, token);
-        var report = reportFile.Get();
-        var bestPass = report.Passes.MaxBy(x => x[testerRequest.OptimizationCriterion]);
-        var setFile = directory.GetParametersFile(timeRange);
-        var setFormat = SetFormat.Create(bestPass?.Inputs);
-        setFile.Write(setFormat);
-        return new(setFile);
+        try
+        {
+            var report = reportFile.Get();
+            var bestPass = report.Passes.MaxBy(x => x[testerRequest.OptimizationCriterion]);
+            var setFile = directory.GetParametersFile(timeRange);
+            var setFormat = SetFormat.Create(bestPass?.Inputs);
+            setFile.Write(setFormat);
+            return new(setFile);
+        }
+        catch (FileNotFoundException ex)
+        {
+            throw new ExecutionResultNotFoundException(ex);
+        }
     }
 }

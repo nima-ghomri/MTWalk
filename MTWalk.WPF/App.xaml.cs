@@ -27,6 +27,11 @@ public partial class App : Application
         }
         LocalizedEnumConverter.AddAssembly(typeof(ExecutionMode).Assembly);
         LocalizedEnumConverter.AddType<DateMode>();
+        this.DispatcherUnhandledException += (sender, args) =>
+        {
+            MessageBox.Show(args.Exception.Message, "Unhandled Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            args.Handled = true;
+        };
     }
 
     /// <summary>

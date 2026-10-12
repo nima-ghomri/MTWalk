@@ -88,6 +88,7 @@
                     SelectedValue="{Binding Deposit}" 
                     ItemsSource="{Binding Deposits}"/>
                 <ComboBox 
+                    IsEditable="True"
                     Width="{StaticResource Small}"
                     SelectedValue="{Binding Currency}"
                     ItemsSource="{Binding Currencies}"/>
@@ -123,6 +124,7 @@
                         <DataTemplate x:Key="RollingTemplate">
                             <ComboBox 
                                 Width="{StaticResource Small}"
+                                Text="{Binding OptimizationSize, Converter={StaticResource IntToStringConverter}}"
                                 SelectedValue="{Binding OptimizationSize}" 
                                 ItemsSource="{Binding OptimizationSizes}"
                                 IsEditable="True"/>
@@ -146,6 +148,7 @@
                 </ContentControl>
                 <ComboBox 
                     Width="{StaticResource Small}"
+                    Text="{Binding ForwardSize, Converter={StaticResource IntToStringConverter}}"
                     SelectedValue="{Binding ForwardSize}" 
                     ItemsSource="{Binding ForwardSizes}"
                     IsEditable="True"

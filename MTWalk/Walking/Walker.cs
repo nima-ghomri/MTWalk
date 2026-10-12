@@ -20,6 +20,11 @@ class Walker(IWindowingStrategy windowingStrategy,
         var tester = walkRequest.Tester;
         var walkDirectory = directoryProvider.GetWalkDirectory(tester);
         var parametersFile = walkDirectory.GetWalkParametersFile();
+        if (walkRequest.Inputs.SetFileContent is null ||
+            walkRequest.Inputs.SetFileContent.Contains("|Y") is false)
+        {
+            throw new NoOptimizationParametersSelectedException();
+        }
         parametersFile.Write(walkRequest.Inputs.SetFileContent);
 
         var deposit = tester.Deposit;

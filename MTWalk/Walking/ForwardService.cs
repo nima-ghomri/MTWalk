@@ -1,4 +1,6 @@
-﻿namespace MTWalk.Walking;
+﻿using MTWalk.Exceptions;
+
+namespace MTWalk.Walking;
 
 class ForwardService(ITerminalExecutor terminalExecutor) : IForwardService
 {
@@ -32,8 +34,15 @@ class ForwardService(ITerminalExecutor terminalExecutor) : IForwardService
         var configurationFile = directory.GetForwardConfigurationFile(timeRange);
         configurationFile.Write(configuration);
         await terminalExecutor.ExecuteByPath(configurationFile.FullPath, token);
-        var report = reportFile.Get();
-        var balance = report.Deals.LastOrDefault()?.Balance ?? deposit;
-        return new(balance, report);
+        try
+        {
+            var report = reportFile.Get();
+            var balance = report.Deals.LastOrDefault()?.Balance ?? deposit;
+            return new(balance, report);
+        }
+        catch (FileNotFoundException ex)
+        {
+            throw new ExecutionResultNotFoundException(ex);
+        }
     }
 }
