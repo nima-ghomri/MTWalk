@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace MTWalk.Serialization;
 
-public static partial class Mq5SourceReader
+public partial class Mq5SourceReader : ISerializer<SetFormat>
 {
     static readonly string[] DateFormats = ["yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM.dd"];
 
@@ -116,5 +116,15 @@ public static partial class Mq5SourceReader
         if (t.StartsWith("D'") && t.EndsWith('\'')) t = t[2..^1];
         return DateTime.TryParseExact(t, DateFormats, CultureInfo.InvariantCulture,
             DateTimeStyles.None, out v);
+    }
+
+    public string Serialize(SetFormat report)
+    {
+        throw new NotImplementedException();
+    }
+
+    public SetFormat Deserialize(string content)
+    {
+        throw new NotImplementedException();
     }
 }
