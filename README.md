@@ -78,6 +78,15 @@ Feel free to check the [issues page](https://github.com/nima-ghomri/MTWalk/issue
 ## 📝 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
+## ❤️ Support the Project
+
+If MTWalk has saved you time analyzing your MetaTrader 5 optimizations, consider buying me a coffee to support future updates!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nimaghomri)
+
+Or you can donate directly via:
+- [PayPal.Me](https://paypal.me/nimaghomri)
+- [Revolut](https://revolut.me/nima_ghomri)
 
 ---
 
